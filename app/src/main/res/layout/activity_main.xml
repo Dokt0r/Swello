@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_cool_blue"
+    tools:context=".MainActivity"
+    android:fitsSystemWindows="true">
+
+    <!-- Barra superior con botones -->
+    <include
+        layout="@layout/component_top_bar"
+        android:id="@+id/top_bar"/>
+
+    <!-- Sección de búsqueda -->
+    <include
+        layout="@layout/component_search_section"
+        android:id="@+id/search_section"
+        android:layout_below="@id/top_bar"/>
+
+    <!-- Contenedor de resultados -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:clipToPadding="false"
+        android:layout_marginTop="120dp"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
