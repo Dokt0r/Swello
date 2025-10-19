@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.MaterialToolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/topAppBar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="40dp"
     android:background="@color/dark_cool_blue"
-    app:title="Mi Aplicación"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    app:menu="@menu/top_bar_menu"
+    app:title="Swello"
     app:titleCentered="true"
-    app:navigationIcon="@drawable/ic_search"
-    app:menu="@menu/top_bar_menu" />
+    app:titleTextColor="@color/white" />

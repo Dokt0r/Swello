@@ -1,28 +1,21 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/dark_cool_blue"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@color/dark_cool_blue">
+    android:padding="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark_cool_blue"
-        app:materialThemeOverlay="@style/Theme.Swello">
-
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Buscar..."
-            app:navigationIcon="@drawable/ic_search"
-            app:menu="@menu/search_menu"
-            app:backgroundTint="?attr/colorSurfaceContainerHigh" />
-    </com.google.android.material.appbar.AppBarLayout>
+        android:hint="Buscar..."
+        app:backgroundTint="@color/white"
+        app:menu="@menu/search_menu"
+        app:navigationIcon="@drawable/ic_search" />
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
@@ -35,6 +28,6 @@
             android:id="@+id/recycler_search_results"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"/>
+            android:padding="8dp" />
     </com.google.android.material.search.SearchView>
 </LinearLayout>
