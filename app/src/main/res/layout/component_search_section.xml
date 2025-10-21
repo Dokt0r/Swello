@@ -1,33 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/dark_cool_blue"
-    android:orientation="vertical"
-    android:padding="0dp"
-    android:paddingTop="0dp"
-    android:paddingBottom="0dp">
+    android:layout_height="56dp"
+    android:layout_margin="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="35dp"
+    app:cardElevation="0dp">
 
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Buscar..."
-        app:backgroundTint="@color/white"
-        app:menu="@menu/search_menu"
-        app:navigationIcon="@drawable/ic_search" />
-
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Buscar..."
-        app:layout_anchor="@id/search_bar">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_search_results"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp" />
-    </com.google.android.material.search.SearchView>
-</LinearLayout>
+        <ImageView
+            android:id="@+id/icon_search"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Buscar"
+            android:src="@drawable/ic_search"
+            app:tint="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search_input"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="Buscar..."
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <ImageButton
+            android:id="@+id/btn_filter"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Filtros"
+            android:src="@drawable/ic_filter"
+            app:tint="@color/black" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

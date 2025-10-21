@@ -6,63 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/dark_cool_blue">
+    android:background="@color/dark_cool_blue"
+    tools:context=".MainActivity">
 
-    <!-- 🔹 AppBarLayout que contiene la toolbar y el buscador -->
+    <!--AppBar con Toolbar + SearchBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
         android:background="@color/dark_cool_blue"
-        app:liftOnScroll="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:liftOnScroll="true">
 
-        <!-- TopBar (include o inline) -->
+        <!-- Toolbar superior -->
         <include
             layout="@layout/component_top_bar"
             android:id="@+id/top_bar" />
 
-        <!-- SearchBar (include o inline) -->
+        <!-- Barra de búsqueda -->
         <include
             layout="@layout/component_search_section"
             android:id="@+id/search_section" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--SearchView (pantalla completa al buscar) -->
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:hint="Buscar..."
-        app:layout_anchor="@id/search_section"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="NotSibling">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_search_results"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp" />
-    </com.google.android.material.search.SearchView>
-
-    <!--Contenido principal -->
+    <!--RecyclerView para resultados -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_results"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:padding="8dp"
         android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_result" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

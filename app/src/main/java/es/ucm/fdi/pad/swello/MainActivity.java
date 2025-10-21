@@ -1,34 +1,72 @@
 package es.ucm.fdi.pad.swello;
 
 import android.os.Bundle;
-import androidx.activity.OnBackPressedCallback;
+import android.text.Editable;
+import android.text.TextWatcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.search.SearchBar;
-import com.google.android.material.search.SearchView;
+import androidx.appcompat.widget.AppCompatEditText;
+import android.widget.ImageButton;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SearchBar searchBar;
-    private SearchView searchView;
+    private AppCompatEditText searchInput;
+    private ImageButton btnFilter;
+    private RecyclerView recyclerResults;
+    private SimpleAdapter adapter;
+    private List<String> allItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        searchBar = findViewById(R.id.search_bar);
-        searchView = findViewById(R.id.search_view);
+        searchInput = findViewById(R.id.search_input);
+        btnFilter = findViewById(R.id.btn_filter);
+        recyclerResults = findViewById(R.id.recycler_results);
 
-        // Conecta el SearchView con el SearchBar (animaciones automáticas)
-        searchView.setupWithSearchBar(searchBar);
+        // Datos de ejemplo
+        allItems = new ArrayList<>();
+        allItems.add("Café");
+        allItems.add("Capuchino");
+        allItems.add("Chocolate");
+        allItems.add("Té verde");
+        allItems.add("Latte");
+        allItems.add("Espresso");
 
-        // Ejemplo: manejar el texto
-        searchView.getEditText().setOnEditorActionListener((v, actionId, event) -> {
-            searchBar.setText(searchView.getText());
-            searchView.hide();
-            return false;
+        adapter = new SimpleAdapter(allItems);
+        recyclerResults.setLayoutManager(new LinearLayoutManager(this));
+        recyclerResults.setAdapter(adapter);
+
+        // 🔹 Filtro de texto
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterResults(s.toString());
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
+
+        // 🔹 Botón de filtro (a definir su acción)
+        btnFilter.setOnClickListener(v ->
+                // Aquí podrías abrir un diálogo de filtros o menú lateral
+                System.out.println("Filtro presionado")
+        );
+    }
+
+    private void filterResults(String query) {
+        List<String> filtered = new ArrayList<>();
+        for (String item : allItems) {
+            if (item.toLowerCase().contains(query.toLowerCase())) {
+                filtered.add(item);
+            }
+        }
+        adapter.updateList(filtered);
     }
 }
