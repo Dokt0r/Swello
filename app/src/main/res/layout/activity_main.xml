@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/dark_cool_blue"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <!--AppBar con Toolbar + SearchBar -->
@@ -14,21 +14,21 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/dark_cool_blue"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:liftOnScroll="true">
 
         <!-- Toolbar superior -->
         <include
-            layout="@layout/component_top_bar"
-            android:id="@+id/top_bar" />
+            android:id="@+id/top_bar"
+            layout="@layout/component_top_bar" />
 
         <!-- Barra de búsqueda -->
         <include
-            layout="@layout/component_search_section"
-            android:id="@+id/search_section" />
+            android:id="@+id/search_section"
+            layout="@layout/component_search_section" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

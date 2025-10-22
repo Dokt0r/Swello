@@ -3,10 +3,10 @@
     android:id="@+id/topAppBar"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@color/dark_cool_blue"
+    android:background="@android:color/transparent"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
     app:menu="@menu/top_bar_menu"
     app:title="Swello"
     app:titleCentered="true"
-    app:titleTextColor="@color/white" />
+    app:titleTextColor="@color/white"/>
