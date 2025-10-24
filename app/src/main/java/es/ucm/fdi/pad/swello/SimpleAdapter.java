@@ -4,19 +4,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+
 import java.util.List;
 
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder> {
 
-    private List<String> items;
+    private List<ItemData> items;
 
-    public SimpleAdapter(List<String> items) {
+    public SimpleAdapter(List<ItemData> items) {
         this.items = items;
     }
 
-    public void updateList(List<String> newItems) {
+    public void updateList(List<ItemData> newItems) {
         this.items = newItems;
         notifyDataSetChanged();
     }
@@ -25,25 +29,31 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.item_result, parent, false); // 👈 tu layout con el MaterialCardView
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(items.get(position));
+        ItemData item = items.get(position);
+        holder.textTitle.setText(item.getTitle());
+        holder.textDescription.setText(item.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items != null ? items.size() : 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView textTitle, textDescription;
+        MaterialCardView cardView;
+
         ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+            cardView = (MaterialCardView) itemView;
+            textTitle = itemView.findViewById(R.id.text_title);
+            textDescription = itemView.findViewById(R.id.text_description);
         }
     }
 }

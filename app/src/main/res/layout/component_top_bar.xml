@@ -9,4 +9,7 @@
     app:menu="@menu/top_bar_menu"
     app:title="Swello"
     app:titleCentered="true"
-    app:titleTextColor="@color/white"/>
+    app:titleTextColor="@color/white"
+    app:logo="@drawable/logo"
+    app:logoAdjustViewBounds="false"
+    app:logoScaleType="centerCrop"/>

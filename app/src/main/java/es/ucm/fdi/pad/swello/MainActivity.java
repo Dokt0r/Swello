@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnFilter;
     private RecyclerView recyclerResults;
     private SimpleAdapter adapter;
-    private List<String> allItems;
+    private List<ItemData> allItems = new ArrayList<>(); // 🔹 Inicializada aquí
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,45 +28,54 @@ public class MainActivity extends AppCompatActivity {
         btnFilter = findViewById(R.id.btn_filter);
         recyclerResults = findViewById(R.id.recycler_results);
 
-        // Datos de ejemplo
-        allItems = new ArrayList<>();
-        allItems.add("Café");
-        allItems.add("Capuchino");
-        allItems.add("Chocolate");
-        allItems.add("Té verde");
-        allItems.add("Latte");
-        allItems.add("Espresso");
+        // 🔹 Datos de ejemplo
+        allItems.add(new ItemData("Elemento 1", "Descripción del elemento 1"));
+        allItems.add(new ItemData("Elemento 2", "Otra descripción"));
+        allItems.add(new ItemData("Elemento 3", "Más texto de prueba"));
+        allItems.add(new ItemData("Swello", "Tu asistente inteligente"));
 
-        adapter = new SimpleAdapter(allItems);
+        // 🔹 Configuración del RecyclerView
+        adapter = new SimpleAdapter(new ArrayList<>(allItems));
         recyclerResults.setLayoutManager(new LinearLayoutManager(this));
         recyclerResults.setAdapter(adapter);
 
-        // 🔹 Filtro de texto
+        // 🔹 Filtro de texto en tiempo real
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 filterResults(s.toString());
             }
+
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
-        // 🔹 Botón de filtro (a definir su acción)
-        btnFilter.setOnClickListener(v ->
-                // Aquí podrías abrir un diálogo de filtros o menú lateral
-                System.out.println("Filtro presionado")
-        );
+        // 🔹 Acción del botón de filtro
+        btnFilter.setOnClickListener(v -> {
+            // Aquí puedes abrir un diálogo o fragmento con filtros avanzados
+            System.out.println("Filtro presionado");
+        });
     }
 
+    // 🔹 Función de filtrado
     private void filterResults(String query) {
-        List<String> filtered = new ArrayList<>();
-        for (String item : allItems) {
-            if (item.toLowerCase().contains(query.toLowerCase())) {
+        if (query == null || query.trim().isEmpty()) {
+            // Si no hay texto, mostramos todos
+            adapter.updateList(new ArrayList<>(allItems));
+            return;
+        }
+
+        List<ItemData> filtered = new ArrayList<>();
+        for (ItemData item : allItems) {
+            if (item.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                    item.getDescription().toLowerCase().contains(query.toLowerCase())) {
                 filtered.add(item);
             }
         }
+
         adapter.updateList(filtered);
     }
 }
