@@ -6,7 +6,7 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
-    app:cardBackgroundColor="#0e1142"
+    app:cardBackgroundColor="@color/dark_cool_blue"
     app:strokeColor="#F69200"
     app:strokeWidth="3dp">
 
