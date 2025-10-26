@@ -4,17 +4,17 @@
     <item
         android:id="@+id/action_general"
         android:title="General"
-        android:icon="@drawable/settings" />
+        android:icon="@drawable/ic_settings" />
 
     <item
         android:id="@+id/action_notifications"
         android:title="Notificaciones"
-        android:icon="@drawable/notifications" />
+        android:icon="@drawable/ic_notifications" />
 
     <item
         android:id="@+id/action_info"
         android:title="Información"
-        android:icon="@drawable/info" />
+        android:icon="@drawable/ic_info" />
 
     <item
         android:id="@+id/action_logout"
