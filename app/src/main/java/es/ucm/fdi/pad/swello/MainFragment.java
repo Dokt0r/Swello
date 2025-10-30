@@ -22,6 +22,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.pad.swello.Filtros.Filtro;
+import es.ucm.fdi.pad.swello.Filtros.FiltroData;
 import es.ucm.fdi.pad.swello.OptionsMenu.menu_options;
 
 public class MainFragment extends Fragment {
@@ -34,6 +36,7 @@ public class MainFragment extends Fragment {
     private SimpleAdapter adapter;
     private MaterialToolbar topAppBar; // 🔹 Toolbar como variable privada
     private List<ItemData> allItems = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -82,10 +85,23 @@ public class MainFragment extends Fragment {
             // 🔹 Acción del botón de filtro
             btnFilter.setOnClickListener(v -> {
                 try {
-                    Log.d(TAG, "Filtro presionado");
-                    // Aquí podrías abrir un diálogo o menú lateral
+                    Log.d(TAG, "Abrir filtros");
+                    Filtro filtroDialog = new Filtro();
+                    filtroDialog.setOnFiltroAplicadoListener(filtros -> {
+                        Log.d(TAG, "Recibidos filtros: " + filtros);
+
+                        // 🔹 Aquí podrías usar los filtros en tu query
+                        String query = buildQueryWithFilters(searchInput.getText().toString(), filtros);
+                        Log.d(TAG, "Query generada: " + query);
+
+                        // Si quieres, podrías filtrar tu lista local con esos criterios
+                        filterResults(query);
+                    });
+
+                    filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
+
                 } catch (Exception e) {
-                    Log.e(TAG, "Error al presionar btnFilter", e);
+                    Log.e(TAG, "Error al abrir FiltroDialog", e);
                 }
             });
 
@@ -122,5 +138,20 @@ public class MainFragment extends Fragment {
         }
 
         adapter.updateList(filtered);
+    }
+
+    private String buildQueryWithFilters(String baseQuery, FiltroData filtros) {
+        StringBuilder query = new StringBuilder(baseQuery.trim());
+
+        if (!filtros.tiposOla.isEmpty()) {
+            query.append(" +olas:").append(filtros.tiposOla);
+        }
+        query.append(" +tamanoMax:").append(filtros.tamanoMaximo);
+
+        if (!filtros.direccionViento.isEmpty()) {
+            query.append(" +viento:").append(filtros.direccionViento);
+        }
+
+        return query.toString();
     }
 }
