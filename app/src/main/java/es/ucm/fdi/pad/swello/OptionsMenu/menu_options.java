@@ -24,10 +24,14 @@ public class menu_options extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_options);
 
-        toolbarOptions = findViewById(R.id.toolbar_options);
-        recyclerOptions = findViewById(R.id.recycler_options);
+        MaterialToolbar toolbarOptions = findViewById(R.id.toolbar_options);
+        RecyclerView recyclerOptions = findViewById(R.id.recycler_options);
 
         setSupportActionBar(toolbarOptions);
+
+        // Configurar el icono de navegación para volver atrás
+        toolbarOptions.setNavigationOnClickListener(v -> finish());
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
