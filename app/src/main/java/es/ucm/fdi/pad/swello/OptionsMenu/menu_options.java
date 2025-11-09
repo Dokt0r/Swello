@@ -1,6 +1,9 @@
 package es.ucm.fdi.pad.swello.OptionsMenu;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.content.Intent;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.pad.swello.MainActivity;
 import es.ucm.fdi.pad.swello.R;
 
 public class menu_options extends AppCompatActivity {
@@ -24,16 +28,15 @@ public class menu_options extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_options);
 
-        MaterialToolbar toolbarOptions = findViewById(R.id.toolbar_options);
-        RecyclerView recyclerOptions = findViewById(R.id.recycler_options);
+        toolbarOptions = findViewById(R.id.toolbar_options);
+        recyclerOptions = findViewById(R.id.recycler_options);
 
+        // Configurar Toolbar como ActionBar
         setSupportActionBar(toolbarOptions);
-
-        // Configurar el icono de navegación para volver atrás
-        toolbarOptions.setNavigationOnClickListener(v -> finish());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
         // Datos de ejemplo
@@ -41,12 +44,23 @@ public class menu_options extends AppCompatActivity {
         options.add(new OptionItem("General", R.drawable.ic_settings));
         options.add(new OptionItem("Notificaciones", R.drawable.ic_notifications));
         options.add(new OptionItem("Información", R.drawable.ic_info));
-        /*options.add(new OptionItem("Cuenta", R.drawable.ic_account));
-        options.add(new OptionItem("Cerrar sesión", R.drawable.ic_logout));
-    */
-        // Adapter
+
         adapter = new OptionsAdapter(options);
         recyclerOptions.setLayoutManager(new LinearLayoutManager(this));
         recyclerOptions.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Log.d("menu_options", "Flecha de volver pulsada");
+
+            Intent intent = new Intent(menu_options.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

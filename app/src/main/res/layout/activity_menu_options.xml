@@ -5,21 +5,21 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/dark_cool_blue">
 
-    <!-- Toolbar superior con menú -->
-
-    <!-- RecyclerView para opciones -->
+    <!-- Toolbar superior -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_options"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/dark_cool_blue"
-        app:navigationIcon="@drawable/ic_back"
-        app:navigationIconTint="@color/white"
         app:title="Opciones"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/white" />
 
+    <!-- Lista de opciones -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_options"
         android:layout_width="match_parent"
@@ -28,13 +28,4 @@
         android:padding="8dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"/>
-
-    <Button
-        android:id="@+id/options_back"
-        android:layout_width="49dp"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        app:layout_anchor="@+id/toolbar_options"
-        app:layout_anchorGravity="start|center" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
