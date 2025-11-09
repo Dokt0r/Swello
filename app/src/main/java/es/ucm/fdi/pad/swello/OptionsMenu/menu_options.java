@@ -41,14 +41,14 @@ public class menu_options extends AppCompatActivity {
 
         // Datos de ejemplo
         List<OptionItem> options = new ArrayList<>();
-        options.add(new OptionItem("General", R.drawable.ic_settings));
-        options.add(new OptionItem("Notificaciones", R.drawable.ic_notifications));
-        options.add(new OptionItem("Información", R.drawable.ic_info));
+        options.add(new OptionItem("General", R.drawable.ic_settings, false));
+        options.add(new OptionItem("Información", R.drawable.ic_info, false));
 
         adapter = new OptionsAdapter(options);
         recyclerOptions.setLayoutManager(new LinearLayoutManager(this));
         recyclerOptions.setAdapter(adapter);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

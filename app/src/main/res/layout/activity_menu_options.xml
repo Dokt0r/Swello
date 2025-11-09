@@ -9,17 +9,18 @@
     android:background="@color/dark_cool_blue">
 
     <!-- Toolbar superior -->
+
+    <!-- Lista de opciones -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_options"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/dark_cool_blue"
-        app:title="Opciones"
-        app:titleTextColor="@color/white"
         app:navigationIcon="@drawable/ic_back"
-        app:navigationIconTint="@color/white" />
+        app:navigationIconTint="@color/white"
+        app:title="Opciones"
+        app:titleTextColor="@color/white" />
 
-    <!-- Lista de opciones -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_options"
         android:layout_width="match_parent"

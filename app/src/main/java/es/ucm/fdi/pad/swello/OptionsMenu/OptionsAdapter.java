@@ -1,6 +1,8 @@
 package es.ucm.fdi.pad.swello.OptionsMenu;
 
 import android.view.LayoutInflater;
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import es.ucm.fdi.pad.swello.R;
 public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHolder> {
 
     private List<OptionItem> options;
+    private boolean generalExpanded = false; // saber si "General" está abierto
 
     public OptionsAdapter(List<OptionItem> options) {
         this.options = options;
@@ -33,11 +36,35 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
         OptionItem option = options.get(position);
         holder.textOption.setText(option.getTitle());
         holder.iconOption.setImageResource(option.getIconRes());
+        if (option.isSubOption()) {
+            holder.itemView.setPadding(80, 0, 0, 0);  // subopción: desplazada
+        } else {
+            holder.itemView.setPadding(0, 0, 0, 0);   // principal: alineada a la izquierda
+        }
 
         // Por ahora solo mostrar un toast al hacer click
-        holder.itemView.setOnClickListener(v ->
-                Toast.makeText(v.getContext(), "Seleccionaste: " + option.getTitle(), Toast.LENGTH_SHORT).show()
-        );
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Toast.makeText(context, "Seleccionaste: " + option.getTitle(), Toast.LENGTH_SHORT).show();
+
+            switch (option.getTitle()){
+                case "General":
+                    if(!generalExpanded){
+                        int insertPosition = position + 1;
+                        options.add(insertPosition, new OptionItem("Idioma", R.drawable.ic_language, true));
+                        options.add(insertPosition + 1, new OptionItem("Tema", R.drawable.ic_theme, true));
+                        options.add(insertPosition + 2, new OptionItem("Notificaciones", R.drawable.ic_notifications, true));
+                        notifyItemRangeInserted(insertPosition, 3);
+                        generalExpanded = true;
+                    } else {
+                        options.removeIf(o -> o.getTitle().equals("Idioma")
+                                || o.getTitle().equals("Tema")
+                                || o.getTitle().equals("Notificaciones"));
+                        notifyDataSetChanged();
+                        generalExpanded = false;
+                    }
+            }
+        });
     }
 
     @Override
