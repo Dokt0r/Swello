@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filtros para surfistas"
+        android:text="@string/filtro_title"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tipo de ola"
+        android:text="@string/filtro_tipo_ola"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:paddingTop="8dp" />
@@ -38,28 +38,28 @@
             android:id="@+id/chip_tubular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tubular"
+            android:text="@string/chip_tubular"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_suave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Suave"
+            android:text="@string/chip_suave"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_rompiente_de_reef"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reef break"
+            android:text="@string/chip_reef_break"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_rompiente_de_arena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Beach break"
+            android:text="@string/chip_beach_break"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
     </com.google.android.material.chip.ChipGroup>
 
@@ -67,7 +67,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tamaño de ola (m)"
+        android:text="@string/filtro_tamano_ola"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:paddingTop="12dp" />
@@ -86,7 +86,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dirección del viento"
+        android:text="@string/filtro_direccion_viento"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:paddingTop="12dp" />
@@ -102,21 +102,21 @@
             android:id="@+id/chip_viento_offshore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Offshore"
+            android:text="@string/chip_offshore"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_viento_onshore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Onshore"
+            android:text="@string/chip_onshore"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_viento_lateral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lateral"
+            android:text="@string/chip_lateral"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
     </com.google.android.material.chip.ChipGroup>
 
@@ -125,7 +125,7 @@
         android:id="@+id/btn_aplicar_filtros"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aplicar filtros"
+        android:text="@string/btn_aplicar_filtros"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_marginTop="16dp" />
 

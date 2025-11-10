@@ -20,7 +20,7 @@
             android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Título"
+            android:text="@string/item_result_title"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textColor="@color/white"/>
 
@@ -28,7 +28,7 @@
             android:id="@+id/text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Descripción del elemento"
+            android:text="@string/item_result_desc"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="@color/white"/>
     </LinearLayout>

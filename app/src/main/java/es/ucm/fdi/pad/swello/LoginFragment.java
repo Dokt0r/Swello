@@ -38,7 +38,7 @@ public class LoginFragment extends Fragment {
                 // Llamamos al MainActivity para cambiar el fragment
                 ((MainActivity) requireActivity()).onLoginSuccess();
             } else {
-                Toast.makeText(getContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.login_error), Toast.LENGTH_SHORT).show();
             }
         });
 

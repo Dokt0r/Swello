@@ -108,7 +108,7 @@ public class Filtro extends BottomSheetDialogFragment {
                 Log.w(TAG, "Listener no asignado");
             }
 
-            Toast.makeText(requireContext(), "Filtros aplicados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.filtros_aplicados), Toast.LENGTH_SHORT).show();
             dismiss();
 
         } catch (Exception e) {

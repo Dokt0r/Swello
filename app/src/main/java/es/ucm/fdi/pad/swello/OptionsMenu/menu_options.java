@@ -42,9 +42,9 @@ public class menu_options extends AppCompatActivity {
         // Datos de ejemplo
         List<OptionItem> options = new ArrayList<>();
         options.add(new OptionItem("General", R.drawable.ic_settings, false));
-        options.add(new OptionItem("Información", R.drawable.ic_info, false));
+        options.add(new OptionItem(getString(R.string.opcion_informacion), R.drawable.ic_info, false));
 
-        adapter = new OptionsAdapter(options);
+        adapter = new OptionsAdapter(this, options);
         recyclerOptions.setLayoutManager(new LinearLayoutManager(this));
         recyclerOptions.setAdapter(adapter);
     }
@@ -53,7 +53,7 @@ public class menu_options extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Log.d("menu_options", "Flecha de volver pulsada");
+            Log.d("menu_options", getString(R.string.flecha_volver_pulsada));
 
             Intent intent = new Intent(menu_options.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

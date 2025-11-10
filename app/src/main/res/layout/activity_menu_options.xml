@@ -18,7 +18,7 @@
         android:background="@color/dark_cool_blue"
         app:navigationIcon="@drawable/ic_back"
         app:navigationIconTint="@color/white"
-        app:title="Opciones"
+        app:title="@string/toolbar_options_title"
         app:titleTextColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
