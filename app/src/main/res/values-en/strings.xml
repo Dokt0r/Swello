@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">Swello</string>
     <!--  Toolbar / Menús  -->
-    <string name="toolbar_options_title">Opciones</string>
+    <string name="toolbar_options_title">Options</string>
     <string name="topbar_title">Swello</string>
     <!--  Buscar  -->
-    <string name="cd_search">Buscar</string>
-    <string name="hint_search">Buscar...</string>
-    <string name="cd_filters">Filtros</string>
+    <string name="cd_search">Search</string>
+    <string name="hint_search">Search...</string>
+    <string name="cd_filters">Filters</string>
     <!--  Login  -->
-    <string name="login_user_hint">Usuario</string>
-    <string name="login_password_hint">Contraseña</string>
-    <string name="login_button">Iniciar sesión</string>
-    <string name="login_error">Usuario o contraseña incorrectos</string>
+    <string name="login_user_hint">User</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Log in</string>
+    <string name="login_error">Incorrect user or password</string>
 
     <!--  Lista / Items  -->
     <string name="item_result_title">Título</string>
@@ -39,8 +39,8 @@
 
 
     <!-- Filtro -->
-    <string name="tamano_de_las_olas_m">Tamaño de las olas (m)</string>
-    <string name="direccion_de_las_olas">Dirección de las olas</string>
+    <string name="tamano_de_las_olas_m">Height of the waves (m)</string>
+    <string name="direccion_de_las_olas">Wave direction</string>
     <string name="N">N</string>
     <string name="NE">NE</string>
     <string name="E">E</string>
@@ -49,17 +49,17 @@
     <string name="SW">SW</string>
     <string name="W">W</string>
     <string name="NW">NW</string>
-    <string name="periodo_de_las_olas">Periodo de las olas (s)</string>
+    <string name="periodo_de_las_olas">Wave period (s)</string>
     <string name="temperatura_del_agua">Temperatura del agua (°C)</string>
-    <string name="nivel_del_surfista">Nivel del surfista</string>
-    <string name="principiante">Principiante</string>
-    <string name="intermedio">Intermedio</string>
-    <string name="experto">Experto</string>
-    <string name="servicios_disponibles">Servicios disponibles</string>
-    <string name="escuela_surf">Escuela surf</string>
-    <string name="aparcamiento">Aparcamiento</string>
-    <string name="duchas">Duchas</string>
+    <string name="nivel_del_surfista">Surfer Level</string>
+    <string name="principiante">Beginner</string>
+    <string name="intermedio">Intermediate</string>
+    <string name="experto">Expert</string>
+    <string name="servicios_disponibles">Available Services</string>
+    <string name="escuela_surf">Surf School</string>
+    <string name="aparcamiento">Parking</string>
+    <string name="duchas">Showers</string>
     <string name="chiringuito">Chiringuito</string>
-    <string name="aplicar_filtros">Aplicar filtros</string>
-    <string name="distancia_maxima">Distancia máxima (km)</string>
+    <string name="aplicar_filtros">Apply Filters</string>
+    <string name="distancia_maxima">Max Distance</string>
 </resources>

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FiltroData implements Serializable {
+    public float distanciaMinima = 0;
+    public float distanciaMaxima = 0;
     public float tamanoMinimo = 0.5f;
     public float tamanoMaximo = 5.0f;
     public float periodoMinimo = 5f;
@@ -18,7 +20,8 @@ public class FiltroData implements Serializable {
     @Override
     public String toString() {
         return "FiltroData{" +
-                "tamano=" + tamanoMinimo + "-" + tamanoMaximo +
+                "distancia=" + distanciaMinima + "-" + distanciaMaxima +
+                ", tamano=" + tamanoMinimo + "-" + tamanoMaximo +
                 ", periodo=" + periodoMinimo + "-" + periodoMaximo +
                 ", direccionOlas='" + direccionOlas + '\'' +
                 ", tempAgua='" + tempAgua + '\'' +

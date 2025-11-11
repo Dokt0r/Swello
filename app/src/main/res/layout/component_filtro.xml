@@ -23,11 +23,28 @@
         android:paddingStart="4dp"
         android:paddingTop="30dp">
 
+        <TextView
+            android:id="@+id/text_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/distancia_maxima"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp" />
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_distancia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="200"
+            android:stepSize="10"
+            app:values="@array/distancia_default" />
+
         <!-- Tamaño de las olas -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tamaño de las olas (m)"
+            android:text="@string/tamano_de_las_olas_m"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -45,7 +62,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dirección de las olas"
+            android:text="@string/direccion_de_las_olas"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -60,42 +77,42 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="N" />
+                android:text="@string/N" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="NE" />
+                android:text="@string/NE" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="E" />
+                android:text="@string/E" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="SE" />
+                android:text="@string/SE" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="S" />
+                android:text="@string/S" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="SW" />
+                android:text="@string/SW" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="W" />
+                android:text="@string/W" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="NW" />
+                android:text="@string/NW" />
         </com.google.android.material.chip.ChipGroup>
 
         <!-- Periodo de olas -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Periodo de las olas (s)"
+            android:text="@string/periodo_de_las_olas"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -113,7 +130,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Temperatura del agua (°C)"
+            android:text="@string/temperatura_del_agua"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -140,7 +157,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nivel del surfista"
+            android:text="@string/nivel_del_surfista"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -152,22 +169,22 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Principiante" />
+                android:text="@string/principiante" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Intermedio" />
+                android:text="@string/intermedio" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Experto" />
+                android:text="@string/experto" />
         </com.google.android.material.chip.ChipGroup>
 
         <!-- Servicios -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Servicios disponibles"
+            android:text="@string/servicios_disponibles"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -179,19 +196,19 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Escuela surf" />
+                android:text="@string/escuela_surf" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Aparcamiento" />
+                android:text="@string/aparcamiento" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Duchas" />
+                android:text="@string/duchas" />
 
             <com.google.android.material.chip.Chip
                 style="@style/EstiloChipFiltro"
-                android:text="Chiringuito" />
+                android:text="@string/chiringuito" />
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.button.MaterialButton
@@ -199,7 +216,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Aplicar filtros"
-            android:textColor="@color/white"/>
+            android:text="@string/aplicar_filtros"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/dark_cool_blue" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

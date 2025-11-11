@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/item_option_placeholder"
+        android:text="@string/toolbar_options_title"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:paddingStart="16dp"/>
