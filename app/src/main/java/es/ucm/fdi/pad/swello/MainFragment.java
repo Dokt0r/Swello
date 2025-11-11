@@ -34,7 +34,7 @@ public class MainFragment extends Fragment {
     private ImageButton btnFilter;
     private RecyclerView recyclerResults;
     private SimpleAdapter adapter;
-    private MaterialToolbar topAppBar; // 🔹 Toolbar como variable privada
+    private MaterialToolbar topAppBar;
     private List<ItemData> allItems = new ArrayList<>();
 
 
@@ -47,24 +47,23 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         try {
-            // 🔹 Inicializar componentes
             searchInput = view.findViewById(R.id.search_input);
             btnFilter = view.findViewById(R.id.btn_filter);
             recyclerResults = view.findViewById(R.id.recycler_results);
             topAppBar = view.findViewById(R.id.topAppBar);
 
-            // 🔹 Datos de ejemplo
+            //Datos de ejemplo
             allItems.add(new ItemData("Elemento 1", "Descripción del elemento 1"));
             allItems.add(new ItemData("Elemento 2", "Otra descripción"));
             allItems.add(new ItemData("Elemento 3", "Más texto de prueba"));
             allItems.add(new ItemData("Swello", "Tu asistente inteligente"));
 
-            // 🔹 Configuración del RecyclerView
+            //Configuracion del RecyclerView
             adapter = new SimpleAdapter(new ArrayList<>(allItems));
             recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
             recyclerResults.setAdapter(adapter);
 
-            // 🔹 Filtro de texto en tiempo real
+            //Filtro de texto en tiempo real
             searchInput.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -82,7 +81,7 @@ public class MainFragment extends Fragment {
                 public void afterTextChanged(Editable s) {}
             });
 
-            // 🔹 Acción del botón de filtro
+            //Acción del botón de filtro
             btnFilter.setOnClickListener(v -> {
                 try {
                     Log.d(TAG, "Abrir filtros");
@@ -105,7 +104,7 @@ public class MainFragment extends Fragment {
                 }
             });
 
-            // 🔹 Manejar click del item de menú "Opciones"
+            //Manejar click del item de menu "Opciones"
             topAppBar = view.findViewById(R.id.top_bar); // ✅ Toolbar correcta
             topAppBar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_options) {
@@ -122,7 +121,7 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    // 🔹 Función de filtrado
+    //Función de filtrado
     private void filterResults(String query) {
         if (query == null || query.trim().isEmpty()) {
             adapter.updateList(new ArrayList<>(allItems));
@@ -143,14 +142,7 @@ public class MainFragment extends Fragment {
     private String buildQueryWithFilters(String baseQuery, FiltroData filtros) {
         StringBuilder query = new StringBuilder(baseQuery.trim());
 
-        if (!filtros.tiposOla.isEmpty()) {
-            query.append(" +olas:").append(filtros.tiposOla);
-        }
-        query.append(" +tamanoMax:").append(filtros.tamanoMaximo);
 
-        if (!filtros.direccionViento.isEmpty()) {
-            query.append(" +viento:").append(filtros.direccionViento);
-        }
 
         return query.toString();
     }

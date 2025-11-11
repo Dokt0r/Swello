@@ -1,6 +1,5 @@
 package es.ucm.fdi.pad.swello.Filtros;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.slider.Slider;
+import com.google.android.material.slider.RangeSlider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.ucm.fdi.pad.swello.R;
 
@@ -23,8 +25,8 @@ public class Filtro extends BottomSheetDialogFragment {
 
     private static final String TAG = "FiltroBottomSheet";
 
-    private ChipGroup chipGroupOlas, chipGroupViento, chipGroupNivel, chipGroupServicios;
-    private Slider sliderTamano;
+    private RangeSlider sliderWaveHeight, sliderWavePeriod;
+    private ChipGroup chipWaveDir, chipSST, chipNivel, chipServicios;
     private MaterialButton btnAplicar;
 
     private OnFiltroAplicadoListener listener;
@@ -44,75 +46,54 @@ public class Filtro extends BottomSheetDialogFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.component_filtro, container, false);
 
-        try {
-            chipGroupOlas = view.findViewById(R.id.chip_group_olas);
-            chipGroupViento = view.findViewById(R.id.chip_group_viento);
-            sliderTamano = view.findViewById(R.id.slider_tamano_ola);
-            btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
+        sliderWaveHeight = view.findViewById(R.id.slider_wave_height);
+        sliderWavePeriod = view.findViewById(R.id.slider_wave_period);
+        chipWaveDir = view.findViewById(R.id.chip_group_wave_dir);
+        chipSST = view.findViewById(R.id.chip_group_sst);
+        chipNivel = view.findViewById(R.id.chip_group_nivel);
+        chipServicios = view.findViewById(R.id.chip_group_servicios);
+        btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
 
-            btnAplicar.setOnClickListener(v -> aplicarFiltros());
-        } catch (Exception e) {
-            Log.e(TAG, "Error inicializando filtros", e);
-        }
-
+        btnAplicar.setOnClickListener(v -> aplicarFiltros());
         return view;
     }
 
     private void aplicarFiltros() {
-        try {
-            FiltroData data = new FiltroData();
+        FiltroData data = new FiltroData();
 
-            // Tipos de ola
-            for (int i = 0; i < chipGroupOlas.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupOlas.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.tiposOla.add(chip.getText().toString());
-                }
-            }
+        List<Float> altura = sliderWaveHeight.getValues();
+        data.tamanoMinimo = altura.get(0);
+        data.tamanoMaximo = altura.get(1);
 
-            // Tamaño de ola (usamos el valor actual del slider)
-            data.tamanoMinimo = 0.5f; // valor base
-            data.tamanoMaximo = sliderTamano.getValue();
+        List<Float> periodo = sliderWavePeriod.getValues();
+        data.periodoMinimo = periodo.get(0);
+        data.periodoMaximo = periodo.get(1);
 
-            // Dirección del viento
-            for (int i = 0; i < chipGroupViento.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupViento.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.direccionViento = chip.getText().toString();
-                    break;
-                }
-            }
+        data.direccionOlas = getCheckedChipText(chipWaveDir);
+        data.tempAgua = getCheckedChipText(chipSST);
+        data.nivelSurfista = getCheckedChipText(chipNivel);
+        data.servicios = getCheckedChips(chipServicios);
 
-            // Nivel del surfista
-            for (int i = 0; i < chipGroupNivel.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupNivel.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.nivelSurfista = chip.getText().toString();
-                    break;
-                }
-            }
+        Log.d(TAG, "Filtros aplicados: " + data);
 
-            // Servicios
-            for (int i = 0; i < chipGroupServicios.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupServicios.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.servicios.add(chip.getText().toString());
-                }
-            }
+        if (listener != null) listener.onFiltroAplicado(data);
+        Toast.makeText(getContext(), "Filtros aplicados", Toast.LENGTH_SHORT).show();
+        dismiss();
+    }
 
-            Log.d(TAG, "Filtros aplicados: " + data);
+    private String getCheckedChipText(ChipGroup group) {
+        int id = group.getCheckedChipId();
+        if (id == View.NO_ID) return "";
+        Chip chip = group.findViewById(id);
+        return chip != null ? chip.getText().toString() : "";
+    }
 
-            if (listener != null) {
-                listener.onFiltroAplicado(data);
-            } else {
-                Log.w(TAG, "Listener no asignado");
-            }
-
-            Toast.makeText(requireContext(), getString(R.string.filtros_aplicados), Toast.LENGTH_SHORT).show();
-            dismiss();
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error al aplicar filtros", e);
+    private List<String> getCheckedChips(ChipGroup group) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < group.getChildCount(); i++) {
+            Chip chip = (Chip) group.getChildAt(i);
+            if (chip.isChecked()) list.add(chip.getText().toString());
         }
+        return list;
     }
 }
