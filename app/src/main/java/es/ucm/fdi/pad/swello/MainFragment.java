@@ -18,12 +18,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.pad.swello.API_Queries.PlayaApiClient;
 import es.ucm.fdi.pad.swello.Filtros.Filtro;
 import es.ucm.fdi.pad.swello.Filtros.FiltroData;
+import es.ucm.fdi.pad.swello.Location.LocationPermissions;
+import es.ucm.fdi.pad.swello.Location.UserLocation;
 import es.ucm.fdi.pad.swello.OptionsMenu.menu_options;
 import es.ucm.fdi.pad.swello.PlayaAdapter.PlayaAdapter;
 
@@ -33,9 +41,16 @@ public class MainFragment extends Fragment {
 
     private AppCompatEditText searchInput;
     private ImageButton btnFilter;
+    private MaterialButton btnSearch;
     private RecyclerView recyclerResults;
-    private PlayaAdapter adapter;
     private MaterialToolbar topAppBar;
+
+    private PlayaAdapter adapter;
+    private PlayaApiClient playaApiClient;
+    private FiltroData currentFilters = new FiltroData();
+    private Filtro filtroDialog = new Filtro();
+    private LocationPermissions locationPermissions;
+
     private List<ItemPlaya> allItems = new ArrayList<>();
 
     @Nullable
@@ -47,63 +62,80 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         try {
+            // --- Inicialización de vistas ---
             searchInput = view.findViewById(R.id.search_input);
             btnFilter = view.findViewById(R.id.btn_filter);
+            btnSearch = view.findViewById(R.id.btn_search);
             recyclerResults = view.findViewById(R.id.recycler_results);
             topAppBar = view.findViewById(R.id.topAppBar);
 
-            // --- Datos de prueba ---
-            allItems.add(new ItemPlaya("Playa de la Concha", 1.2, "NE", 5.0, "Playa urbana famosa por su arena dorada"));
-            allItems.add(new ItemPlaya("Playa de Somo", 1.8, "N", 10.0, "Ideal para surfistas de nivel medio"));
-            allItems.add(new ItemPlaya("Playa de Zarautz", 2.5, "O", 12.0, "Playa larga con buenas olas para surf"));
-            allItems.add(new ItemPlaya("Playa de Rodiles", 1.0, "SO", 15.0, "Playa tranquila con oleaje suave"));
-            allItems.add(new ItemPlaya("Playa de Mundaka", 3.0, "N", 20.0, "Reconocida por su ola izquierda de clase mundial"));
+            // --- Inicialización de filtros por defecto ---
+            filtroDialog.inicializarValoresPorDefecto();
+            Log.d(TAG, "Filtros inicializados con valores por defecto: " + currentFilters);
 
-            // --- Configuración del RecyclerView ---
-            adapter = new PlayaAdapter(new ArrayList<>(allItems));
+            // --- Inicialización API ---
+            playaApiClient = new PlayaApiClient(requireContext());
+
+            // --- Inicialización de LocationPermissions ---
+            locationPermissions = new LocationPermissions(requireActivity());
+            locationPermissions.requestLocationPermission(new LocationPermissions.LocationPermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                    Log.d(TAG, "Permisos de ubicación concedidos");
+                    UserLocation.init(requireContext()); // inicializamos UserLocation solo si hay permisos
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    Log.w(TAG, "Permisos de ubicación denegados. Búsqueda por distancia no funcionará.");
+                }
+            });
+
+            // --- Configuración RecyclerView ---
+            adapter = new PlayaAdapter(new ArrayList<>());
             recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
             recyclerResults.setAdapter(adapter);
 
-            // --- Filtro de texto en tiempo real ---
+            // --- Filtrado local en tiempo real ---
             searchInput.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    try {
-                        filterResults(s.toString());
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error filtrando resultados", e);
-                    }
+                    filterResults(s.toString());
                 }
                 @Override
                 public void afterTextChanged(Editable s) {}
             });
 
-            // --- Acción del botón de filtro ---
+            // --- Botón de filtro ---
             btnFilter.setOnClickListener(v -> {
-                try {
-                    Log.d(TAG, "Abrir filtros");
-                    Filtro filtroDialog = new Filtro();
-                    filtroDialog.setOnFiltroAplicadoListener(filtros -> {
-                        Log.d(TAG, "Recibidos filtros: " + filtros);
+                Log.d(TAG, "Abriendo diálogo de filtros...");
 
-                        // Aquí podrías usar los filtros en tu query
-                        String query = buildQueryWithFilters(searchInput.getText().toString(), filtros);
-                        Log.d(TAG, "Query generada: " + query);
+                filtroDialog.setOnFiltroAplicadoListener(filtros -> {
+                    currentFilters = filtros;
+                    Log.d(TAG, "Filtros aplicados: " + filtros);
+                });
 
-                        // Filtrado local basado en criterios simples (ejemplo)
-                        filterWithFilters(filtros);
-                    });
-
-                    filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
-
-                } catch (Exception e) {
-                    Log.e(TAG, "Error al abrir FiltroDialog", e);
-                }
+                filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
             });
 
-            // --- Manejar click del item de menu "Opciones" ---
+            // --- Botón de búsqueda ---
+            btnSearch.setOnClickListener(v -> {
+                String query = searchInput.getText().toString().trim();
+                Log.d(TAG, "Botón de búsqueda pulsado. Query: " + query);
+
+                // Verificar que UserLocation ya esté inicializado
+                if (UserLocation.isInitialized()) {
+                    UserLocation.getInstance().actualizarUbicacion();
+                } else {
+                    Log.w(TAG, "UserLocation no inicializado. Se realizará búsqueda sin coordenadas.");
+                }
+
+                fetchPlayasFromApi(query, currentFilters);
+            });
+
+            // --- Menú superior (opciones) ---
             topAppBar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_options) {
                     startActivity(new Intent(requireContext(), menu_options.class));
@@ -119,9 +151,45 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    // --- Filtrado por texto ---
+
+    // --- Llamada HTTP GET a la API ---
+    private void fetchPlayasFromApi(String query, FiltroData filtros) {
+        playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                try {
+                    List<ItemPlaya> playas = new ArrayList<>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject obj = response.getJSONObject(i);
+
+                        String nombre = obj.optString("nombre", "Sin nombre");
+                        double altura = obj.optDouble("alturaOla", 0.0);
+                        String direccion = obj.optString("direccionOla", "");
+                        double distancia = obj.optDouble("distancia", 0.0);
+                        String descripcion = obj.optString("descripcion", "");
+
+                        playas.add(new ItemPlaya(nombre, altura, direccion, distancia, descripcion));
+                    }
+
+                    allItems = playas;
+                    adapter.updateList(playas);
+                    Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error parseando respuesta JSON", e);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "Error al obtener playas de la API", e);
+            }
+        });
+    }
+
+    // --- Filtrado local mientras se escribe ---
     private void filterResults(String query) {
-        if (query == null || query.trim().isEmpty()) {
+        if (query == null || query.isEmpty() || allItems.isEmpty()) {
             adapter.updateList(new ArrayList<>(allItems));
             return;
         }
@@ -135,87 +203,5 @@ public class MainFragment extends Fragment {
         }
 
         adapter.updateList(filtered);
-    }
-
-    // --- Filtrado local simple por filtros ---
-    private void filterWithFilters(FiltroData filtros) {
-        List<ItemPlaya> filtered = new ArrayList<>();
-
-        for (ItemPlaya item : allItems) {
-            boolean include = true;
-
-            // Distancia
-            if (!(filtros.distanciaMinima <= 0f && filtros.distanciaMaxima >= 200f)) {
-                if (item.getDistancia() < filtros.distanciaMinima || item.getDistancia() > filtros.distanciaMaxima) {
-                    include = false;
-                }
-            }
-
-            // Altura de ola
-            if (!(filtros.tamanoMinimo <= 0.5f && filtros.tamanoMaximo >= 5.0f)) {
-                if (item.getAlturaOla() < filtros.tamanoMinimo || item.getAlturaOla() > filtros.tamanoMaximo) {
-                    include = false;
-                }
-            }
-
-            // Dirección
-            if (filtros.direccionOlas != null && !filtros.direccionOlas.isEmpty()) {
-                if (!item.getDireccionOla().equalsIgnoreCase(filtros.direccionOlas)) {
-                    include = false;
-                }
-            }
-
-            if (include) filtered.add(item);
-        }
-
-        adapter.updateList(filtered);
-    }
-
-    // --- Generación de query (ejemplo para SQL o API) ---
-    private String buildQueryWithFilters(String baseQuery, FiltroData filtros) {
-        StringBuilder query = new StringBuilder("SELECT * FROM playas WHERE 1=1");
-
-        if (baseQuery != null && !baseQuery.trim().isEmpty()) {
-            query.append(" AND nombre LIKE '%").append(baseQuery.trim()).append("%'");
-        }
-
-        if (!(filtros.distanciaMinima <= 0f && filtros.distanciaMaxima >= 200f)) {
-            query.append(" AND distancia_km BETWEEN ")
-                    .append(filtros.distanciaMinima).append(" AND ").append(filtros.distanciaMaxima);
-        }
-
-        if (!(filtros.tamanoMinimo <= 0.5f && filtros.tamanoMaximo >= 5.0f)) {
-            query.append(" AND altura_olas BETWEEN ")
-                    .append(filtros.tamanoMinimo).append(" AND ").append(filtros.tamanoMaximo);
-        }
-
-        if (!(filtros.periodoMinimo <= 5f && filtros.periodoMaximo >= 12f)) {
-            query.append(" AND periodo_olas BETWEEN ")
-                    .append(filtros.periodoMinimo).append(" AND ").append(filtros.periodoMaximo);
-        }
-
-        if (filtros.direccionOlas != null && !filtros.direccionOlas.isEmpty()) {
-            query.append(" AND direccion_olas = '").append(filtros.direccionOlas).append("'");
-        }
-
-        if (filtros.tempAgua != null && !filtros.tempAgua.isEmpty()) {
-            query.append(" AND temperatura_agua = '").append(filtros.tempAgua).append("'");
-        }
-
-        if (filtros.nivelSurfista != null && !filtros.nivelSurfista.isEmpty()) {
-            query.append(" AND nivel_surfista = '").append(filtros.nivelSurfista).append("'");
-        }
-
-        if (filtros.servicios != null && !filtros.servicios.isEmpty()) {
-            query.append(" AND (");
-            for (int i = 0; i < filtros.servicios.size(); i++) {
-                query.append("servicios LIKE '%").append(filtros.servicios.get(i)).append("%'");
-                if (i < filtros.servicios.size() - 1) query.append(" OR ");
-            }
-            query.append(")");
-        }
-
-        Log.d(TAG, "Query generada: " + query);
-        return query.toString();
     }
 }

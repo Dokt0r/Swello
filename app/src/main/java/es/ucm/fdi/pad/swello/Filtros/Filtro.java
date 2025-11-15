@@ -180,4 +180,35 @@ public class Filtro extends BottomSheetDialogFragment {
             chip.setChecked(texts.contains(chip.getText().toString()));
         }
     }
+
+    public void inicializarValoresPorDefecto() {
+        final float distanciaMin = 1f, distanciaMax = 50f;
+        final float alturaMin = 0.5f, alturaMax = 5f;
+        final float periodoMin = 5f, periodoMax = 12f;
+
+        if (getContext() == null) return;
+        SharedPreferences prefs = getContext().getSharedPreferences("filtros_prefs", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putFloat("distanciaMin", distanciaMin);
+        editor.putFloat("distanciaMax", distanciaMax);
+        editor.putFloat("tamanoMin", alturaMin);
+        editor.putFloat("tamanoMax", alturaMax);
+        editor.putFloat("periodoMin", periodoMin);
+        editor.putFloat("periodoMax", periodoMax);
+
+        // Limpiar chips
+        clearChips(chipWaveDir);
+        clearChips(chipSST);
+        clearChips(chipNivel);
+        clearChips(chipServicios);
+    }
+
+
+    private void clearChips(ChipGroup group) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            Chip chip = (Chip) group.getChildAt(i);
+            chip.setChecked(false);
+        }
+    }
 }
