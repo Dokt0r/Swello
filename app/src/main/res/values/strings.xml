@@ -7,19 +7,6 @@
     <string name="cd_search">Buscar</string>
     <string name="hint_search">Buscar...</string>
     <string name="cd_filters">Filtros</string>
-    <!--  Filtros  -->
-    <string name="filtro_title">Filtros para surfistas</string>
-    <string name="filtro_tipo_ola">Tipo de ola</string>
-    <string name="chip_tubular">Tubular</string>
-    <string name="chip_suave">Suave</string>
-    <string name="chip_reef_break">Reef break</string>
-    <string name="chip_beach_break">Beach break</string>
-    <string name="filtro_tamano_ola">Tamaño de ola (m)</string>
-    <string name="filtro_direccion_viento">Dirección del viento</string>
-    <string name="chip_offshore">Offshore</string>
-    <string name="chip_onshore">Onshore</string>
-    <string name="chip_lateral">Lateral</string>
-    <string name="btn_aplicar_filtros">Aplicar filtros</string>
     <!--  Login  -->
     <string name="login_user_hint">Usuario</string>
     <string name="login_password_hint">Contraseña</string>
@@ -27,7 +14,6 @@
     <string name="login_error">Usuario o contraseña incorrectos</string>
 
     <!--  Lista / Items  -->
-    <string name="item_option_placeholder">Opción</string>
     <string name="item_result_title">Título</string>
     <string name="item_result_desc">Descripción del elemento</string>
     <string name="opcion_informacion">Informacion</string>
@@ -50,4 +36,30 @@
     <!--  Idiomas -->
     <string name="Espanol">Español</string>
     <string name="Ingles">Inglés</string>
+
+
+    <!-- Filtro -->
+    <string name="tamano_de_las_olas_m">Tamaño de las olas (m)</string>
+    <string name="direccion_de_las_olas">Dirección de las olas</string>
+    <string name="N">N</string>
+    <string name="NE">NE</string>
+    <string name="E">E</string>
+    <string name="SE">SE</string>
+    <string name="S">S</string>
+    <string name="SW">SW</string>
+    <string name="W">W</string>
+    <string name="NW">NW</string>
+    <string name="periodo_de_las_olas">Periodo de las olas (s)</string>
+    <string name="temperatura_del_agua">Temperatura del agua (°C)</string>
+    <string name="nivel_del_surfista">Nivel del surfista</string>
+    <string name="principiante">Principiante</string>
+    <string name="intermedio">Intermedio</string>
+    <string name="experto">Experto</string>
+    <string name="servicios_disponibles">Servicios disponibles</string>
+    <string name="escuela_surf">Escuela surf</string>
+    <string name="aparcamiento">Aparcamiento</string>
+    <string name="duchas">Duchas</string>
+    <string name="chiringuito">Chiringuito</string>
+    <string name="aplicar_filtros">Aplicar filtros</string>
+    <string name="distancia_maxima">Distancia máxima (km)</string>
 </resources>

@@ -1,57 +1,15 @@
 <resources>
     <string name="app_name">Swello</string>
-
-    <!-- Toolbar / Menus -->
     <string name="toolbar_options_title">Options</string>
     <string name="topbar_title">Swello</string>
-
-    <!-- Search -->
     <string name="cd_search">Search</string>
     <string name="hint_search">Search...</string>
     <string name="cd_filters">Filters</string>
-
-    <!-- Filters -->
-    <string name="filtro_title">Filters for surfers</string>
-    <string name="filtro_tipo_ola">Wave type</string>
-    <string name="chip_tubular">Tubular</string>
-    <string name="chip_suave">Soft</string>
-    <string name="chip_reef_break">Reef break</string>
-    <string name="chip_beach_break">Beach break</string>
-    <string name="filtro_tamano_ola">Wave height (m)</string>
-    <string name="filtro_direccion_viento">Wind direction</string>
-    <string name="chip_offshore">Offshore</string>
-    <string name="chip_onshore">Onshore</string>
-    <string name="chip_lateral">Side-shore</string>
-    <string name="btn_aplicar_filtros">Apply filters</string>
-
     <!-- Login -->
-    <string name="login_user_hint">Username</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Log in</string>
-    <string name="login_error">Incorrect username or password</string>
 
-    <!-- List / Items -->
-    <string name="item_option_placeholder">Option</string>
-    <string name="item_result_title">Title</string>
-    <string name="item_result_desc">Item description</string>
-    <string name="opcion_informacion">Information</string>
-    <string name="opcion_idioma">Language</string>
-    <string name="opcion_tema">Theme</string>
-    <string name="opcion_notificaciones">Notifications</string>
 
-    <!-- Messages / Logs / Toasts -->
-    <string name="abrir_filtros">Open filters</string>
-    <string name="recibidos_filtros">Received filters: </string>
-    <string name="query_generada">Generated query: </string>
-    <string name="filtros_aplicados_colon">Filters applied: </string>
-    <string name="filtro_listener_no_asignado">Listener not assigned</string>
-    <string name="filtros_aplicados">Filters applied</string>
-    <string name="flecha_volver_pulsada">Back arrow pressed</string>
-    <string name="seleccionaste">You selected: </string>
-    <string name="pulsaste">You tapped: </string>
-    <string name="selecciona_idioma">Select language</string>
 
     <!--  Idiomas -->
-    <string name="Espanol">Spanish</string>
-    <string name="Ingles">English</string>
 </resources>

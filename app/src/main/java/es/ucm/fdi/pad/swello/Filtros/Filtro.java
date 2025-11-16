@@ -1,6 +1,6 @@
 package es.ucm.fdi.pad.swello.Filtros;
 
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.slider.Slider;
+import com.google.android.material.slider.RangeSlider;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import es.ucm.fdi.pad.swello.R;
 
@@ -23,8 +28,8 @@ public class Filtro extends BottomSheetDialogFragment {
 
     private static final String TAG = "FiltroBottomSheet";
 
-    private ChipGroup chipGroupOlas, chipGroupViento, chipGroupNivel, chipGroupServicios;
-    private Slider sliderTamano;
+    private RangeSlider sliderWaveHeight, sliderWavePeriod, sliderDistance;
+    private ChipGroup chipWaveDir, chipSST, chipNivel, chipServicios;
     private MaterialButton btnAplicar;
 
     private OnFiltroAplicadoListener listener;
@@ -44,75 +49,166 @@ public class Filtro extends BottomSheetDialogFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.component_filtro, container, false);
 
-        try {
-            chipGroupOlas = view.findViewById(R.id.chip_group_olas);
-            chipGroupViento = view.findViewById(R.id.chip_group_viento);
-            sliderTamano = view.findViewById(R.id.slider_tamano_ola);
-            btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
+        sliderWaveHeight = view.findViewById(R.id.slider_wave_height);
+        sliderWavePeriod = view.findViewById(R.id.slider_wave_period);
+        sliderDistance = view.findViewById(R.id.slider_distancia);
+        chipWaveDir = view.findViewById(R.id.chip_group_wave_dir);
+        chipSST = view.findViewById(R.id.chip_group_sst);
+        chipNivel = view.findViewById(R.id.chip_group_nivel);
+        chipServicios = view.findViewById(R.id.chip_group_servicios);
+        btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
 
-            btnAplicar.setOnClickListener(v -> aplicarFiltros());
-        } catch (Exception e) {
-            Log.e(TAG, "Error inicializando filtros", e);
-        }
+        // Restaurar estado guardado de filtros
+        restaurarEstadoFiltros();
 
+        btnAplicar.setOnClickListener(v -> aplicarFiltros());
         return view;
     }
 
     private void aplicarFiltros() {
-        try {
-            FiltroData data = new FiltroData();
+        FiltroData data = new FiltroData();
 
-            // Tipos de ola
-            for (int i = 0; i < chipGroupOlas.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupOlas.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.tiposOla.add(chip.getText().toString());
-                }
-            }
+        List<Float> altura = sliderWaveHeight.getValues();
+        data.tamanoMinimo = altura.get(0);
+        data.tamanoMaximo = altura.get(1);
 
-            // Tamaño de ola (usamos el valor actual del slider)
-            data.tamanoMinimo = 0.5f; // valor base
-            data.tamanoMaximo = sliderTamano.getValue();
+        List<Float> periodo = sliderWavePeriod.getValues();
+        data.periodoMinimo = periodo.get(0);
+        data.periodoMaximo = periodo.get(1);
 
-            // Dirección del viento
-            for (int i = 0; i < chipGroupViento.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupViento.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.direccionViento = chip.getText().toString();
-                    break;
-                }
-            }
+        List<Float> distancia = sliderDistance.getValues();
+        data.distanciaMinima = distancia.get(0);
+        data.distanciaMaxima = distancia.get(1);
 
-            // Nivel del surfista
-            for (int i = 0; i < chipGroupNivel.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupNivel.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.nivelSurfista = chip.getText().toString();
-                    break;
-                }
-            }
+        data.direccionOlas = getCheckedChipText(chipWaveDir);
+        data.tempAgua = getCheckedChipText(chipSST);
+        data.nivelSurfista = getCheckedChipText(chipNivel);
+        data.servicios = getCheckedChips(chipServicios);
 
-            // Servicios
-            for (int i = 0; i < chipGroupServicios.getChildCount(); i++) {
-                Chip chip = (Chip) chipGroupServicios.getChildAt(i);
-                if (chip.isChecked()) {
-                    data.servicios.add(chip.getText().toString());
-                }
-            }
+        Log.d(TAG, "Filtros aplicados: " + data);
 
-            Log.d(TAG, "Filtros aplicados: " + data);
+        guardarEstadoFiltros(data); //Guarda los valores
 
-            if (listener != null) {
-                listener.onFiltroAplicado(data);
-            } else {
-                Log.w(TAG, "Listener no asignado");
-            }
+        if (listener != null) listener.onFiltroAplicado(data);
+        Toast.makeText(getContext(), "Filtros aplicados", Toast.LENGTH_SHORT).show();
+        dismiss();
+    }
 
-            Toast.makeText(requireContext(), getString(R.string.filtros_aplicados), Toast.LENGTH_SHORT).show();
-            dismiss();
+    // --- Recuperar texto del chip seleccionado ---
+    private String getCheckedChipText(ChipGroup group) {
+        int id = group.getCheckedChipId();
+        if (id == View.NO_ID) return "";
+        Chip chip = group.findViewById(id);
+        return chip != null ? chip.getText().toString() : "";
+    }
 
-        } catch (Exception e) {
-            Log.e(TAG, "Error al aplicar filtros", e);
+    // --- Recuperar textos de varios chips seleccionados ---
+    private List<String> getCheckedChips(ChipGroup group) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < group.getChildCount(); i++) {
+            Chip chip = (Chip) group.getChildAt(i);
+            if (chip.isChecked()) list.add(chip.getText().toString());
+        }
+        return list;
+    }
+
+    // --- Guardar estado de los filtros ---
+    private void guardarEstadoFiltros(FiltroData data) {
+        if (getContext() == null) return;
+        SharedPreferences prefs = getContext().getSharedPreferences("filtros_prefs", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putFloat("distanciaMin", data.distanciaMinima);
+        editor.putFloat("distanciaMax", data.distanciaMaxima);
+        editor.putFloat("tamanoMin", data.tamanoMinimo);
+        editor.putFloat("tamanoMax", data.tamanoMaximo);
+        editor.putFloat("periodoMin", data.periodoMinimo);
+        editor.putFloat("periodoMax", data.periodoMaximo);
+
+        editor.putString("direccionOlas", data.direccionOlas);
+        editor.putString("tempAgua", data.tempAgua);
+        editor.putString("nivelSurfista", data.nivelSurfista);
+        editor.putStringSet("servicios", new HashSet<>(data.servicios));
+
+        editor.apply();
+        Log.d(TAG, "Estado de filtros guardado");
+    }
+
+    // --- Restaurar estado al abrir el filtro ---
+    private void restaurarEstadoFiltros() {
+
+        if (getContext() == null) return;
+        SharedPreferences prefs = getContext().getSharedPreferences("filtros_prefs", getContext().MODE_PRIVATE);
+        //prefs.edit().clear().apply(); //Limpia datos antiguos para cuando se cambian los filtros
+
+        float distanciaMin = prefs.getFloat("distanciaMin", 0f);
+        float distanciaMax = prefs.getFloat("distanciaMax", 200f);
+        float tamanoMin = prefs.getFloat("tamanoMin", 0.5f);
+        float tamanoMax = prefs.getFloat("tamanoMax", 5f);
+        float periodoMin = prefs.getFloat("periodoMin", 5f);
+        float periodoMax = prefs.getFloat("periodoMax", 12f);
+
+        sliderDistance.setValues(distanciaMin, distanciaMax);
+        sliderWaveHeight.setValues(tamanoMin, tamanoMax);
+        sliderWavePeriod.setValues(periodoMin, periodoMax);
+
+        String dir = prefs.getString("direccionOlas", "");
+        String temp = prefs.getString("tempAgua", "");
+        String nivel = prefs.getString("nivelSurfista", "");
+        Set<String> servicios = prefs.getStringSet("servicios", new HashSet<>());
+
+        setCheckedChipByText(chipWaveDir, dir);
+        setCheckedChipByText(chipSST, temp);
+        setCheckedChipByText(chipNivel, nivel);
+        setCheckedChipsByText(chipServicios, new ArrayList<>(servicios));
+
+        Log.d(TAG, "Estado de filtros restaurado");
+    }
+
+    // --- Utilidades para marcar chips ---
+    private void setCheckedChipByText(ChipGroup group, String text) {
+        if (text == null || text.isEmpty()) return;
+        for (int i = 0; i < group.getChildCount(); i++) {
+            Chip chip = (Chip) group.getChildAt(i);
+            chip.setChecked(chip.getText().toString().equals(text));
+        }
+    }
+
+    private void setCheckedChipsByText(ChipGroup group, List<String> texts) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            Chip chip = (Chip) group.getChildAt(i);
+            chip.setChecked(texts.contains(chip.getText().toString()));
+        }
+    }
+
+    public void inicializarValoresPorDefecto() {
+        final float distanciaMin = 1f, distanciaMax = 50f;
+        final float alturaMin = 0.5f, alturaMax = 5f;
+        final float periodoMin = 5f, periodoMax = 12f;
+
+        if (getContext() == null) return;
+        SharedPreferences prefs = getContext().getSharedPreferences("filtros_prefs", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putFloat("distanciaMin", distanciaMin);
+        editor.putFloat("distanciaMax", distanciaMax);
+        editor.putFloat("tamanoMin", alturaMin);
+        editor.putFloat("tamanoMax", alturaMax);
+        editor.putFloat("periodoMin", periodoMin);
+        editor.putFloat("periodoMax", periodoMax);
+
+        // Limpiar chips
+        clearChips(chipWaveDir);
+        clearChips(chipSST);
+        clearChips(chipNivel);
+        clearChips(chipServicios);
+    }
+
+
+    private void clearChips(ChipGroup group) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            Chip chip = (Chip) group.getChildAt(i);
+            chip.setChecked(false);
         }
     }
 }

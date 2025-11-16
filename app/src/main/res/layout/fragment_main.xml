@@ -31,6 +31,22 @@
             android:id="@+id/search_section"
             layout="@layout/component_search_section" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cd_search"
+            android:textAllCaps="false"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:cornerRadius="16dp"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/dark_cool_blue"
+            app:iconTint="@android:color/white"
+            android:textColor="@android:color/white" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!--RecyclerView de resultados -->

@@ -1,132 +1,222 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/white">
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@android:color/transparent">
 
-    <!-- Título -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/filtro_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:paddingBottom="12dp" />
+    <!-- Imagen de fondo adaptada al CardView y recortada en los bordes -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
 
-    <!-- Tipo de ola -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/filtro_tipo_ola"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:paddingTop="8dp" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group_olas"
+    <!-- Contenido encima de la imagen -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:singleSelection="false"
-        app:chipSpacing="8dp">
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:paddingStart="4dp"
+        android:paddingTop="30dp">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_tubular"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_tubular"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
+            android:text="@string/distancia_maxima"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_suave"
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_distancia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="200"
+            android:stepSize="10"
+            app:values="@array/distancia_default" />
+
+        <!-- Tamaño de las olas -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_suave"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
+            android:text="@string/tamano_de_las_olas_m"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_rompiente_de_reef"
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_wave_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="0.5"
+            android:value="1.5"
+            android:valueFrom="0.5"
+            android:valueTo="5"
+            app:values="@array/wave_height_default" />
+
+        <!-- Dirección de las olas -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_reef_break"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
+            android:text="@string/direccion_de_las_olas"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_rompiente_de_arena"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_wave_dir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_beach_break"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
-    </com.google.android.material.chip.ChipGroup>
+            app:chipSpacingHorizontal="0dp"
+            app:chipSpacingVertical="8dp"
+            app:singleLine="true"
+            app:singleSelection="true">
 
-    <!-- Tamaño de ola -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/filtro_tamano_ola"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:paddingTop="12dp" />
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/N" />
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/slider_tamano_ola"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:valueFrom="0.5"
-        android:valueTo="5"
-        android:stepSize="0.5"
-        android:value="1.5"
-        app:labelBehavior="gone" />
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/NE" />
 
-    <!-- Dirección del viento -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/filtro_direccion_viento"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:paddingTop="12dp" />
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/E" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group_viento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:singleSelection="true"
-        app:chipSpacing="8dp">
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/SE" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_viento_offshore"
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/S" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/SW" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/W" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/NW" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Periodo de olas -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_offshore"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
+            android:text="@string/periodo_de_las_olas"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_viento_onshore"
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/slider_wave_period"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="0.5"
+            android:value="1.5"
+            android:valueFrom="5.0"
+            android:valueTo="12.0"
+            app:values="@array/wave_period_default" />
+
+        <!-- Temperatura del agua -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_onshore"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
+            android:text="@string/temperatura_del_agua"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_viento_lateral"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_sst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="-2-15°C" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="15–25°C" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="+25°C" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Nivel del surfista -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_lateral"
-            style="@style/Widget.MaterialComponents.Chip.Filter" />
-    </com.google.android.material.chip.ChipGroup>
+            android:text="@string/nivel_del_surfista"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
-    <!-- Botón aplicar -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_aplicar_filtros"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_aplicar_filtros"
-        style="@style/Widget.Material3.Button.ElevatedButton"
-        android:layout_marginTop="16dp" />
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_nivel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
 
-</LinearLayout>
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/principiante" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/intermedio" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/experto" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Servicios -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/servicios_disponibles"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_servicios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/escuela_surf" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/aparcamiento" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/duchas" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/EstiloChipFiltro"
+                android:text="@string/chiringuito" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_aplicar_filtros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/aplicar_filtros"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/dark_cool_blue" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
