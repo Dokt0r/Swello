@@ -62,170 +62,110 @@ public class MainFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        try {
-            // --- Inicialización de vistas ---
-            searchInput = view.findViewById(R.id.search_input);
-            btnFilter = view.findViewById(R.id.btn_filter);
-            btnSearch = view.findViewById(R.id.btn_search);
-            recyclerResults = view.findViewById(R.id.recycler_results);
-            topAppBar = view.findViewById(R.id.top_bar);
+        // --- Inicialización de vistas ---
+        searchInput = view.findViewById(R.id.search_input);
+        btnFilter = view.findViewById(R.id.btn_filter);
+        btnSearch = view.findViewById(R.id.btn_search);
+        recyclerResults = view.findViewById(R.id.recycler_results);
+        topAppBar = view.findViewById(R.id.top_bar);
 
-            // --- Inicialización de filtros por defecto ---
-            filtroDialog.inicializarValoresPorDefecto();
-            Log.d(TAG, "Filtros inicializados con valores por defecto: " + currentFilters);
+        // --- Inicialización de filtros por defecto ---
+        filtroDialog.inicializarValoresPorDefecto();
 
-            // --- Inicialización API ---
-            playaApiClient = new PlayaApiClient(requireContext());
+        // --- Inicialización API ---
+        playaApiClient = new PlayaApiClient(requireContext());
 
-            // --- Inicialización de LocationPermissions ---
-            locationPermissions = new LocationPermissions(requireActivity());
-            locationPermissions.requestLocationPermission(new LocationPermissions.LocationPermissionListener() {
-                @Override
-                public void onPermissionGranted() {
-                    Log.d(TAG, "Permisos de ubicación concedidos");
-                    UserLocation.init(requireContext()); // inicializamos UserLocation solo si hay permisos
-                }
+        // --- Inicialización LocationPermissions ---
+        locationPermissions = new LocationPermissions(requireActivity());
+        locationPermissions.requestLocationPermission(new LocationPermissions.LocationPermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Log.d(TAG, "Permisos de ubicación concedidos");
+                UserLocation.init(requireContext());
+            }
 
-                @Override
-                public void onPermissionDenied() {
-                    Log.w(TAG, "Permisos de ubicación denegados. Búsqueda por distancia no funcionará.");
-                }
-            });
+            @Override
+            public void onPermissionDenied() {
+                Log.w(TAG, "Permisos de ubicación denegados. Búsqueda por distancia no funcionará.");
+            }
+        });
 
+        // --- Configuración RecyclerView ---
+        adapter = new PlayaAdapter(new ArrayList<>());
+        adapter.setOnPlayaClickListener(playa ->
+                Log.d(TAG, "Fragment recibió click: " + playa.getNombre() + " (ID: " + playa.getId() + ")"));
 
-            // --- Configuración RecyclerView ---
-            adapter = new PlayaAdapter(new ArrayList<>());
+        recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerResults.setAdapter(adapter);
 
-            adapter.setOnPlayaClickListener(playa -> {
-                Log.e("CLICKTEST2", "Fragment recibió callback: " + playa.getNombre() + " (ID: " + playa.getId() + ")");
-            });
+        // --- Filtrado local en tiempo real ---
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterResults(s.toString());
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
 
-            recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
-            recyclerResults.setAdapter(adapter);
+        // --- Botón de filtro ---
+        btnFilter.setOnClickListener(v -> {
+            filtroDialog.setOnFiltroAplicadoListener(filtros -> currentFilters = filtros);
+            filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
+        });
 
-            // --- Filtrado local en tiempo real ---
-            searchInput.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    filterResults(s.toString());
-                }
-                @Override
-                public void afterTextChanged(Editable s) {}
-            });
+        // --- Botón de búsqueda ---
+        btnSearch.setOnClickListener(v -> {
+            String query = searchInput.getText().toString().trim();
 
-            // --- Botón de filtro ---
-            btnFilter.setOnClickListener(v -> {
-                Log.d(TAG, "Abriendo diálogo de filtros...");
+            if (UserLocation.isInitialized()) {
+                UserLocation.getInstance().actualizarUbicacion();
+            }
 
-                filtroDialog.setOnFiltroAplicadoListener(filtros -> {
-                    currentFilters = filtros;
-                    Log.d(TAG, "Filtros aplicados: " + filtros);
-                });
+            fetchPlayasFromApi(query, currentFilters);
+        });
 
-                filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
-            });
-
-            // --- Botón de búsqueda ---
-            btnSearch.setOnClickListener(v -> {
-                String query = searchInput.getText().toString().trim();
-                Log.d(TAG, "Botón de búsqueda pulsado. Query: " + query);
-
-                // Verificar que UserLocation ya esté inicializado
-                if (UserLocation.isInitialized()) {
-                    UserLocation.getInstance().actualizarUbicacion();
-                } else {
-                    Log.w(TAG, "UserLocation no inicializado. Se realizará búsqueda sin coordenadas.");
-                }
-
-                fetchPlayasFromApi(query, currentFilters);
-            });
-
-            // --- Menú superior (opciones) ---
-            topAppBar.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.action_options) {
-                    startActivity(new Intent(requireContext(), menu_options.class));
-                    return true;
-                }
-                return false;
-            });
-
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error inicializando MainFragment", e);
-        }
+        // --- Menú superior (opciones) ---
+        topAppBar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_options) {
+                startActivity(new Intent(requireContext(), menu_options.class));
+                return true;
+            }
+            return false;
+        });
 
         return view;
     }
 
-
     // --- Llamada HTTP GET a la API ---
     private void fetchPlayasFromApi(String query, FiltroData filtros) {
-       /* playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
+        playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
             @Override
-            public void onSuccess(JSONArray response) {
-                try {
-                    List<ItemPlaya> playas = new ArrayList<>();
-
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject obj = response.getJSONObject(i);
-
-                        String id = obj.optString("id", "-1");
-                        String nombre = obj.optString("nombre", "Sin nombre");
-                        double altura = obj.optDouble("alturaOla", 0.0);
-                        String direccion = obj.optString("direccionOla", "");
-                        double distancia = obj.optDouble("distancia", 0.0);
-                        String descripcion = obj.optString("descripcion", "");
-
-                        playas.add(new ItemPlaya( id, nombre, altura, direccion, distancia, descripcion));
-                    }
-
-                    allItems = playas;
-                    adapter.updateList(playas);
-                    Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
-                } catch (JSONException e) {
-                    Log.e(TAG, "Error parseando respuesta JSON", e);
-                }
+            public void onSuccess(List<ItemPlaya> playas) {
+                allItems = playas;
+                adapter.updateList(playas);
+                Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e(TAG, "Error al obtener playas de la API, usando datos de prueba.", e);
-
+                Log.e(TAG, "Error obteniendo playas, usando datos fake", e);
                 List<ItemPlaya> fake = crearPlayasFake();
                 allItems = fake;
                 adapter.updateList(fake);
             }
         });
- */
-        // Test conexión y obtener playa id=1
-        playaApiClient.testConexionYBuscarPlaya(currentFilters, new PlayaApiClient.PlayaApiListener() {
-            @Override
-            public void onSuccess(JSONArray response) {
-                Log.d(TAG, "Playas de prueba recibidas: " + response.toString());
-                // Actualizar adapter con los datos
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.e(TAG, "Error en test de conexión: " + e.getMessage());
-                // Manejar fallback o playas fake
-            }
-        });
     }
 
-    // --- Filtrado local mientras se escribe ---
+    // --- Filtrado local ---
     private void filterResults(String query) {
-        if (query == null || query.isEmpty() || allItems.isEmpty()) {
+        if (query == null || query.isEmpty()) {
             adapter.updateList(new ArrayList<>(allItems));
             return;
         }
 
         List<ItemPlaya> filtered = new ArrayList<>();
         for (ItemPlaya item : allItems) {
-            if (item.getNombre().toLowerCase().contains(query.toLowerCase()) ||
-                    item.getDescripcion().toLowerCase().contains(query.toLowerCase())) {
+            if (item.getNombre().toLowerCase().contains(query.toLowerCase())) {
                 filtered.add(item);
             }
         }
@@ -235,13 +175,11 @@ public class MainFragment extends Fragment {
 
     private List<ItemPlaya> crearPlayasFake() {
         List<ItemPlaya> list = new ArrayList<>();
-
-        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, "Playa de prueba para depuración."));
-        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, "Otra playa falsa para comprobar la UI."));
-        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, "Simulación avanzada."));
-        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, "Spot popular entre los surfistas locales."));
-        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, "Playa ficticia para pruebas de UI."));
-
+        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5));
+        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3));
+        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0));
+        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4));
+        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0));
         return list;
     }
 }

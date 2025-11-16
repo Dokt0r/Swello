@@ -6,24 +6,31 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.ucm.fdi.pad.swello.Filtros.FiltroData;
 import es.ucm.fdi.pad.swello.Location.UserLocation;
+import es.ucm.fdi.pad.swello.PlayaAdapter.ItemPlaya;
 
 public class PlayaApiClient {
 
     private static final String TAG = "PlayaApiClient";
-    private static final String BASE_URL = "http://127.0.0.1:3000/api/playas";
+    private static final String BASE_URL = "http://10.0.2.2:3000/api/beaches";
 
     private final RequestQueue requestQueue;
-
     private UserLocation location;
 
     public interface PlayaApiListener {
-        void onSuccess(JSONArray response);
+        void onSuccess(List<ItemPlaya> playas);
+
         void onError(Exception e);
     }
 
@@ -97,47 +104,69 @@ public class PlayaApiClient {
         return finalUrl;
     }
 
-    // --- Llamada HTTP GET ---
+    // --- Fetch lista de playas ---
     public void fetchPlayas(String baseQuery, FiltroData filtros, PlayaApiListener listener) {
         String url = buildQueryUrl(baseQuery, filtros);
         Log.d(TAG, "Realizando petición a: " + url);
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                listener::onSuccess,
+                response -> {
+                    try {
+                        List<ItemPlaya> playas = parsePlayas(response);
+                        listener.onSuccess(playas);
+                    } catch (JSONException e) {
+                        listener.onError(e);
+                    }
+                },
                 error -> listener.onError(new Exception(error))
         );
 
         requestQueue.add(request);
     }
 
-    // --- Test de conexión y fetch de playa con ID 1 ---
-    // --- Método de test: verifica conexión y luego busca playa con id=1 ---
-    public void testConexionYBuscarPlaya(FiltroData filtros, PlayaApiListener listener) {
-        String urlPing = "http://127.0.0.1:3000/api/playas"; // endpoint general para probar conexión
+    // --- Fetch playa individual (id=1) ---
+    public void testConexionYBuscarPlaya(PlayaApiListener listener) {
+        String url = BASE_URL + "/1";
+        Log.d(TAG, "Solicitando playa con id=1 a: " + url);
 
-        Log.d(TAG, "Test de conexión a: " + urlPing);
-
-        JsonArrayRequest pingRequest = new JsonArrayRequest(Request.Method.GET, urlPing, null,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
-                    Log.d(TAG, "Conexión OK, ahora buscando playa con id=1");
-                    // Si el ping OK, hacemos fetch de la playa id=1
-                    String urlPlaya1 = "http://127.0.0.1:3000/api/playas/1";
-                    JsonArrayRequest requestPlaya1 = new JsonArrayRequest(Request.Method.GET, urlPlaya1, null,
-                            listener::onSuccess,
-                            error -> {
-                                Log.e(TAG, "Error al obtener la playa id=1: " + error.toString());
-                                listener.onError(new Exception(error));
-                            }
-                    );
-                    requestQueue.add(requestPlaya1);
+                    try {
+                        ItemPlaya playa = parsePlaya(response);
+                        List<ItemPlaya> lista = new ArrayList<>();
+                        lista.add(playa);
+                        listener.onSuccess(lista);
+                    } catch (JSONException e) {
+                        listener.onError(e);
+                    }
                 },
                 error -> {
-                    Log.e(TAG, "No hay conexión con la API: " + error.toString());
+                    Log.e(TAG, "Error al obtener la playa id=1: " + error.toString());
                     listener.onError(new Exception(error));
                 }
         );
 
-        requestQueue.add(pingRequest);
+        requestQueue.add(request);
     }
 
+    // --- Parse JSON array ---
+    private List<ItemPlaya> parsePlayas(JSONArray array) throws JSONException {
+        List<ItemPlaya> lista = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            lista.add(parsePlaya(obj));
+        }
+        return lista;
+    }
+
+    // --- Parse JSON objeto individual ---
+    private ItemPlaya parsePlaya(JSONObject obj) throws JSONException {
+        return new ItemPlaya(
+                obj.optString("id"),
+                obj.optString("nombre"),
+                obj.optDouble("altura_ola", 0.0),
+                obj.optString("direccion_ola", ""),
+                obj.optDouble("distancia", 0.0)
+        );
+    }
 }

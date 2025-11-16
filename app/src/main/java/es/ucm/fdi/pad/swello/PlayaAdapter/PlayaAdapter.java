@@ -58,7 +58,6 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
         holder.iconDireccionOla.setRotation(getRotationForDirection(item.getDireccionOla()));
         holder.textDistancia.setText(String.format("%.0f km", item.getDistancia()));
 
-        // Guardamos posición/ítem actual para el click
         holder.bindItem(item);
     }
 
@@ -100,7 +99,6 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
             textDistancia = itemView.findViewById(R.id.text_distancia);
             iconDireccionOla = itemView.findViewById(R.id.icon_direccion_ola);
 
-            // Aseguramos que itemView esté preparado para recibir clicks
             itemView.setClickable(true);
             itemView.setFocusable(true);
             itemView.setOnClickListener(this);
@@ -112,17 +110,14 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            // Log diagnóstico siempre
             if (boundItem != null) {
-                Log.e("CLICKTEST", "CLICK dentro del adapter sobre: " + boundItem.getNombre() + " (id:" + boundItem.getId() + ")");
-            } else {
-                Log.e("CLICKTEST", "CLICK dentro del adapter pero boundItem es null!");
+                Log.e("CLICKTEST", "CLICK sobre: " + boundItem.getNombre() + " (id:" + boundItem.getId() + ")");
             }
 
             if (listener != null && boundItem != null) {
                 listener.onPlayaClick(boundItem);
-            } else {
-                if (listener == null) Log.w(TAG, "Listener es null en ViewHolder");
+            } else if (listener == null) {
+                Log.w(TAG, "Listener es null en ViewHolder");
             }
         }
     }
