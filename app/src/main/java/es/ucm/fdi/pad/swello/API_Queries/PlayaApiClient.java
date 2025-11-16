@@ -16,7 +16,7 @@ import es.ucm.fdi.pad.swello.Location.UserLocation;
 public class PlayaApiClient {
 
     private static final String TAG = "PlayaApiClient";
-    private static final String BASE_URL = "http://127.0.0.1:3456/api/playas";
+    private static final String BASE_URL = "http://127.0.0.1:3000/api/playas";
 
     private final RequestQueue requestQueue;
 
@@ -109,4 +109,35 @@ public class PlayaApiClient {
 
         requestQueue.add(request);
     }
+
+    // --- Test de conexión y fetch de playa con ID 1 ---
+    // --- Método de test: verifica conexión y luego busca playa con id=1 ---
+    public void testConexionYBuscarPlaya(FiltroData filtros, PlayaApiListener listener) {
+        String urlPing = "http://127.0.0.1:3000/api/playas"; // endpoint general para probar conexión
+
+        Log.d(TAG, "Test de conexión a: " + urlPing);
+
+        JsonArrayRequest pingRequest = new JsonArrayRequest(Request.Method.GET, urlPing, null,
+                response -> {
+                    Log.d(TAG, "Conexión OK, ahora buscando playa con id=1");
+                    // Si el ping OK, hacemos fetch de la playa id=1
+                    String urlPlaya1 = "http://127.0.0.1:3000/api/playas/1";
+                    JsonArrayRequest requestPlaya1 = new JsonArrayRequest(Request.Method.GET, urlPlaya1, null,
+                            listener::onSuccess,
+                            error -> {
+                                Log.e(TAG, "Error al obtener la playa id=1: " + error.toString());
+                                listener.onError(new Exception(error));
+                            }
+                    );
+                    requestQueue.add(requestPlaya1);
+                },
+                error -> {
+                    Log.e(TAG, "No hay conexión con la API: " + error.toString());
+                    listener.onError(new Exception(error));
+                }
+        );
+
+        requestQueue.add(pingRequest);
+    }
+
 }

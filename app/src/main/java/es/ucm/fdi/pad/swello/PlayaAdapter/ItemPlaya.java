@@ -1,14 +1,16 @@
-package es.ucm.fdi.pad.swello;
+package es.ucm.fdi.pad.swello.PlayaAdapter;
 
 public class ItemPlaya {
 
-    private String nombre;         // Nombre de la playa
-    private double alturaOla;      // Altura media de la ola (m)
-    private String direccionOla;   // Dirección (N, NE, E, etc.)
-    private double distancia;      // Distancia (km)
-    private String descripcion;    // Descripción opcional
+    private String id;             // Nuevo ID único
+    private String nombre;
+    private double alturaOla;
+    private String direccionOla;
+    private double distancia;
+    private String descripcion;
 
-    public ItemPlaya(String nombre, double alturaOla, String direccionOla, double distancia, String descripcion) {
+    public ItemPlaya(String id, String nombre, double alturaOla, String direccionOla, double distancia, String descripcion) {
+        this.id = id;
         this.nombre = nombre;
         this.alturaOla = alturaOla;
         this.direccionOla = direccionOla;
@@ -17,6 +19,7 @@ public class ItemPlaya {
     }
 
     // --- Getters ---
+    public String getId() { return id; }
     public String getNombre() { return nombre; }
     public double getAlturaOla() { return alturaOla; }
     public String getDireccionOla() { return direccionOla; }
@@ -24,6 +27,7 @@ public class ItemPlaya {
     public String getDescripcion() { return descripcion; }
 
     // --- Setters ---
+    public void setId(String id) { this.id = id; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setAlturaOla(double alturaOla) { this.alturaOla = alturaOla; }
     public void setDireccionOla(String direccionOla) { this.direccionOla = direccionOla; }
@@ -33,7 +37,8 @@ public class ItemPlaya {
     @Override
     public String toString() {
         return "ItemPlaya{" +
-                "nombre='" + nombre + '\'' +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", alturaOla=" + alturaOla +
                 ", direccionOla='" + direccionOla + '\'' +
                 ", distancia=" + distancia +

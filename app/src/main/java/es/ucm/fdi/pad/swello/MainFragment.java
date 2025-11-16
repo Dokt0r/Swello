@@ -33,6 +33,7 @@ import es.ucm.fdi.pad.swello.Filtros.FiltroData;
 import es.ucm.fdi.pad.swello.Location.LocationPermissions;
 import es.ucm.fdi.pad.swello.Location.UserLocation;
 import es.ucm.fdi.pad.swello.OptionsMenu.menu_options;
+import es.ucm.fdi.pad.swello.PlayaAdapter.ItemPlaya;
 import es.ucm.fdi.pad.swello.PlayaAdapter.PlayaAdapter;
 
 public class MainFragment extends Fragment {
@@ -67,7 +68,7 @@ public class MainFragment extends Fragment {
             btnFilter = view.findViewById(R.id.btn_filter);
             btnSearch = view.findViewById(R.id.btn_search);
             recyclerResults = view.findViewById(R.id.recycler_results);
-            topAppBar = view.findViewById(R.id.topAppBar);
+            topAppBar = view.findViewById(R.id.top_bar);
 
             // --- Inicialización de filtros por defecto ---
             filtroDialog.inicializarValoresPorDefecto();
@@ -91,8 +92,14 @@ public class MainFragment extends Fragment {
                 }
             });
 
+
             // --- Configuración RecyclerView ---
             adapter = new PlayaAdapter(new ArrayList<>());
+
+            adapter.setOnPlayaClickListener(playa -> {
+                Log.e("CLICKTEST2", "Fragment recibió callback: " + playa.getNombre() + " (ID: " + playa.getId() + ")");
+            });
+
             recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
             recyclerResults.setAdapter(adapter);
 
@@ -144,6 +151,7 @@ public class MainFragment extends Fragment {
                 return false;
             });
 
+
         } catch (Exception e) {
             Log.e(TAG, "Error inicializando MainFragment", e);
         }
@@ -154,7 +162,7 @@ public class MainFragment extends Fragment {
 
     // --- Llamada HTTP GET a la API ---
     private void fetchPlayasFromApi(String query, FiltroData filtros) {
-        playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
+       /* playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
             @Override
             public void onSuccess(JSONArray response) {
                 try {
@@ -163,13 +171,14 @@ public class MainFragment extends Fragment {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject obj = response.getJSONObject(i);
 
+                        String id = obj.optString("id", "-1");
                         String nombre = obj.optString("nombre", "Sin nombre");
                         double altura = obj.optDouble("alturaOla", 0.0);
                         String direccion = obj.optString("direccionOla", "");
                         double distancia = obj.optDouble("distancia", 0.0);
                         String descripcion = obj.optString("descripcion", "");
 
-                        playas.add(new ItemPlaya(nombre, altura, direccion, distancia, descripcion));
+                        playas.add(new ItemPlaya( id, nombre, altura, direccion, distancia, descripcion));
                     }
 
                     allItems = playas;
@@ -182,7 +191,26 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onError(Exception e) {
-                Log.e(TAG, "Error al obtener playas de la API", e);
+                Log.e(TAG, "Error al obtener playas de la API, usando datos de prueba.", e);
+
+                List<ItemPlaya> fake = crearPlayasFake();
+                allItems = fake;
+                adapter.updateList(fake);
+            }
+        });
+ */
+        // Test conexión y obtener playa id=1
+        playaApiClient.testConexionYBuscarPlaya(currentFilters, new PlayaApiClient.PlayaApiListener() {
+            @Override
+            public void onSuccess(JSONArray response) {
+                Log.d(TAG, "Playas de prueba recibidas: " + response.toString());
+                // Actualizar adapter con los datos
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "Error en test de conexión: " + e.getMessage());
+                // Manejar fallback o playas fake
             }
         });
     }
@@ -203,5 +231,17 @@ public class MainFragment extends Fragment {
         }
 
         adapter.updateList(filtered);
+    }
+
+    private List<ItemPlaya> crearPlayasFake() {
+        List<ItemPlaya> list = new ArrayList<>();
+
+        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, "Playa de prueba para depuración."));
+        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, "Otra playa falsa para comprobar la UI."));
+        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, "Simulación avanzada."));
+        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, "Spot popular entre los surfistas locales."));
+        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, "Playa ficticia para pruebas de UI."));
+
+        return list;
     }
 }

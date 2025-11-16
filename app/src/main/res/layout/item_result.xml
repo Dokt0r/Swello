@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
     app:cardBackgroundColor="@color/dark_cool_blue"
@@ -14,9 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="false"
+        android:focusable="false">
 
-        <!-- Nombre de la playa -->
         <TextView
             android:id="@+id/text_nombre_playa"
             android:layout_width="match_parent"
@@ -24,30 +28,36 @@
             android:text="Playa Example"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:clickable="false"
+            android:focusable="false" />
 
-        <!-- Contenedor de datos secundarios -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginTop="8dp"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:clickable="false"
+            android:focusable="false">
 
-            <!-- Altura de ola -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:clickable="false"
+                android:focusable="false">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_wave"
-                    android:contentDescription="@string/tamano_de_las_olas_m" />
+                    android:contentDescription="@string/tamano_de_las_olas_m"
+                    android:clickable="false"
+                    android:focusable="false" />
 
                 <TextView
                     android:id="@+id/text_altura_ola"
@@ -56,23 +66,28 @@
                     android:layout_marginStart="4dp"
                     android:text="1.8 m"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:clickable="false"
+                    android:focusable="false" />
             </LinearLayout>
 
-            <!-- Dirección de ola -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:clickable="false"
+                android:focusable="false">
 
                 <ImageView
                     android:id="@+id/icon_direccion_ola"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_arrow_upward"
-                    android:contentDescription="@string/direccion_de_las_olas" />
+                    android:contentDescription="@string/direccion_de_las_olas"
+                    android:clickable="false"
+                    android:focusable="false"/>
 
                 <TextView
                     android:id="@+id/text_direccion_ola"
@@ -81,22 +96,27 @@
                     android:layout_marginStart="4dp"
                     android:text="N"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:clickable="false"
+                    android:focusable="false" />
             </LinearLayout>
 
-            <!-- Distancia -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:gravity="center_vertical|end">
+                android:gravity="center_vertical|end"
+                android:clickable="false"
+                android:focusable="false">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_location"
-                    android:contentDescription="@string/distancia_maxima" />
+                    android:contentDescription="@string/distancia_maxima"
+                    android:clickable="false"
+                    android:focusable="false"/>
 
                 <TextView
                     android:id="@+id/text_distancia"
@@ -105,7 +125,9 @@
                     android:layout_marginStart="4dp"
                     android:text="12 km"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:clickable="false"
+                    android:focusable="false" />
             </LinearLayout>
 
         </LinearLayout>
