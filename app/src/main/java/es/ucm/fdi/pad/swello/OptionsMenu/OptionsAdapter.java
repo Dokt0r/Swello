@@ -15,6 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,7 +27,8 @@ import es.ucm.fdi.pad.swello.R;
 public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHolder> {
     private Context context;
     private List<OptionItem> options;
-    private boolean generalExpanded = false; // saber si "General" está abierto
+    private boolean generalExpanded = false;
+    private boolean InformacionExpanded = false;
 
     public OptionsAdapter(Context context, List<OptionItem> options) {
         this.context = context;
@@ -57,6 +61,18 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
                 case "General":
                     toggleGeneral(position);
                     break;
+                case "Informacion":
+                    toggleInformacion(position);
+                    break;
+                case "Information":
+                    toggleInformacion(position);
+                    break;
+                case "Aviso legal":
+                    showLegalFile(context, "aviso_legal.txt");
+                    break;
+                case "Legal notice":
+                    showLegalFile(context, "aviso_legal.txt");
+                    break;
 
                 case "Idioma":
                     showLanguageDialog(context);
@@ -64,6 +80,11 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
                 case "Language":
                     showLanguageDialog(context);
                     break;
+                case "Contacto":
+                    showContactDialog(context);
+                    break;
+                case "Contact":
+                    showContactDialog(context);
 
                 default:
                     Toast.makeText(context, v.getContext().getString(R.string.pulsaste) + option.getTitle(), Toast.LENGTH_SHORT).show();
@@ -92,22 +113,62 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
 
     private void toggleGeneral(int position) {
         String idioma = context.getString(R.string.opcion_idioma);
-        String tema = context.getString(R.string.opcion_tema);
-        String notificaciones = context.getString(R.string.opcion_notificaciones);
+        String contacto = context.getString(R.string.opcion_contacto);
         if (!generalExpanded) {
             int insertPosition = position + 1;
             options.add(insertPosition, new OptionItem(idioma, R.drawable.ic_language, true));
-            options.add(insertPosition + 1, new OptionItem(tema, R.drawable.ic_theme, true));
-            options.add(insertPosition + 2, new OptionItem(notificaciones, R.drawable.ic_notifications, true));
-            notifyItemRangeInserted(insertPosition, 3);
+            options.add(insertPosition, new OptionItem(contacto, R.drawable.ic_contact, true));
+            notifyItemRangeInserted(insertPosition, 2);
             generalExpanded = true;
         } else {
             options.removeIf(o -> o.getTitle().equals(idioma)
-                    || o.getTitle().equals(tema)
-                    || o.getTitle().equals(notificaciones));
+                    || o.getTitle().equals((contacto)));
             notifyDataSetChanged();
             generalExpanded = false;
         }
+    }
+
+    private void toggleInformacion(int position){
+        String aviso_legal = context.getString(R.string.opcion_av_legal);
+        String term_cond = context.getString(R.string.opcion_term_cond);
+
+        if(!InformacionExpanded){
+            int insertPosition = position + 1;
+            options.add(insertPosition, new OptionItem(aviso_legal, R.drawable.ic_av_legal, true));
+            options.add(insertPosition, new OptionItem(term_cond, R.drawable.ic_term_cond, true));
+            notifyItemRangeInserted(insertPosition, 2);
+            InformacionExpanded= true;
+        }
+        else{
+            options.removeIf(o -> o.getTitle().equals(aviso_legal) || o.getTitle().equals(term_cond));
+            notifyDataSetChanged();
+            InformacionExpanded = false;
+        }
+    }
+
+    private void showLegalFile(Context context, String fileName) {
+        StringBuilder text = new StringBuilder();
+
+        try {
+            InputStream is = context.getAssets().open(fileName);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                text.append(line).append("\n");
+            }
+
+            reader.close();
+            is.close();
+        } catch (Exception e) {
+            text.append("Error loading file.");
+        }
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.opcion_av_legal))
+                .setMessage(text.toString())
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     private void showLanguageDialog(Context context) {
@@ -124,7 +185,16 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
                 .show();
     }
 
-    // 🔹 Cambiar idioma y recargar
+    private void showContactDialog(Context context){
+        final String contacto = context.getString(R.string.contacto);
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.Titulo))
+                .setMessage(context.getString(R.string.contacto))
+                .show();
+
+    }
+
     private void setLocale(Context context, String langCode) {
         Locale locale = new Locale(langCode);
         Locale.setDefault(locale);
@@ -146,6 +216,8 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
             ((AppCompatActivity) context).finish();
         }
     }
+
+
 
 }
 

@@ -1,0 +1,88 @@
+📜 AVISO LEGAL – Swello
+
+1. Titular de la aplicación
+La aplicación Swello (en adelante, “la App”) es propiedad de [Nombre de la empresa o desarrollador], con domicilio en [Dirección o ciudad], y contacto a través del correo electrónico swello@gmail.com
+.
+
+2. Objeto de la aplicación
+
+La App permite a los usuarios consultar información sobre distintas playas y condiciones marítimas, así como recibir recomendaciones personalizadas basadas en su ubicación, preferencias y nivel de experiencia como surfista.
+
+La información mostrada tiene únicamente carácter informativo, pudiendo variar según las condiciones meteorológicas y de oleaje.
+
+3. Uso de la App
+
+El usuario se compromete a:
+
+Hacer un uso adecuado y responsable de la App.
+
+No utilizar la App para actividades ilícitas o contrarias a la legislación vigente.
+
+Aceptar que los datos mostrados pueden contener errores o desactualización, ya que provienen de terceros o de estimaciones automáticas.
+
+El uso de la App es bajo la exclusiva responsabilidad del usuario.
+El desarrollador no se hace responsable de accidentes, daños materiales o personales derivados de la práctica del surf o de decisiones tomadas a partir de la información proporcionada por la App.
+
+4. Uso de la localización
+
+La App solicita acceso a la posición del usuario (GPS) con los siguientes fines:
+
+Mostrar playas cercanas.
+
+Ofrecer recomendaciones personalizadas.
+
+Ordenar y filtrar resultados según la proximidad.
+
+El usuario puede activar o desactivar este permiso en cualquier momento desde la configuración del dispositivo.
+
+La ubicación no se comparte con terceros y solo se utiliza mientras la App está en funcionamiento, salvo que el usuario autorice lo contrario.
+
+5. Responsabilidad sobre la información
+
+La App ofrece datos aproximados sobre:
+
+Tamaño y dirección de las olas
+
+Periodo
+
+Temperatura del agua
+
+Servicios disponibles en la playa
+
+Distancia estimada
+
+Dicha información puede provenir de fuentes externas, que pueden no ser completamente precisas.
+El desarrollador no garantiza la exactitud de los valores en tiempo real.
+
+Se recomienda a los usuarios comprobar siempre las condiciones oficiales de seguridad (banderas, estado del mar, alertas meteorológicas, etc.) antes de entrar al agua.
+
+6. Propiedad intelectual
+
+Todos los contenidos, diseños, iconos, textos, imágenes y demás elementos de la App son propiedad del desarrollador o de terceros que han autorizado su uso.
+
+Queda prohibida la reproducción, distribución o modificación sin el consentimiento expreso del titular.
+
+7. Protección de datos
+
+La App puede tratar datos personales como:
+
+Idioma elegido
+
+Nivel de experiencia
+
+Ubicación aproximada
+
+Estos datos se utilizan exclusivamente para mejorar la experiencia del usuario.
+En ningún caso se venden o transfieren a terceros.
+
+El usuario puede ejercer sus derechos de acceso, rectificación o eliminación escribiendo a swello@gmail.com
+.
+
+8. Modificaciones del Aviso Legal
+
+El desarrollador podrá actualizar el presente Aviso Legal en cualquier momento.
+Las nuevas versiones estarán disponibles dentro de la App.
+
+9. Legislación aplicable
+
+Este Aviso Legal se rige por la legislación española o la del país de residencia del desarrollador.

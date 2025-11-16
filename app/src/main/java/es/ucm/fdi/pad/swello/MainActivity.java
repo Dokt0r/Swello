@@ -1,14 +1,34 @@
 package es.ucm.fdi.pad.swello;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
+
+    private void loadLocale() {
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        String lang = prefs.getString("language", "es"); // español por defecto
+
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadLocale();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

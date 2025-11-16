@@ -20,6 +20,10 @@
     <string name="opcion_idioma">Idioma</string>
     <string name="opcion_tema">Tema</string>
     <string name="opcion_notificaciones">Notificaciones</string>
+    <string name="opcion_contacto">Contacto</string>
+    <string name="opcion_logout">Cerrar sesion</string>
+    <string name="opcion_av_legal">Aviso legal</string>
+    <string name="opcion_term_cond">Terminos y condiciones</string>
 
     <!--  Mensajes / Logs / Toasts  -->
     <string name="abrir_filtros">Abrir filtros</string>
@@ -36,6 +40,26 @@
     <!--  Idiomas -->
     <string name="Espanol">Español</string>
     <string name="Ingles">Inglés</string>
+
+    <!-- Contacto -->
+    <string name="Titulo">Informacion de contacto</string>
+    <string name="contacto">
+- Email: swello@gmail.com\n\n
+- Teléfono: +34 600 000 000\n\n
+- Dirección: Calle del Surf 123, 28000 Madrid, España\n\n
+- Horario (Lun–Vie): 9:00 - 18:00\n\n
+- Sábado: 10:00 - 14:00\n\n
+- Domingo: Cerrado\n\n
+- Soporte: support@swello.com\n\n
+- Redes sociales:\n
+   • Instagram: @swelloInst\n
+   • Facebook: @swelloFace\n
+   • X: @swelloX\n
+   • TikTok: @swelloTikTok
+</string>
+
+
+
 
 
     <!-- Filtro -->

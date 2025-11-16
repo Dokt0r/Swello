@@ -1,15 +1,91 @@
 <resources>
     <string name="app_name">Swello</string>
+
+    <!--  Toolbar / Menus  -->
     <string name="toolbar_options_title">Options</string>
     <string name="topbar_title">Swello</string>
+
+    <!--  Search  -->
     <string name="cd_search">Search</string>
     <string name="hint_search">Search...</string>
     <string name="cd_filters">Filters</string>
-    <!-- Login -->
+
+    <!--  Login  -->
+    <string name="login_user_hint">Username</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Log in</string>
+    <string name="login_error">Incorrect username or password</string>
+
+    <!--  List / Items  -->
+    <string name="item_result_title">Title</string>
+    <string name="item_result_desc">Item description</string>
+    <string name="opcion_informacion">Information</string>
+    <string name="opcion_idioma">Language</string>
+    <string name="opcion_tema">Theme</string>
+    <string name="opcion_notificaciones">Notifications</string>
+    <string name="opcion_contacto">Contact</string>
+    <string name="opcion_logout">Logout</string>
+    <string name="opcion_av_legal">Legal notice</string>
+    <string name="opcion_term_cond">Terms and conditions</string>
+
+    <!--  Messages / Logs / Toasts  -->
+    <string name="abrir_filtros">Open filters</string>
+    <string name="recibidos_filtros">Filters received: </string>
+    <string name="query_generada">Generated query: </string>
+    <string name="filtros_aplicados_colon">Applied filters: </string>
+    <string name="filtro_listener_no_asignado">Listener not assigned</string>
+    <string name="filtros_aplicados">Applied filters</string>
+    <string name="flecha_volver_pulsada">Back arrow pressed</string>
+    <string name="seleccionaste">You selected: </string>
+    <string name="pulsaste">You pressed: </string>
+    <string name="selecciona_idioma">Select language</string>
+
+    <!-- Languages -->
+    <string name="Espanol">Spanish</string>
+    <string name="Ingles">English</string>
+
+    <!-- Contact -->
+    <string name="Titulo">Contact information</string>
+    <string name="contacto">
+    - Email: swello@gmail.com\n\n
+    - Phone: +34 600 000 000\n\n
+    - Address: Surf Street 123, 28000 Madrid, Spain\n\n
+    - Schedule (Mon–Fri): 9:00 AM - 6:00 PM\n\n
+    - Saturday: 10:00 AM - 2:00 PM\n\n
+    - Sunday: Closed\n\n
+    - Support: support@swello.com\n\n
+    - Social media:\n
+    • Instagram: @swelloInst\n
+   • Facebook: @swelloFace\n
+   • X: @swelloX\n
+   • TikTok: @swelloTikTok
+</string>
 
 
 
-    <!--  Idiomas -->
+    <!-- Filter -->
+    <string name="tamano_de_las_olas_m">Wave height (m)</string>
+    <string name="direccion_de_las_olas">Wave direction</string>
+    <string name="N">N</string>
+    <string name="NE">NE</string>
+    <string name="E">E</string>
+    <string name="SE">SE</string>
+    <string name="S">S</string>
+    <string name="SW">SW</string>
+    <string name="W">W</string>
+    <string name="NW">NW</string>
+    <string name="periodo_de_las_olas">Wave period (s)</string>
+    <string name="temperatura_del_agua">Water temperature (°C)</string>
+    <string name="nivel_del_surfista">Surfer level</string>
+    <string name="principiante">Beginner</string>
+    <string name="intermedio">Intermediate</string>
+    <string name="experto">Expert</string>
+    <string name="servicios_disponibles">Available services</string>
+    <string name="escuela_surf">Surf school</string>
+    <string name="aparcamiento">Parking</string>
+    <string name="duchas">Showers</string>
+    <string name="chiringuito">Beach bar</string>
+    <string name="aplicar_filtros">Apply filters</string>
+    <string name="distancia_maxima">Maximum distance (km)</string>
+
 </resources>

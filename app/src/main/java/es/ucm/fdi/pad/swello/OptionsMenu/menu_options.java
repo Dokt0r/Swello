@@ -39,10 +39,10 @@ public class menu_options extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Datos de ejemplo
         List<OptionItem> options = new ArrayList<>();
         options.add(new OptionItem("General", R.drawable.ic_settings, false));
         options.add(new OptionItem(getString(R.string.opcion_informacion), R.drawable.ic_info, false));
+        options.add(new OptionItem(getString(R.string.opcion_logout), R.drawable.ic_logout, false));
 
         adapter = new OptionsAdapter(this, options);
         recyclerOptions.setLayoutManager(new LinearLayoutManager(this));
