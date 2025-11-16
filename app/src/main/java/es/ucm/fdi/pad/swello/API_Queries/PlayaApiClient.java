@@ -48,7 +48,7 @@ public class PlayaApiClient {
             hasParam = true;
         }
 
-        if ((filtros.distanciaMinima > 0f || filtros.distanciaMaxima < 200f)) {
+        if (!(filtros.distanciaMinima <= 0f && filtros.distanciaMaxima >= 200f)) {
             location = UserLocation.getInstance();
             if (hasParam) url.append("&");
             url.append("distanciaMin=").append(filtros.distanciaMinima)
@@ -166,7 +166,10 @@ public class PlayaApiClient {
                 obj.optString("nombre"),
                 obj.optDouble("altura_ola", 0.0),
                 obj.optString("direccion_ola", ""),
-                obj.optDouble("distancia", 0.0)
+                obj.optDouble("distancia", 0.0),
+                obj.optString("imagen_principal") // NUEVO
         );
     }
+
+
 }

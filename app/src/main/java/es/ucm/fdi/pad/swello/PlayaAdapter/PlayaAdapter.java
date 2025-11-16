@@ -1,5 +1,10 @@
 package es.ucm.fdi.pad.swello.PlayaAdapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
@@ -59,7 +69,24 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
         holder.textDistancia.setText(String.format("%.0f km", item.getDistancia()));
 
         holder.bindItem(item);
+
+        // --- Cargar imagen con Glide y esquinas redondeadas ---
+        String url = item.getImagenUrl();
+        if (url != null && !url.isEmpty()) {
+            int radius = 30; // radio en píxeles, puedes ajustarlo
+            Glide.with(holder.imageBackground.getContext())
+                    .load(url)
+                    .centerCrop()
+                    .transform(new com.bumptech.glide.load.resource.bitmap.RoundedCorners(radius))
+                    .placeholder(R.color.dark_cool_blue)
+                    .error(R.color.dark_cool_blue)
+                    .into(holder.imageBackground);
+        } else {
+            holder.imageBackground.setImageResource(R.color.dark_cool_blue);
+        }
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -87,7 +114,7 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         MaterialCardView cardView;
         TextView textNombrePlaya, textAlturaOla, textDireccionOla, textDistancia;
-        ImageView iconDireccionOla;
+        ImageView iconDireccionOla, imageBackground;
         private ItemPlaya boundItem;
 
         ViewHolder(View itemView) {
@@ -98,6 +125,7 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
             textDireccionOla = itemView.findViewById(R.id.text_direccion_ola);
             textDistancia = itemView.findViewById(R.id.text_distancia);
             iconDireccionOla = itemView.findViewById(R.id.icon_direccion_ola);
+            imageBackground = itemView.findViewById(R.id.image_background);
 
             itemView.setClickable(true);
             itemView.setFocusable(true);
@@ -110,14 +138,8 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if (boundItem != null) {
-                Log.e("CLICKTEST", "CLICK sobre: " + boundItem.getNombre() + " (id:" + boundItem.getId() + ")");
-            }
-
-            if (listener != null && boundItem != null) {
+            if (boundItem != null && listener != null) {
                 listener.onPlayaClick(boundItem);
-            } else if (listener == null) {
-                Log.w(TAG, "Listener es null en ViewHolder");
             }
         }
     }
