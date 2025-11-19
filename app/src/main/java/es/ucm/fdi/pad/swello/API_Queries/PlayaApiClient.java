@@ -48,7 +48,7 @@ public class PlayaApiClient {
             hasParam = true;
         }
 
-        if (!(filtros.distanciaMinima <= 0f && filtros.distanciaMaxima >= 200f)) {
+        if (!(filtros.distanciaMinima == 0f && filtros.distanciaMaxima == 120f)) {
             location = UserLocation.getInstance();
             if (hasParam) url.append("&");
             url.append("distanciaMin=").append(filtros.distanciaMinima)

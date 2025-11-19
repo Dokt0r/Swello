@@ -90,6 +90,9 @@ public class MainFragment extends Fragment {
             }
         });
 
+        // --- Inicializar los elementos con query basica ---
+        fetchPlayasFromApi("", currentFilters);
+
         // --- Configuración RecyclerView ---
         adapter = new PlayaAdapter(new ArrayList<>());
         adapter.setOnPlayaClickListener(playa ->
