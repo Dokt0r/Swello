@@ -210,6 +210,61 @@
                 android:text="@string/chiringuito" />
         </com.google.android.material.chip.ChipGroup>
 
+        <!-- Sección Ordenación -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ordenar por"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ordenar_distancia"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Distancia (más cercana primero)"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_cool_blue"
+            app:strokeColor="@color/dark_cool_blue" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ordenar_nombre"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Nombre (A-Z)"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_cool_blue"
+            app:strokeColor="@color/dark_cool_blue" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ordenar_popularidad"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Popularidad"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_cool_blue"
+            app:strokeColor="@color/dark_cool_blue" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ordenar_valoracion"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Valoracion"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_cool_blue"
+            app:strokeColor="@color/dark_cool_blue" />
+
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_aplicar_filtros"
             android:layout_width="match_parent"

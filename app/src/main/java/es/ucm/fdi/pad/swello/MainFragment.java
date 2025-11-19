@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import es.ucm.fdi.pad.swello.API_Queries.PlayaApiClient;
 import es.ucm.fdi.pad.swello.Filtros.Filtro;
@@ -122,10 +123,28 @@ public class MainFragment extends Fragment {
                 filtroDialog.setOnFiltroAplicadoListener(filtros -> {
                     currentFilters = filtros;
                     Log.d(TAG, "Filtros aplicados: " + filtros);
+
+                    // manejar tanto filtros como ordenación
+                    if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
+                        aplicarOrdenacion(filtros.ordenacion);
+                    }
+                    else {
+                        // si no hay ordenación, aplicar filtros normales
+
+                        String query = searchInput.getText().toString().trim(); // aplicando filtros despues de seleccionarlos
+
+                        if (UserLocation.isInitialized()) {
+                            UserLocation.getInstance().actualizarUbicacion(); // verificar ubicacion para filtro de distancia
+                        }
+
+                        fetchPlayasFromApi(query, currentFilters); // ejecutando busqueda con los nuevos filtros
+                    }
                 });
 
                 filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
             });
+
+
 
             // --- Botón de búsqueda ---
             btnSearch.setOnClickListener(v -> {
@@ -159,9 +178,45 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    // para aplicar ordenación
+    private void aplicarOrdenacion(String tipoOrdenacion) {
+        if (allItems.isEmpty()) {
+            Log.w(TAG, "No hay playas para ordenar");
+            return;
+        }
 
+        List<ItemPlaya> ordenadas = new ArrayList<>(allItems);
+        switch (tipoOrdenacion) {
+            case "distancia":
+                Collections.sort(ordenadas, (p1, p2) -> Double.compare(p1.getDistancia(), p2.getDistancia()));
+                Log.d(TAG, "Playas ordenadas por distancia");
+                break;
+            case "nombre":
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por nombre");
+                break;
+            case "popularidad":
+                // Por ahora, orden alfabético como placeholder
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por popularidad (placeholder)");
+                break;
+            case "valoración":
+                // Por ahora, orden alfabético como placeholder
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por valoración (placeholder)");
+                break;
+        }
+        adapter.updateList(ordenadas);
+    }
     // --- Llamada HTTP GET a la API ---
     private void fetchPlayasFromApi(String query, FiltroData filtros) {
+        // TEMPORAL: Usar datos fake para probar la ordenación
+        Log.d(TAG, "Usando datos fake para pruebas de ordenación");
+
+        List<ItemPlaya> fakeData = crearPlayasFake();
+        allItems = fakeData;
+        adapter.updateList(fakeData);
+
        /* playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
             @Override
             public void onSuccess(JSONArray response) {
@@ -215,6 +270,18 @@ public class MainFragment extends Fragment {
         });
     }
 
+    private List<ItemPlaya> crearPlayasFake() {
+        List<ItemPlaya> list = new ArrayList<>();
+
+        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, "Playa de prueba para depuración."));
+        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, "Otra playa falsa para comprobar la UI."));
+        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, "Simulación avanzada."));
+        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, "Spot popular entre los surfistas locales."));
+        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, "Playa ficticia para pruebas de UI."));
+
+        return list;
+    }
+
     // --- Filtrado local mientras se escribe ---
     private void filterResults(String query) {
         if (query == null || query.isEmpty() || allItems.isEmpty()) {
@@ -231,17 +298,5 @@ public class MainFragment extends Fragment {
         }
 
         adapter.updateList(filtered);
-    }
-
-    private List<ItemPlaya> crearPlayasFake() {
-        List<ItemPlaya> list = new ArrayList<>();
-
-        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, "Playa de prueba para depuración."));
-        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, "Otra playa falsa para comprobar la UI."));
-        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, "Simulación avanzada."));
-        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, "Spot popular entre los surfistas locales."));
-        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, "Playa ficticia para pruebas de UI."));
-
-        return list;
     }
 }

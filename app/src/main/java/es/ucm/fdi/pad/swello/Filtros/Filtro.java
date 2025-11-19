@@ -32,6 +32,8 @@ public class Filtro extends BottomSheetDialogFragment {
     private ChipGroup chipWaveDir, chipSST, chipNivel, chipServicios;
     private MaterialButton btnAplicar;
 
+    private MaterialButton btnOrdenarDistancia, btnOrdenarNombre, btnOrdenarPopularidad, btnOrdenarValoracion;
+
     private OnFiltroAplicadoListener listener;
 
     public interface OnFiltroAplicadoListener {
@@ -58,11 +60,34 @@ public class Filtro extends BottomSheetDialogFragment {
         chipServicios = view.findViewById(R.id.chip_group_servicios);
         btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
 
+        // inicializar botones de ordenación
+        btnOrdenarDistancia = view.findViewById(R.id.btn_ordenar_distancia);
+        btnOrdenarNombre = view.findViewById(R.id.btn_ordenar_nombre);
+        btnOrdenarPopularidad = view.findViewById(R.id.btn_ordenar_popularidad);
+        btnOrdenarValoracion = view.findViewById(R.id.btn_ordenar_valoracion);
+
         // Restaurar estado guardado de filtros
         restaurarEstadoFiltros();
 
         btnAplicar.setOnClickListener(v -> aplicarFiltros());
+
+        // configurar listeners de ordenación
+        btnOrdenarDistancia.setOnClickListener(v -> aplicarOrdenacion("distancia"));
+        btnOrdenarNombre.setOnClickListener(v -> aplicarOrdenacion("nombre"));
+        btnOrdenarPopularidad.setOnClickListener(v -> aplicarOrdenacion("popularidad"));
+        btnOrdenarValoracion.setOnClickListener(v -> aplicarOrdenacion("valoración"));
+
         return view;
+    }
+
+    private void aplicarOrdenacion(String tipoOrdenacion) {
+        if (listener != null) {
+            FiltroData data = new FiltroData();
+            data.ordenacion = tipoOrdenacion;
+            listener.onFiltroAplicado(data);
+            Toast.makeText(getContext(), "Ordenado por " + tipoOrdenacion, Toast.LENGTH_SHORT).show();
+            dismiss();
+        }
     }
 
     private void aplicarFiltros() {
