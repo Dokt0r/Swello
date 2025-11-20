@@ -118,21 +118,17 @@ public class MainFragment extends Fragment {
 
             filtroDialog.setOnFiltroAplicadoListener(filtros -> {
                 currentFilters = filtros;
+                Log.d(TAG, "Filtros aplicados: " + filtros);
 
-                // manejar tanto filtros como ordenación
+                String query = searchInput.getText().toString().trim();
+                if (UserLocation.isInitialized()) {
+                    UserLocation.getInstance().actualizarUbicacion();
+                }
+
+                fetchPlayasFromApi(query, currentFilters);
+
                 if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
                     aplicarOrdenacion(filtros.ordenacion);
-                }
-                else {
-                    // si no hay ordenación, aplicar filtros normales
-
-                    String query = searchInput.getText().toString().trim(); // aplicando filtros despues de seleccionarlos
-
-                    if (UserLocation.isInitialized()) {
-                        UserLocation.getInstance().actualizarUbicacion(); // verificar ubicacion para filtro de distancia
-                    }
-
-                    fetchPlayasFromApi(query, currentFilters); // ejecutando busqueda con los nuevos filtros
                 }
             });
             filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
@@ -197,7 +193,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onSuccess(List<ItemPlaya> playas) {
                 allItems = playas;
-                adapter.updateList(playas);
+
+                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
+                    aplicarOrdenacion(filtros.ordenacion);
+                } else {
+                    adapter.updateList(playas);
+                }
+
                 Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
             }
 
@@ -206,7 +208,12 @@ public class MainFragment extends Fragment {
                 Log.e(TAG, "Error obteniendo playas, usando datos fake", e);
                 List<ItemPlaya> fake = crearPlayasFake();
                 allItems = fake;
-                adapter.updateList(fake);
+
+                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
+                    aplicarOrdenacion(filtros.ordenacion);
+                } else {
+                    adapter.updateList(fake);
+                }
             }
         });
     }

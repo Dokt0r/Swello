@@ -34,6 +34,7 @@ public class Filtro extends BottomSheetDialogFragment {
 
     private MaterialButton btnOrdenarDistancia, btnOrdenarNombre, btnOrdenarPopularidad, btnOrdenarValoracion;
 
+    private String selectedOrdenacion = "";
     private OnFiltroAplicadoListener listener;
 
     public interface OnFiltroAplicadoListener {
@@ -77,21 +78,59 @@ public class Filtro extends BottomSheetDialogFragment {
         btnAplicar.setOnClickListener(v -> aplicarFiltros());
 
         // configurar listeners de ordenación
-        btnOrdenarDistancia.setOnClickListener(v -> aplicarOrdenacion("distancia"));
-        btnOrdenarNombre.setOnClickListener(v -> aplicarOrdenacion("nombre"));
-        btnOrdenarPopularidad.setOnClickListener(v -> aplicarOrdenacion("popularidad"));
-        btnOrdenarValoracion.setOnClickListener(v -> aplicarOrdenacion("valoración"));
+        btnOrdenarDistancia.setOnClickListener(v -> {
+            selectedOrdenacion = "distancia";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: distancia");
+        });
+
+        btnOrdenarNombre.setOnClickListener(v -> {
+            selectedOrdenacion = "nombre";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: nombre");
+        });
+
+        btnOrdenarPopularidad.setOnClickListener(v -> {
+            selectedOrdenacion = "popularidad";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: popularidad");
+        });
+
+        btnOrdenarValoracion.setOnClickListener(v -> {
+            selectedOrdenacion = "valoración";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: valoración");
+        });
+
+        aplicarOrdenacion();
 
         return view;
     }
 
-    private void aplicarOrdenacion(String tipoOrdenacion) {
-        if (listener != null) {
-            FiltroData data = new FiltroData();
-            data.ordenacion = tipoOrdenacion;
-            listener.onFiltroAplicado(data);
-            Toast.makeText(getContext(), "Ordenado por " + tipoOrdenacion, Toast.LENGTH_SHORT).show();
-            dismiss();
+    private void aplicarOrdenacion() {
+        btnOrdenarDistancia.setStrokeWidth(0);
+        btnOrdenarNombre.setStrokeWidth(0);
+        btnOrdenarPopularidad.setStrokeWidth(0);
+        btnOrdenarValoracion.setStrokeWidth(0);
+
+        // Añadir borde al botón seleccionado
+        switch(selectedOrdenacion) {
+            case "distancia":
+                btnOrdenarDistancia.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarDistancia.setStrokeWidth(4);
+                break;
+            case "nombre":
+                btnOrdenarNombre.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarNombre.setStrokeWidth(4);
+                break;
+            case "popularidad":
+                btnOrdenarPopularidad.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarPopularidad.setStrokeWidth(4);
+                break;
+            case "valoración":
+                btnOrdenarValoracion.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarValoracion.setStrokeWidth(4);
+                break;
         }
     }
 
@@ -126,6 +165,9 @@ public class Filtro extends BottomSheetDialogFragment {
 
         data.servicios = getCheckedChips(chipServicios);
         Log.d(TAG, "Servicios seleccionados: " + data.servicios);
+
+        data.ordenacion = selectedOrdenacion;
+        Log.d(TAG, "Ordenación aplicada: " + selectedOrdenacion);
 
         guardarEstadoFiltros(data);
 
