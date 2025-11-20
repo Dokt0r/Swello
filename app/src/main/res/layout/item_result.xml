@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="130dp"
     android:layout_margin="8dp"
     android:clickable="true"
     android:focusable="true"
@@ -13,123 +13,123 @@
     app:strokeColor="#F69200"
     app:strokeWidth="3dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:clickable="false"
-        android:focusable="false">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_nombre_playa"
+        <!-- Imagen de fondo -->
+        <ImageView
+            android:id="@+id/image_background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Playa Example"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:alpha="0.8"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true" />
 
+        <!-- Overlay semitransparente -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:clipToOutline="true"/> <!-- negro al 50% de transparencia -->
+
+        <!-- Contenido encima de la imagen -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="8dp"
-            android:weightSum="3"
-            android:clickable="false"
-            android:focusable="false">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/text_nombre_playa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Playa Example"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:clickable="false"
-                android:focusable="false">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_wave"
-                    android:contentDescription="@string/tamano_de_las_olas_m"
-                    android:clickable="false"
-                    android:focusable="false" />
-
-                <TextView
-                    android:id="@+id/text_altura_ola"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="1.8 m"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:clickable="false"
-                    android:focusable="false" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="horizontal"
-                android:gravity="center_vertical|center_horizontal"
-                android:clickable="false"
-                android:focusable="false">
+                android:weightSum="3">
 
-                <ImageView
-                    android:id="@+id/icon_direccion_ola"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_upward"
-                    android:contentDescription="@string/direccion_de_las_olas"
-                    android:clickable="false"
-                    android:focusable="false"/>
-
-                <TextView
-                    android:id="@+id/text_direccion_ola"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="N"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:clickable="false"
-                    android:focusable="false" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_vertical|end"
-                android:clickable="false"
-                android:focusable="false">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/tamano_de_las_olas_m"
+                        android:src="@drawable/ic_wave" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_location"
-                    android:contentDescription="@string/distancia_maxima"
-                    android:clickable="false"
-                    android:focusable="false"/>
+                    <TextView
+                        android:id="@+id/text_altura_ola"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="1.8 m"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/text_distancia"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="12 km"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:clickable="false"
-                    android:focusable="false" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/icon_direccion_ola"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/direccion_de_las_olas"
+                        android:src="@drawable/ic_arrow_upward" />
+
+                    <TextView
+                        android:id="@+id/text_direccion_ola"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="N"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/distancia_maxima"
+                        android:src="@drawable/ic_location" />
+
+                    <TextView
+                        android:id="@+id/text_distancia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="12 km"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
+
 </com.google.android.material.card.MaterialCardView>
