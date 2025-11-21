@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import es.ucm.fdi.pad.swello.API_Queries.PlayaApiClient;
 import es.ucm.fdi.pad.swello.Filtros.Filtro;
@@ -71,6 +72,7 @@ public class MainFragment extends Fragment {
 
         // --- Inicialización de filtros por defecto ---
         filtroDialog.inicializarValoresPorDefecto();
+        Log.d(TAG, "Filtros inicializados con valores por defecto: " + currentFilters);
 
         // --- Inicialización API ---
         playaApiClient = new PlayaApiClient(requireContext());
@@ -112,7 +114,23 @@ public class MainFragment extends Fragment {
 
         // --- Botón de filtro ---
         btnFilter.setOnClickListener(v -> {
-            filtroDialog.setOnFiltroAplicadoListener(filtros -> currentFilters = filtros);
+            Log.d(TAG, "Abriendo diálogo de filtros...");
+
+            filtroDialog.setOnFiltroAplicadoListener(filtros -> {
+                currentFilters = filtros;
+                Log.d(TAG, "Filtros aplicados: " + filtros);
+
+                String query = searchInput.getText().toString().trim();
+                if (UserLocation.isInitialized()) {
+                    UserLocation.getInstance().actualizarUbicacion();
+                }
+
+                fetchPlayasFromApi(query, currentFilters);
+
+                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
+                    aplicarOrdenacion(filtros.ordenacion);
+                }
+            });
             filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
         });
 
@@ -139,13 +157,49 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    // para aplicar ordenación
+    private void aplicarOrdenacion(String tipoOrdenacion) {
+        if (allItems.isEmpty()) {
+            Log.w(TAG, "No hay playas para ordenar");
+            return;
+        }
+
+        List<ItemPlaya> ordenadas = new ArrayList<>(allItems);
+        switch (tipoOrdenacion) {
+            case "distancia":
+                Collections.sort(ordenadas, (p1, p2) -> Double.compare(p1.getDistancia(), p2.getDistancia()));
+                Log.d(TAG, "Playas ordenadas por distancia");
+                break;
+            case "nombre":
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por nombre");
+                break;
+            case "popularidad":
+                // Por ahora, orden alfabético como placeholder
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por popularidad (placeholder)");
+                break;
+            case "valoración":
+                // Por ahora, orden alfabético como placeholder
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por valoración (placeholder)");
+                break;
+        }
+        adapter.updateList(ordenadas);
+    }
     // --- Llamada HTTP GET a la API ---
     private void fetchPlayasFromApi(String query, FiltroData filtros) {
         playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
             @Override
             public void onSuccess(List<ItemPlaya> playas) {
                 allItems = playas;
-                adapter.updateList(playas);
+
+                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
+                    aplicarOrdenacion(filtros.ordenacion);
+                } else {
+                    adapter.updateList(playas);
+                }
+
                 Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
             }
 
@@ -154,7 +208,12 @@ public class MainFragment extends Fragment {
                 Log.e(TAG, "Error obteniendo playas, usando datos fake", e);
                 List<ItemPlaya> fake = crearPlayasFake();
                 allItems = fake;
-                adapter.updateList(fake);
+
+                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
+                    aplicarOrdenacion(filtros.ordenacion);
+                } else {
+                    adapter.updateList(fake);
+                }
             }
         });
     }

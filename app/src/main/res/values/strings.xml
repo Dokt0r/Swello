@@ -5,6 +5,7 @@
     <string name="topbar_title">Swello</string>
     <!--  Buscar  -->
     <string name="cd_search">Buscar</string>
+    <string name="cd_sort">Ordenar playas</string>
     <string name="hint_search">Buscar...</string>
     <string name="cd_filters">Filtros</string>
     <!--  Login  -->

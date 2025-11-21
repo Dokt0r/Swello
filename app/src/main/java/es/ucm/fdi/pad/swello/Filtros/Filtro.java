@@ -32,6 +32,9 @@ public class Filtro extends BottomSheetDialogFragment {
     private ChipGroup chipWaveDir, chipSST, chipNivel, chipServicios;
     private MaterialButton btnAplicar;
 
+    private MaterialButton btnOrdenarDistancia, btnOrdenarNombre, btnOrdenarPopularidad, btnOrdenarValoracion;
+
+    private String selectedOrdenacion = "";
     private OnFiltroAplicadoListener listener;
 
     public interface OnFiltroAplicadoListener {
@@ -63,10 +66,72 @@ public class Filtro extends BottomSheetDialogFragment {
 
         btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
 
+        // inicializar botones de ordenación
+        btnOrdenarDistancia = view.findViewById(R.id.btn_ordenar_distancia);
+        btnOrdenarNombre = view.findViewById(R.id.btn_ordenar_nombre);
+        btnOrdenarPopularidad = view.findViewById(R.id.btn_ordenar_popularidad);
+        btnOrdenarValoracion = view.findViewById(R.id.btn_ordenar_valoracion);
+
+        // Restaurar estado guardado de filtros
         restaurarEstadoFiltros();
 
         btnAplicar.setOnClickListener(v -> aplicarFiltros());
+
+        // configurar listeners de ordenación
+        btnOrdenarDistancia.setOnClickListener(v -> {
+            selectedOrdenacion = "distancia";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: distancia");
+        });
+
+        btnOrdenarNombre.setOnClickListener(v -> {
+            selectedOrdenacion = "nombre";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: nombre");
+        });
+
+        btnOrdenarPopularidad.setOnClickListener(v -> {
+            selectedOrdenacion = "popularidad";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: popularidad");
+        });
+
+        btnOrdenarValoracion.setOnClickListener(v -> {
+            selectedOrdenacion = "valoración";
+            aplicarOrdenacion();
+            Log.d(TAG, "Ordenación seleccionada: valoración");
+        });
+
+        aplicarOrdenacion();
+
         return view;
+    }
+
+    private void aplicarOrdenacion() {
+        btnOrdenarDistancia.setStrokeWidth(0);
+        btnOrdenarNombre.setStrokeWidth(0);
+        btnOrdenarPopularidad.setStrokeWidth(0);
+        btnOrdenarValoracion.setStrokeWidth(0);
+
+        // Añadir borde al botón seleccionado
+        switch(selectedOrdenacion) {
+            case "distancia":
+                btnOrdenarDistancia.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarDistancia.setStrokeWidth(4);
+                break;
+            case "nombre":
+                btnOrdenarNombre.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarNombre.setStrokeWidth(4);
+                break;
+            case "popularidad":
+                btnOrdenarPopularidad.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarPopularidad.setStrokeWidth(4);
+                break;
+            case "valoración":
+                btnOrdenarValoracion.setStrokeColorResource(R.color.selected_border);
+                btnOrdenarValoracion.setStrokeWidth(4);
+                break;
+        }
     }
 
     private void aplicarFiltros() {
@@ -100,6 +165,9 @@ public class Filtro extends BottomSheetDialogFragment {
 
         data.servicios = getCheckedChips(chipServicios);
         Log.d(TAG, "Servicios seleccionados: " + data.servicios);
+
+        data.ordenacion = selectedOrdenacion;
+        Log.d(TAG, "Ordenación aplicada: " + selectedOrdenacion);
 
         guardarEstadoFiltros(data);
 

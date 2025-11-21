@@ -17,4 +17,20 @@
         <item name="cornerSizeTopRight">24dp</item>
     </style>
 
+    <!-- Estilo para los botones de ordenación -->
+    <style name="SortButtonStyle" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="strokeColor">@color/dark_cool_blue</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/dark_cool_blue</item>
+        <item name="backgroundTint">@android:color/white</item>
+    </style>
+
 </resources>

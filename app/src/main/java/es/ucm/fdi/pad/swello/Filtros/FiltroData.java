@@ -17,6 +17,8 @@ public class FiltroData implements Serializable {
     public String nivelSurfista = "";
     public List<String> servicios = new ArrayList<>();
 
+    public String ordenacion = "";
+
     @Override
     public String toString() {
         return "FiltroData{" +
@@ -27,6 +29,7 @@ public class FiltroData implements Serializable {
                 ", tempAgua='" + tempAgua + '\'' +
                 ", nivelSurfista='" + nivelSurfista + '\'' +
                 ", servicios=" + servicios +
+                ", ordenacion='" + ordenacion + '\'' +
                 '}';
     }
 }
