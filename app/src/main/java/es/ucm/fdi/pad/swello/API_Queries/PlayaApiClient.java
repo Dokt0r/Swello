@@ -30,7 +30,6 @@ public class PlayaApiClient {
 
     public interface PlayaApiListener {
         void onSuccess(List<ItemPlaya> playas);
-
         void onError(Exception e);
     }
 
@@ -38,7 +37,9 @@ public class PlayaApiClient {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    // --- Construcción de la URL con filtros ---
+    // --------------------------------------------------------
+    //   Construcción de la URL
+    // --------------------------------------------------------
     public String buildQueryUrl(String baseQuery, FiltroData filtros) {
         StringBuilder url = new StringBuilder(BASE_URL + "?");
         boolean hasParam = false;
@@ -53,8 +54,8 @@ public class PlayaApiClient {
             if (hasParam) url.append("&");
             url.append("distanciaMin=").append(filtros.distanciaMinima)
                     .append("&distanciaMax=").append(filtros.distanciaMaxima)
-                    .append("$lon=").append(location.getLongitud())
-                    .append("$lat=").append(location.getLatitud());
+                    .append("&lon=").append(location.getLongitud())
+                    .append("&lat=").append(location.getLatitud());
             hasParam = true;
         }
 
@@ -65,38 +66,17 @@ public class PlayaApiClient {
             hasParam = true;
         }
 
-        if (!(filtros.periodoMinimo <= 5f && filtros.periodoMaximo >= 12f)) {
-            if (hasParam) url.append("&");
-            url.append("periodoMin=").append(filtros.periodoMinimo)
-                    .append("&periodoMax=").append(filtros.periodoMaximo);
-            hasParam = true;
-        }
-
         if (filtros.direccionOlas != null && !filtros.direccionOlas.isEmpty()) {
             if (hasParam) url.append("&");
             url.append("direccion=").append(filtros.direccionOlas);
             hasParam = true;
         }
 
+        // Temperatura del agua — si se usa filtro
         if (filtros.tempAgua != null && !filtros.tempAgua.isEmpty()) {
             if (hasParam) url.append("&");
             url.append("tempAgua=").append(filtros.tempAgua);
             hasParam = true;
-        }
-
-        if (filtros.nivelSurfista != null && !filtros.nivelSurfista.isEmpty()) {
-            if (hasParam) url.append("&");
-            url.append("nivel=").append(filtros.nivelSurfista);
-            hasParam = true;
-        }
-
-        if (filtros.servicios != null && !filtros.servicios.isEmpty()) {
-            if (hasParam) url.append("&");
-            url.append("servicios=");
-            for (int i = 0; i < filtros.servicios.size(); i++) {
-                url.append(filtros.servicios.get(i));
-                if (i < filtros.servicios.size() - 1) url.append(",");
-            }
         }
 
         String finalUrl = url.toString();
@@ -104,10 +84,11 @@ public class PlayaApiClient {
         return finalUrl;
     }
 
-    // --- Fetch lista de playas ---
+    // --------------------------------------------------------
+    //   Fetch lista playas
+    // --------------------------------------------------------
     public void fetchPlayas(String baseQuery, FiltroData filtros, PlayaApiListener listener) {
         String url = buildQueryUrl(baseQuery, filtros);
-        Log.d(TAG, "Realizando petición a: " + url);
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -124,32 +105,10 @@ public class PlayaApiClient {
         requestQueue.add(request);
     }
 
-    // --- Fetch playa individual (id=1) ---
-    public void testConexionYBuscarPlaya(PlayaApiListener listener) {
-        String url = BASE_URL + "/1";
-        Log.d(TAG, "Solicitando playa con id=1 a: " + url);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        ItemPlaya playa = parsePlaya(response);
-                        List<ItemPlaya> lista = new ArrayList<>();
-                        lista.add(playa);
-                        listener.onSuccess(lista);
-                    } catch (JSONException e) {
-                        listener.onError(e);
-                    }
-                },
-                error -> {
-                    Log.e(TAG, "Error al obtener la playa id=1: " + error.toString());
-                    listener.onError(new Exception(error));
-                }
-        );
-
-        requestQueue.add(request);
-    }
-
-    // --- Parse JSON array ---
+    // --------------------------------------------------------
+    //   Parseo JSON
+    // --------------------------------------------------------
     private List<ItemPlaya> parsePlayas(JSONArray array) throws JSONException {
         List<ItemPlaya> lista = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
@@ -159,7 +118,6 @@ public class PlayaApiClient {
         return lista;
     }
 
-    // --- Parse JSON objeto individual ---
     private ItemPlaya parsePlaya(JSONObject obj) throws JSONException {
         return new ItemPlaya(
                 obj.optString("id"),
@@ -167,9 +125,8 @@ public class PlayaApiClient {
                 obj.optDouble("altura_ola", 0.0),
                 obj.optString("direccion_ola", ""),
                 obj.optDouble("distancia", 0.0),
-                obj.optString("imagen_principal") // NUEVO
+                obj.optString("imagen_principal"),
+                obj.optDouble("temp_agua", 0.0)
         );
     }
-
-
 }

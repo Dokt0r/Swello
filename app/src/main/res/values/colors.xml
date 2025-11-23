@@ -7,5 +7,7 @@
     <color name="teal_200">#80CBC4</color>
     <color name="surface_container_high">#2B3A55</color>
     <color name="transparent">#00000000</color>
+    <color name="sand">#F4E588</color>
+    <color name="sky_blue">#75C9D8</color>
 
 </resources>

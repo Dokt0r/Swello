@@ -1,11 +1,5 @@
 package es.ucm.fdi.pad.swello.PlayaAdapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -28,7 +17,6 @@ import es.ucm.fdi.pad.swello.R;
 
 public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> {
 
-    private static final String TAG = "PlayaAdapter";
     private List<ItemPlaya> items;
     private OnPlayaClickListener listener;
 
@@ -38,7 +26,6 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
 
     public void setOnPlayaClickListener(OnPlayaClickListener listener) {
         this.listener = listener;
-        Log.d(TAG, "Listener registrado en adapter: " + (listener != null));
     }
 
     public PlayaAdapter(List<ItemPlaya> items) {
@@ -62,18 +49,36 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemPlaya item = items.get(position);
 
+        // --- Nombre más grande ---
         holder.textNombrePlaya.setText(item.getNombre());
-        holder.textAlturaOla.setText(String.format("%.1f m", item.getAlturaOla()));
-        holder.textDireccionOla.setText(item.getDireccionOla());
-        holder.iconDireccionOla.setRotation(getRotationForDirection(item.getDireccionOla()));
-        holder.textDistancia.setText(String.format("%.0f km", item.getDistancia()));
+        holder.textNombrePlaya.setTextSize(20);
 
-        holder.bindItem(item);
+        // --- Olas ---
+        holder.textAlturaOla.setText(String.format("%.1f m", item.getAlturaOla()));
+        holder.textAlturaOla.setTextSize(16);
+
+        holder.textDireccionOla.setText(item.getDireccionOla());
+        holder.textDireccionOla.setTextSize(16);
+        holder.iconDireccionOla.setRotation(getRotationForDirection(item.getDireccionOla()));
+
+        // --- Distancia sin ".0" ---
+        double d = item.getDistancia();
+        String distanciaTxt = (d == Math.floor(d)) ? String.format("%.0f km", d)
+                : String.format("%.1f km", d);
+        holder.textDistancia.setText(distanciaTxt);
+        holder.textDistancia.setTextSize(16);
+
+        // --- Temperatura del agua ---
+        double t = item.getTempAgua();
+        String tempTxt = (t == Math.floor(t)) ? String.format("%.0f°C", t)
+                : String.format("%.1f°C", t);
+        holder.tempAgua.setText(tempTxt);
+        holder.tempAgua.setTextSize(16);
 
         // --- Cargar imagen con Glide y esquinas redondeadas ---
         String url = item.getImagenUrl();
         if (url != null && !url.isEmpty()) {
-            int radius = 30; // radio en píxeles, puedes ajustarlo
+            int radius = 30;
             Glide.with(holder.imageBackground.getContext())
                     .load(url)
                     .centerCrop()
@@ -84,51 +89,57 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
         } else {
             holder.imageBackground.setImageResource(R.color.dark_cool_blue);
         }
+
+        holder.bindItem(item);
     }
-
-
 
     @Override
     public int getItemCount() {
-        return items != null ? items.size() : 0;
+        return (items != null) ? items.size() : 0;
     }
 
-    private float getRotationForDirection(String direccion) {
-        if (direccion == null) return 0f;
-        switch (direccion.toUpperCase()) {
-            case "N":  return 0f;
-            case "NE": return 45f;
-            case "E":  return 90f;
-            case "SE": return 135f;
-            case "S":  return 180f;
-            case "SO":
-            case "SW": return 225f;
-            case "O":
-            case "W":  return 270f;
-            case "NO":
-            case "NW": return 315f;
-            default:   return 0f;
+    // Rotación según dirección (16 puntos)
+    private float getRotationForDirection(String direction) {
+        if (direction == null) return 0f;
+
+        switch (direction.toUpperCase()) {
+            case "N":   return 0f;
+            case "NNE": return 22.5f;
+            case "NE":  return 45f;
+            case "ENE": return 67.5f;
+            case "E":   return 90f;
+            case "ESE": return 112.5f;
+            case "SE":  return 135f;
+            case "SSE": return 157.5f;
+            case "S":   return 180f;
+            case "SSW": return 202.5f;
+            case "SW":  return 225f;
+            case "WSW": return 247.5f;
+            case "W":   return 270f;
+            case "WNW": return 292.5f;
+            case "NW":  return 315f;
+            case "NNW": return 337.5f;
+            default:    return 0f;
         }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        MaterialCardView cardView;
-        TextView textNombrePlaya, textAlturaOla, textDireccionOla, textDistancia;
+
+        TextView textNombrePlaya, textAlturaOla, textDireccionOla, textDistancia, tempAgua;
         ImageView iconDireccionOla, imageBackground;
         private ItemPlaya boundItem;
 
         ViewHolder(View itemView) {
             super(itemView);
-            cardView = (MaterialCardView) itemView;
+
             textNombrePlaya = itemView.findViewById(R.id.text_nombre_playa);
             textAlturaOla = itemView.findViewById(R.id.text_altura_ola);
             textDireccionOla = itemView.findViewById(R.id.text_direccion_ola);
             textDistancia = itemView.findViewById(R.id.text_distancia);
+            tempAgua = itemView.findViewById(R.id.text_temp_agua);
             iconDireccionOla = itemView.findViewById(R.id.icon_direccion_ola);
             imageBackground = itemView.findViewById(R.id.image_background);
 
-            itemView.setClickable(true);
-            itemView.setFocusable(true);
             itemView.setOnClickListener(this);
         }
 

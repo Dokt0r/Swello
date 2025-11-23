@@ -8,14 +8,17 @@ public class ItemPlaya {
     private String direccionOla;
     private double distancia;
     private String imagenUrl;
+    private double tempAgua;
 
-    public ItemPlaya(String id, String nombre, double alturaOla, String direccionOla, double distancia, String imagenUrl) {
+    public ItemPlaya(String id, String nombre, double alturaOla, String direccionOla,
+                     double distancia, String imagenUrl, double tempAgua) {
         this.id = id;
         this.nombre = nombre;
         this.alturaOla = alturaOla;
         this.direccionOla = direccionOla;
         this.distancia = distancia;
         this.imagenUrl = imagenUrl;
+        this.tempAgua = tempAgua;
     }
 
     // --- Getters ---
@@ -25,6 +28,7 @@ public class ItemPlaya {
     public String getDireccionOla() { return direccionOla; }
     public double getDistancia() { return distancia; }
     public String getImagenUrl() { return imagenUrl; }
+    public double getTempAgua() { return tempAgua; }
 
     // --- Setters ---
     public void setId(String id) { this.id = id; }
@@ -33,6 +37,7 @@ public class ItemPlaya {
     public void setDireccionOla(String direccionOla) { this.direccionOla = direccionOla; }
     public void setDistancia(double distancia) { this.distancia = distancia; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    public void setTempAgua(double tempAgua) { this.tempAgua = tempAgua; }
 
     @Override
     public String toString() {
@@ -42,6 +47,7 @@ public class ItemPlaya {
                 ", alturaOla=" + alturaOla +
                 ", direccionOla='" + direccionOla + '\'' +
                 ", distancia=" + distancia +
+                ", tempAgua=" + tempAgua +
                 '}';
     }
 }

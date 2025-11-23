@@ -237,11 +237,11 @@ public class MainFragment extends Fragment {
 
     private List<ItemPlaya> crearPlayasFake() {
         List<ItemPlaya> list = new ArrayList<>();
-        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, null));
-        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, null));
-        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, null));
-        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, null));
-        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, null));
+        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, null, 22));
+        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, null, 10));
+        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, null, 0));
+        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, null, 14));
+        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, null, 16));
         return list;
     }
 }
