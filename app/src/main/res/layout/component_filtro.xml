@@ -252,7 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Altura de olas"
+                android:text="Altura de olas (mayor primero)"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/dark_cool_blue"
