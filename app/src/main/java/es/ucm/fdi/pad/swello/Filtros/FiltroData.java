@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FiltroData implements Serializable {
     public float distanciaMinima = 0;
-    public float distanciaMaxima = 120;
+    public float distanciaMaxima = 200;
     public float tamanoMinimo = 0.5f;
     public float tamanoMaximo = 5.0f;
     public float periodoMinimo = 5f;

@@ -7,16 +7,21 @@ public class ItemPlaya {
     private double alturaOla;
     private String direccionOla;
     private double distancia;
+    private double latitud;
+    private double longitud;
     private String imagenUrl;
     private double tempAgua;
 
     public ItemPlaya(String id, String nombre, double alturaOla, String direccionOla,
-                     double distancia, String imagenUrl, double tempAgua) {
+                     double distancia, double latitud, double longitud,
+                     String imagenUrl, double tempAgua) {
         this.id = id;
         this.nombre = nombre;
         this.alturaOla = alturaOla;
         this.direccionOla = direccionOla;
         this.distancia = distancia;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.imagenUrl = imagenUrl;
         this.tempAgua = tempAgua;
     }
@@ -27,6 +32,8 @@ public class ItemPlaya {
     public double getAlturaOla() { return alturaOla; }
     public String getDireccionOla() { return direccionOla; }
     public double getDistancia() { return distancia; }
+    public double getLatitud() { return latitud; }
+    public double getLongitud() { return longitud; }
     public String getImagenUrl() { return imagenUrl; }
     public double getTempAgua() { return tempAgua; }
 
@@ -36,6 +43,8 @@ public class ItemPlaya {
     public void setAlturaOla(double alturaOla) { this.alturaOla = alturaOla; }
     public void setDireccionOla(String direccionOla) { this.direccionOla = direccionOla; }
     public void setDistancia(double distancia) { this.distancia = distancia; }
+    public void setLatitud(double latitud) { this.latitud = latitud; }
+    public void setLongitud(double longitud) { this.longitud = longitud; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
     public void setTempAgua(double tempAgua) { this.tempAgua = tempAgua; }
 
@@ -47,6 +56,8 @@ public class ItemPlaya {
                 ", alturaOla=" + alturaOla +
                 ", direccionOla='" + direccionOla + '\'' +
                 ", distancia=" + distancia +
+                ", latitud=" + latitud +
+                ", longitud=" + longitud +
                 ", tempAgua=" + tempAgua +
                 '}';
     }

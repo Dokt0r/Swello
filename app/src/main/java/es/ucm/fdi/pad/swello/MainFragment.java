@@ -83,7 +83,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onPermissionGranted() {
                 Log.d(TAG, "Permisos de ubicación concedidos");
-                UserLocation.init(requireContext());
+
+                // Inicializamos UserLocation y pedimos ubicación
+                UserLocation.init(requireContext()).setLocationReadyListener((lat, lon) -> {
+                    Log.d(TAG, "Ubicación disponible, cargando playas con lat=" + lat + " lon=" + lon);
+                    fetchPlayasFromApi("", currentFilters);
+                });
+                UserLocation.getInstance().actualizarUbicacion();
             }
 
             @Override
@@ -91,9 +97,6 @@ public class MainFragment extends Fragment {
                 Log.w(TAG, "Permisos de ubicación denegados. Búsqueda por distancia no funcionará.");
             }
         });
-
-        // --- Inicializar los elementos con query basica ---
-        fetchPlayasFromApi("", currentFilters);
 
         // --- Configuración RecyclerView ---
         adapter = new PlayaAdapter(new ArrayList<>());
@@ -167,24 +170,22 @@ public class MainFragment extends Fragment {
         List<ItemPlaya> ordenadas = new ArrayList<>(allItems);
         switch (tipoOrdenacion) {
             case "distancia":
-                ordenadas.sort((p1, p2) -> Double.compare(p1.getDistancia(), p2.getDistancia()));
+                Collections.sort(ordenadas, (p1, p2) -> Double.compare(p1.getDistancia(), p2.getDistancia()));
                 Log.d(TAG, "Playas ordenadas por distancia");
                 break;
             case "nombre":
-                ordenadas.sort((p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
                 Log.d(TAG, "Playas ordenadas por nombre");
                 break;
-            case "altura":
-                ordenadas.sort((p1, p2) -> Double.compare(p2.getAlturaOla(), p1.getAlturaOla()));
-                Log.d(TAG, "Playas ordenadas por altura de olas (mayor primero)");
+            case "popularidad":
+                // Por ahora, orden alfabético como placeholder
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por popularidad (placeholder)");
                 break;
             case "valoración":
                 // Por ahora, orden alfabético como placeholder
-                // Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
-                // Log.d(TAG, "Playas ordenadas por valoración (placeholder)");
-                break;
-            default:
-                Log.w(TAG, "Tipo de ordenación desconocido: " + tipoOrdenacion);
+                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                Log.d(TAG, "Playas ordenadas por valoración (placeholder)");
                 break;
         }
         adapter.updateList(ordenadas);
@@ -195,27 +196,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onSuccess(List<ItemPlaya> playas) {
                 allItems = playas;
-
-                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
-                    aplicarOrdenacion(filtros.ordenacion);
-                } else {
-                    adapter.updateList(playas);
-                }
-
+                adapter.updateList(playas);
                 Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e(TAG, "Error obteniendo playas, usando datos fake", e);
-                List<ItemPlaya> fake = crearPlayasFake();
-                allItems = fake;
-
-                if (filtros.ordenacion != null && !filtros.ordenacion.isEmpty()) {
-                    aplicarOrdenacion(filtros.ordenacion);
-                } else {
-                    adapter.updateList(fake);
-                }
+                Log.e(TAG, "Error obteniendo playas", e);
             }
         });
     }
@@ -235,15 +222,5 @@ public class MainFragment extends Fragment {
         }
 
         adapter.updateList(filtered);
-    }
-
-    private List<ItemPlaya> crearPlayasFake() {
-        List<ItemPlaya> list = new ArrayList<>();
-        list.add(new ItemPlaya("1", "Playa del Test", 1.2, "NW", 10.5, null, 22));
-        list.add(new ItemPlaya("2", "Playa Debug", 0.8, "E", 22.3, null, 10));
-        list.add(new ItemPlaya("3", "Playa Fake del Sur", 2.1, "S", 5.0, null, 0));
-        list.add(new ItemPlaya("4", "Playa del Norte", 1.7, "N", 8.4, null, 14));
-        list.add(new ItemPlaya("5", "Playa Inventada 3000", 3.1, "O", 120.0, null, 16));
-        return list;
     }
 }

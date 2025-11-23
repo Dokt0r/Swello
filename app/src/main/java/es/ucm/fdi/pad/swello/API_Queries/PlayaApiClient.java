@@ -6,7 +6,6 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -26,7 +25,6 @@ public class PlayaApiClient {
     private static final String BASE_URL = "http://10.0.2.2:3000/api/beaches";
 
     private final RequestQueue requestQueue;
-    private UserLocation location;
 
     public interface PlayaApiListener {
         void onSuccess(List<ItemPlaya> playas);
@@ -38,7 +36,7 @@ public class PlayaApiClient {
     }
 
     // --------------------------------------------------------
-    //   Construcción de la URL
+    // Construcción de la URL
     // --------------------------------------------------------
     public String buildQueryUrl(String baseQuery, FiltroData filtros) {
         StringBuilder url = new StringBuilder(BASE_URL + "?");
@@ -49,14 +47,15 @@ public class PlayaApiClient {
             hasParam = true;
         }
 
-        if (!(filtros.distanciaMinima == 0f && filtros.distanciaMaxima == 120f)) {
-            location = UserLocation.getInstance();
-            if (hasParam) url.append("&");
-            url.append("distanciaMin=").append(filtros.distanciaMinima)
-                    .append("&distanciaMax=").append(filtros.distanciaMaxima)
-                    .append("&lon=").append(location.getLongitud())
-                    .append("&lat=").append(location.getLatitud());
-            hasParam = true;
+        if (!(filtros.distanciaMinima == 0f && filtros.distanciaMaxima == 200f)) {
+            if (UserLocation.isInitialized()) {
+                if (hasParam) url.append("&");
+                url.append("distanciaMin=").append(filtros.distanciaMinima)
+                        .append("&distanciaMax=").append(filtros.distanciaMaxima)
+                        .append("&lon=").append(UserLocation.getInstance().getLongitud())
+                        .append("&lat=").append(UserLocation.getInstance().getLatitud());
+                hasParam = true;
+            }
         }
 
         if (!(filtros.tamanoMinimo <= 0.5f && filtros.tamanoMaximo >= 5.0f)) {
@@ -72,7 +71,6 @@ public class PlayaApiClient {
             hasParam = true;
         }
 
-        // Temperatura del agua — si se usa filtro
         if (filtros.tempAgua != null && !filtros.tempAgua.isEmpty()) {
             if (hasParam) url.append("&");
             url.append("tempAgua=").append(filtros.tempAgua);
@@ -85,7 +83,7 @@ public class PlayaApiClient {
     }
 
     // --------------------------------------------------------
-    //   Fetch lista playas
+    // Fetch lista playas
     // --------------------------------------------------------
     public void fetchPlayas(String baseQuery, FiltroData filtros, PlayaApiListener listener) {
         String url = buildQueryUrl(baseQuery, filtros);
@@ -105,9 +103,8 @@ public class PlayaApiClient {
         requestQueue.add(request);
     }
 
-
     // --------------------------------------------------------
-    //   Parseo JSON
+    // Parseo JSON
     // --------------------------------------------------------
     private List<ItemPlaya> parsePlayas(JSONArray array) throws JSONException {
         List<ItemPlaya> lista = new ArrayList<>();
@@ -125,7 +122,9 @@ public class PlayaApiClient {
                 obj.optDouble("altura_ola", 0.0),
                 obj.optString("direccion_ola", ""),
                 obj.optDouble("distancia", 0.0),
-                obj.optString("imagen_principal"),
+                obj.optDouble("latitud", 0.0),
+                obj.optDouble("longitud", 0.0),
+                obj.optString("imagen_principal", ""),
                 obj.optDouble("temp_agua", 0.0)
         );
     }

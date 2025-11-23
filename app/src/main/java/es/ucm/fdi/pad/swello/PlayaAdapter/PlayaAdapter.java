@@ -1,5 +1,6 @@
 package es.ucm.fdi.pad.swello.PlayaAdapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import es.ucm.fdi.pad.swello.R;
 
 public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> {
 
+    private static final double EARTH_RADIUS = 6371;
     private List<ItemPlaya> items;
     private OnPlayaClickListener listener;
 
@@ -49,6 +51,24 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemPlaya item = items.get(position);
 
+        // --- Calcular distancia si UserLocation está disponible ---
+        if (es.ucm.fdi.pad.swello.Location.UserLocation.isInitialized() &&
+                es.ucm.fdi.pad.swello.Location.UserLocation.getInstance().isLocationAvailable()) {
+
+            double userLat = es.ucm.fdi.pad.swello.Location.UserLocation.getInstance().getLatitud();
+            double userLon = es.ucm.fdi.pad.swello.Location.UserLocation.getInstance().getLongitud();
+            double playaLat = item.getLatitud();
+            double playaLon = item.getLongitud();
+
+            double distancia = calcularDistancia(userLat, userLon, playaLat, playaLon);
+            item.setDistancia(distancia);
+
+            // --- Log para depuración ---
+            Log.d("PlayaAdapter", "Calculando distancia para " + item.getNombre() +
+                    ": user(" + userLat + "," + userLon + ") playa(" + playaLat + "," + playaLon +
+                    ") = " + String.format("%.2f km", distancia));
+        }
+
         // --- Nombre más grande ---
         holder.textNombrePlaya.setText(item.getNombre());
         holder.textNombrePlaya.setTextSize(20);
@@ -75,7 +95,7 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
         holder.tempAgua.setText(tempTxt);
         holder.tempAgua.setTextSize(16);
 
-        // --- Cargar imagen con Glide y esquinas redondeadas ---
+        // --- Cargar imagen con Glide ---
         String url = item.getImagenUrl();
         if (url != null && !url.isEmpty()) {
             int radius = 30;
@@ -92,6 +112,23 @@ public class PlayaAdapter extends RecyclerView.Adapter<PlayaAdapter.ViewHolder> 
 
         holder.bindItem(item);
     }
+
+    /**
+     * Calcula la distancia en kilómetros entre dos puntos usando Haversine.
+     */
+    private double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
+        final double R = 6371; // radio de la Tierra en km
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
 
     @Override
     public int getItemCount() {
