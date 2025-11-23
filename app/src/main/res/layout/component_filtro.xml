@@ -225,7 +225,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp" />
 
-            <!-- CHANGED: Updated sorting buttons to blue filled style -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_ordenar_distancia"
                 android:layout_width="match_parent"
@@ -249,16 +248,17 @@
                 app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_ordenar_popularidad"
+                android:id="@+id/btn_ordenar_altura"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Popularidad"
+                android:text="Altura de olas"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/dark_cool_blue"
                 app:cornerRadius="8dp" />
 
+            <!-- (tal vez se implementará en el futuro)
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_ordenar_valoracion"
                 android:layout_width="match_parent"
@@ -269,6 +269,7 @@
                 android:textColor="@color/white"
                 app:backgroundTint="@color/dark_cool_blue"
                 app:cornerRadius="8dp" />
+            -->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_aplicar_filtros"

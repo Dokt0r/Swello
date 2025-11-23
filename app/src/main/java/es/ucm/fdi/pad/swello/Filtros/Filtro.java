@@ -32,7 +32,7 @@ public class Filtro extends BottomSheetDialogFragment {
     private ChipGroup chipWaveDir, chipSST, chipNivel, chipServicios;
     private MaterialButton btnAplicar;
 
-    private MaterialButton btnOrdenarDistancia, btnOrdenarNombre, btnOrdenarPopularidad, btnOrdenarValoracion;
+    private MaterialButton btnOrdenarDistancia, btnOrdenarNombre, btnOrdenarAltura; //, btnOrdenarValoracion;
 
     private String selectedOrdenacion = "";
     private OnFiltroAplicadoListener listener;
@@ -69,8 +69,8 @@ public class Filtro extends BottomSheetDialogFragment {
         // inicializar botones de ordenación
         btnOrdenarDistancia = view.findViewById(R.id.btn_ordenar_distancia);
         btnOrdenarNombre = view.findViewById(R.id.btn_ordenar_nombre);
-        btnOrdenarPopularidad = view.findViewById(R.id.btn_ordenar_popularidad);
-        btnOrdenarValoracion = view.findViewById(R.id.btn_ordenar_valoracion);
+        btnOrdenarAltura = view.findViewById(R.id.btn_ordenar_altura);
+        // btnOrdenarValoracion = view.findViewById(R.id.btn_ordenar_valoracion);
 
         // Restaurar estado guardado de filtros
         restaurarEstadoFiltros();
@@ -79,28 +79,46 @@ public class Filtro extends BottomSheetDialogFragment {
 
         // configurar listeners de ordenación
         btnOrdenarDistancia.setOnClickListener(v -> {
-            selectedOrdenacion = "distancia";
+            if ("distancia".equals(selectedOrdenacion)) {
+                selectedOrdenacion = "";
+            } else {
+                selectedOrdenacion = "distancia";
+            }
             aplicarOrdenacion();
-            Log.d(TAG, "Ordenación seleccionada: distancia");
+            Log.d(TAG, "Ordenación seleccionada: " + selectedOrdenacion);
         });
 
         btnOrdenarNombre.setOnClickListener(v -> {
-            selectedOrdenacion = "nombre";
+            if ("nombre".equals(selectedOrdenacion)) {
+                selectedOrdenacion = "";
+            } else {
+                selectedOrdenacion = "nombre";
+            }
             aplicarOrdenacion();
-            Log.d(TAG, "Ordenación seleccionada: nombre");
+            Log.d(TAG, "Ordenación seleccionada: " + selectedOrdenacion);
         });
 
-        btnOrdenarPopularidad.setOnClickListener(v -> {
-            selectedOrdenacion = "popularidad";
+        btnOrdenarAltura.setOnClickListener(v -> {
+            if ("altura".equals(selectedOrdenacion)) {
+                selectedOrdenacion = "";
+            } else {
+                selectedOrdenacion = "altura";
+            }
             aplicarOrdenacion();
-            Log.d(TAG, "Ordenación seleccionada: popularidad");
+            Log.d(TAG, "Ordenación seleccionada: " + selectedOrdenacion);
         });
 
+        /*
         btnOrdenarValoracion.setOnClickListener(v -> {
-            selectedOrdenacion = "valoración";
+            if ("valoración".equals(selectedOrdenacion)) {
+                selectedOrdenacion = "";
+            } else {
+                selectedOrdenacion = "valoración";
+            }
             aplicarOrdenacion();
-            Log.d(TAG, "Ordenación seleccionada: valoración");
+            Log.d(TAG, "Ordenación seleccionada: " + selectedOrdenacion);
         });
+         */
 
         aplicarOrdenacion();
 
@@ -108,30 +126,42 @@ public class Filtro extends BottomSheetDialogFragment {
     }
 
     private void aplicarOrdenacion() {
-        btnOrdenarDistancia.setStrokeWidth(0);
-        btnOrdenarNombre.setStrokeWidth(0);
-        btnOrdenarPopularidad.setStrokeWidth(0);
-        btnOrdenarValoracion.setStrokeWidth(0);
+        Log.d(TAG, "Actualizando UI de botones, selección: " + selectedOrdenacion);
 
-        // Añadir borde al botón seleccionado
+        restablecerTodosLosFondosDeBotones();
+
         switch(selectedOrdenacion) {
             case "distancia":
-                btnOrdenarDistancia.setStrokeColorResource(R.color.selected_border);
-                btnOrdenarDistancia.setStrokeWidth(4);
+                establecerFondoSeleccionado(btnOrdenarDistancia);
                 break;
             case "nombre":
-                btnOrdenarNombre.setStrokeColorResource(R.color.selected_border);
-                btnOrdenarNombre.setStrokeWidth(4);
+                establecerFondoSeleccionado(btnOrdenarNombre);
                 break;
-            case "popularidad":
-                btnOrdenarPopularidad.setStrokeColorResource(R.color.selected_border);
-                btnOrdenarPopularidad.setStrokeWidth(4);
+            case "altura":
+                establecerFondoSeleccionado(btnOrdenarAltura);
                 break;
             case "valoración":
-                btnOrdenarValoracion.setStrokeColorResource(R.color.selected_border);
-                btnOrdenarValoracion.setStrokeWidth(4);
+                // establecerFondoSeleccionado(btnOrdenarValoracion);
+                break;
+            default:
+                Log.d(TAG, "Ninguna ordenación seleccionada");
                 break;
         }
+    }
+
+    private void restablecerTodosLosFondosDeBotones() {
+        int defaultColor = getResources().getColor(R.color.dark_cool_blue);
+
+        btnOrdenarDistancia.setBackgroundColor(defaultColor);
+        btnOrdenarNombre.setBackgroundColor(defaultColor);
+        btnOrdenarAltura.setBackgroundColor(defaultColor);
+        // btnOrdenarValoracion.setBackgroundColor(defaultColor);
+    }
+
+    private void establecerFondoSeleccionado(MaterialButton boton) {
+        int colorSeleccionado = getResources().getColor(android.R.color.holo_blue_light);
+        boton.setBackgroundColor(colorSeleccionado);
+        Log.d(TAG, "Aplicado fondo seleccionado al botón: " + boton.getText());
     }
 
     private void aplicarFiltros() {

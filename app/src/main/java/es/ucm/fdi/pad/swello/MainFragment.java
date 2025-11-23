@@ -167,22 +167,24 @@ public class MainFragment extends Fragment {
         List<ItemPlaya> ordenadas = new ArrayList<>(allItems);
         switch (tipoOrdenacion) {
             case "distancia":
-                Collections.sort(ordenadas, (p1, p2) -> Double.compare(p1.getDistancia(), p2.getDistancia()));
+                ordenadas.sort((p1, p2) -> Double.compare(p1.getDistancia(), p2.getDistancia()));
                 Log.d(TAG, "Playas ordenadas por distancia");
                 break;
             case "nombre":
-                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                ordenadas.sort((p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
                 Log.d(TAG, "Playas ordenadas por nombre");
                 break;
-            case "popularidad":
-                // Por ahora, orden alfabético como placeholder
-                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
-                Log.d(TAG, "Playas ordenadas por popularidad (placeholder)");
+            case "altura":
+                ordenadas.sort((p1, p2) -> Double.compare(p2.getAlturaOla(), p1.getAlturaOla()));
+                Log.d(TAG, "Playas ordenadas por altura de olas (mayor primero)");
                 break;
             case "valoración":
                 // Por ahora, orden alfabético como placeholder
-                Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
-                Log.d(TAG, "Playas ordenadas por valoración (placeholder)");
+                // Collections.sort(ordenadas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+                // Log.d(TAG, "Playas ordenadas por valoración (placeholder)");
+                break;
+            default:
+                Log.w(TAG, "Tipo de ordenación desconocido: " + tipoOrdenacion);
                 break;
         }
         adapter.updateList(ordenadas);
