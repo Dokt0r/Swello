@@ -27,37 +27,40 @@
             android:scaleType="centerCrop"
             android:clipToOutline="true" />
 
-        <!-- Overlay semitransparente -->
+        <!-- Overlay -->
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#80000000"
-            android:clipToOutline="true"/> <!-- negro al 50% de transparencia -->
+            android:clipToOutline="true"/>
 
-        <!-- Contenido encima de la imagen -->
+        <!-- Contenido -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Nombre playa -->
             <TextView
                 android:id="@+id/text_nombre_playa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Playa Example"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <!-- Fila datos -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
+                <!-- Altura ola -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -66,21 +69,21 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/tamano_de_las_olas_m"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_wave" />
 
                     <TextView
                         android:id="@+id/text_altura_ola"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="6dp"
                         android:text="1.8 m"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
+                <!-- Dirección ola -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -90,21 +93,21 @@
 
                     <ImageView
                         android:id="@+id/icon_direccion_ola"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/direccion_de_las_olas"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_arrow_upward" />
 
                     <TextView
                         android:id="@+id/text_direccion_ola"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="6dp"
                         android:text="N"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
+                <!-- Distancia -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -113,23 +116,44 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="@string/distancia_maxima"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@drawable/ic_location" />
 
                     <TextView
                         android:id="@+id/text_distancia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="6dp"
                         android:text="12 km"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- 🌡️ Temperatura agua -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_temperature" />
+
+                    <TextView
+                        android:id="@+id/text_temp_agua"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="22°C"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
 </com.google.android.material.card.MaterialCardView>
