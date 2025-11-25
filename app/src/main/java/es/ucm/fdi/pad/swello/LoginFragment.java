@@ -12,11 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import es.ucm.fdi.pad.swello.API_Queries.LoginApi;
+import es.ucm.fdi.pad.swello.UsuarioAdapter.ItemUsuario;
+
 public class LoginFragment extends Fragment {
 
     private EditText usernameField;
     private EditText passwordField;
     private Button loginButton;
+
+    private LoginApi loginApi;
 
     @Nullable
     @Override
@@ -30,16 +35,36 @@ public class LoginFragment extends Fragment {
         passwordField = view.findViewById(R.id.edit_pass);
         loginButton = view.findViewById(R.id.btn_login);
 
+        loginApi = new LoginApi(getContext());
+
         loginButton.setOnClickListener(v -> {
             String user = usernameField.getText().toString().trim();
             String pass = passwordField.getText().toString().trim();
 
-            if (user.equals("admin") && pass.equals("1234")) {
-                // Llamamos al MainActivity para cambiar el fragment
-                ((MainActivity) requireActivity()).onLoginSuccess();
-            } else {
-                Toast.makeText(getContext(), getString(R.string.login_error), Toast.LENGTH_SHORT).show();
-            }
+            // Llamada a la API para hacer login
+            loginApi.loginUser(user, pass, new LoginApi.LoginCallback() {
+                @Override
+                public void onSuccess(String token) {
+                    // Después del login exitoso, obtener los datos del usuario
+                    loginApi.getUsuarioData(token, new LoginApi.UsuarioCallback() {
+                        @Override
+                        public void onSuccess(ItemUsuario usuario) {
+                            // Aquí pasas los datos del usuario a la siguiente actividad
+                            ((MainActivity) requireActivity()).onLoginSuccess(usuario);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Toast.makeText(getContext(), "Error al obtener datos: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    Toast.makeText(getContext(), "Error en login: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         return view;
