@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Al iniciar, mostramos el LoginFragment
         if (savedInstanceState == null) {
-            showFragment(new MainFragment(), false);
+            showFragment(new LoginFragment(), false);
         }
     }
 
