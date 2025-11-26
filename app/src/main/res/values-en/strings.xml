@@ -100,4 +100,10 @@
     <string name="register_name_hint">Name</string>
     <string name="register_email_hint">Email</string>
 
+    <!--  playa detail pantalla  -->
+    <string name="playa_card_uno">rating</string>
+    <string name="playa_fotos">Photos</string>
+    <string name="playa_mareas">Tides</string>
+    <string name="playa_clima">Weather</string>
+
 </resources>

@@ -33,6 +33,7 @@ import es.ucm.fdi.pad.swello.Location.UserLocation;
 import es.ucm.fdi.pad.swello.OptionsMenu.menu_options;
 import es.ucm.fdi.pad.swello.PlayaAdapter.ItemPlaya;
 import es.ucm.fdi.pad.swello.PlayaAdapter.PlayaAdapter;
+import es.ucm.fdi.pad.swello.PlayaDetails.PlayaDetailActivity;
 
 public class MainFragment extends Fragment {
 
@@ -101,8 +102,23 @@ public class MainFragment extends Fragment {
 
         // --- Configuración RecyclerView ---
         adapter = new PlayaAdapter(new ArrayList<>());
-        adapter.setOnPlayaClickListener(playa ->
-                Log.d(TAG, "Fragment recibió click: " + playa.getNombre() + " (ID: " + playa.getId() + ")"));
+        adapter.setOnPlayaClickListener(playa -> {
+            Log.d(TAG, "Fragment recibió click: " + playa.getNombre() + " (ID: " + playa.getId() + ")");
+
+            //crear intent para la nueva activity
+            Intent intent = new Intent(requireContext(), PlayaDetailActivity.class);
+
+            //pasa los datos a la nueva activity
+            intent.putExtra("id", playa.getId());
+            intent.putExtra("nombre", playa.getNombre());
+            intent.putExtra("alturaOla", playa.getAlturaOla());
+            intent.putExtra("direccionOla", playa.getDireccionOla());
+            intent.putExtra("distancia", playa.getDistancia());
+            intent.putExtra("imagenUrl", playa.getImagenUrl());
+
+            //empezar nueva activity
+            startActivity(intent);
+        });
 
         recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerResults.setAdapter(adapter);

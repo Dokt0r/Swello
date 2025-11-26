@@ -99,4 +99,9 @@
     <string name="chiringuito">Chiringuito</string>
     <string name="aplicar_filtros">Aplicar filtros</string>
     <string name="distancia_maxima">Distancia máxima (km)</string>
+    <!--  playa detail pantalla  -->
+    <string name="playa_card_uno">valoración</string>
+    <string name="playa_fotos">Fotos</string>
+    <string name="playa_mareas">Mareas</string>
+    <string name="playa_clima">Tiempo y clima</string>
 </resources>

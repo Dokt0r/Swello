@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_cool_blue"
+    tools:context=".PlayaDetails.PlayaDetailActivity">
+
+    <!-- scroll vertical -->
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- apartado titulo, direccion, linea de separacion -->
+            <include layout="@layout/playa_detail_header"/>
+
+            <!-- apartado bloques principales -->
+            <include layout="@layout/playa_detail_info_blocks"/>
+
+            <!-- apartado fotos -->
+            <include layout="@layout/playa_detail_photos"/>
+
+            <!-- apartado mareas -->
+            <include layout="@layout/playa_detail_tides"/>
+
+            <!-- apartado tiempo y clima -->
+            <include layout="@layout/playa_detail_wheater"/>
+
+            <!-- espacio extra para que el ultimo apartado no sea cubierto por el boton -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- boton para volver a la pagina anterior (fijo) -->
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/orange_circle"
+        android:src="@drawable/ic_arrow_left"
+        android:scaleType="center"
+        android:elevation="8dp"
+        android:padding="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
