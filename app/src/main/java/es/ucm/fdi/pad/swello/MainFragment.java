@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 
@@ -48,6 +49,8 @@ public class MainFragment extends Fragment {
     private FiltroData currentFilters = new FiltroData();
     private Filtro filtroDialog = new Filtro();
     private LocationPermissions locationPermissions;
+    private ShimmerFrameLayout shimmerLoader;
+
 
     private List<ItemPlaya> allItems = new ArrayList<>();
 
@@ -65,6 +68,8 @@ public class MainFragment extends Fragment {
         btnSearch = view.findViewById(R.id.btn_search);
         recyclerResults = view.findViewById(R.id.recycler_results);
         topAppBar = view.findViewById(R.id.top_bar);
+        shimmerLoader = view.findViewById(R.id.shimmer_loader);
+
 
         // --- Inicialización de filtros por defecto ---
         filtroDialog.inicializarValoresPorDefecto();
@@ -188,17 +193,33 @@ public class MainFragment extends Fragment {
     }
     // --- Llamada HTTP GET a la API ---
     private void fetchPlayasFromApi(String query, FiltroData filtros) {
+
+        // Activar shimmer
+        shimmerLoader.setVisibility(View.VISIBLE);
+        shimmerLoader.startShimmer();
+        recyclerResults.setVisibility(View.GONE);
+
         playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
             @Override
             public void onSuccess(List<ItemPlaya> playas) {
                 allItems = playas;
                 adapter.updateList(playas);
                 Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
+
+                // Desactivar shimmer
+                shimmerLoader.stopShimmer();
+                shimmerLoader.setVisibility(View.GONE);
+                recyclerResults.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(Exception e) {
                 Log.e(TAG, "Error obteniendo playas", e);
+
+                // Desactivar shimmer también en error
+                shimmerLoader.stopShimmer();
+                shimmerLoader.setVisibility(View.GONE);
+                recyclerResults.setVisibility(View.VISIBLE);
             }
         });
     }
