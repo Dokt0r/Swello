@@ -1,5 +1,6 @@
 package es.ucm.fdi.pad.swello.OptionsMenu;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.Intent;
@@ -25,6 +26,17 @@ public class menu_options extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        String size = prefs.getString("text_size", "medium");
+
+        if (size.equals("small"))
+            setTheme(R.style.Theme_Swello_Small);
+        else if (size.equals("large"))
+            setTheme(R.style.Theme_Swello_Large);
+        else
+            setTheme(R.style.Theme_Swello_Medium);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_options);
 
@@ -41,6 +53,7 @@ public class menu_options extends AppCompatActivity {
 
         List<OptionItem> options = new ArrayList<>();
         options.add(new OptionItem("General", R.drawable.ic_settings, false));
+        options.add(new OptionItem(getString(R.string.opcion_tam_texto), R.drawable.ic_text_size, false));
         options.add(new OptionItem(getString(R.string.opcion_informacion), R.drawable.ic_info, false));
         options.add(new OptionItem(getString(R.string.opcion_logout), R.drawable.ic_logout, false));
 

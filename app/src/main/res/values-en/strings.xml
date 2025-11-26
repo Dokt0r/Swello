@@ -28,6 +28,7 @@
     <string name="opcion_logout">Logout</string>
     <string name="opcion_av_legal">Legal notice</string>
     <string name="opcion_term_cond">Terms and conditions</string>
+    <string name="opcion_tam_texto">Text size</string>
 
     <!--  Messages / Logs / Toasts  -->
     <string name="abrir_filtros">Open filters</string>
@@ -40,6 +41,11 @@
     <string name="seleccionaste">You selected: </string>
     <string name="pulsaste">You pressed: </string>
     <string name="selecciona_idioma">Select language</string>
+
+    <!-- Text sizes -->
+    <string name="Grande">Large-text</string>
+    <string name="Mediano">Medium-text (default)</string>
+    <string name="Pequeño">Small-text</string>
 
     <!-- Languages -->
     <string name="Espanol">Spanish</string>
@@ -62,7 +68,7 @@
    • TikTok: @swelloTikTok
 </string>
 
-
+<string name="Guardar">Save</string>
 
     <!-- Filter -->
     <string name="tamano_de_las_olas_m">Wave height (m)</string>

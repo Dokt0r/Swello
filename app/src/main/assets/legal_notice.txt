@@ -1,0 +1,88 @@
+📜 LEGAL NOTICE – Swello
+1. Application Owner
+
+The Swello application (hereinafter, “the App”) is owned by Swello Corporation and can be contacted via the following email address: swello@gmail.com
+.
+
+2. Purpose of the Application
+
+The App allows users to check information about different beaches and maritime conditions, as well as receive personalized recommendations based on their location, preferences, and surfing experience level.
+
+All information displayed is for informational purposes only and may vary depending on weather and wave conditions.
+
+3. Use of the App
+
+The user agrees to:
+
+Make appropriate and responsible use of the App.
+
+Not use the App for unlawful activities or activities contrary to current legislation.
+
+Accept that the information displayed may contain errors or may be outdated, as it may come from third parties or automatic estimations.
+
+The use of the App is under the sole responsibility of the user.
+The developer is not responsible for accidents, material damage, personal injury, or any consequences derived from surfing activities or decisions made based on the information provided by the App.
+
+4. Use of Location Data
+
+The App requests access to the user’s location (GPS) for the following purposes:
+
+Display nearby beaches.
+
+Offer personalized recommendations.
+
+Sort and filter results based on proximity.
+
+The user can enable or disable this permission at any time from the device settings.
+
+Location data is not shared with third parties and is used only while the App is running, unless the user explicitly authorizes otherwise.
+
+5. Responsibility for the Information
+
+The App provides approximate data about:
+
+Wave size and direction
+
+Wave period
+
+Water temperature
+
+Available beach services
+
+Estimated distance
+
+This information may come from external sources that may not be completely accurate.
+The developer does not guarantee the accuracy of real-time values.
+
+Users are strongly advised to always check official safety information (flags, sea conditions, weather alerts, etc.) before entering the water.
+
+6. Intellectual Property
+
+All content, designs, icons, text, images, and other elements of the App are the property of the developer or of third parties who have authorized their use.
+
+Reproduction, distribution, or modification is prohibited without the express permission of the owner.
+
+7. Data Protection
+
+The App may process personal data such as:
+
+Selected language
+
+Experience level
+
+Approximate location
+
+This data is used exclusively to improve the user experience.
+Under no circumstances is it sold or transferred to third parties.
+
+Users may exercise their rights of access, rectification, or deletion by writing to swello@gmail.com
+.
+
+8. Modifications to the Legal Notice
+
+The developer may update this Legal Notice at any time.
+New versions will be available within the App.
+
+9. Applicable Law
+
+This Legal Notice is governed by Spanish law or the law of the developer’s country of residence.

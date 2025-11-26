@@ -28,6 +28,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         loadLocale();
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        String size = prefs.getString("text_size", "medium");
+
+        if (size.equals("small"))
+            setTheme(R.style.Theme_Swello_Small);
+        else if (size.equals("large"))
+            setTheme(R.style.Theme_Swello_Large);
+        else
+            setTheme(R.style.Theme_Swello_Medium);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
