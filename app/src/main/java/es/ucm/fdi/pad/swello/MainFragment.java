@@ -109,12 +109,7 @@ public class MainFragment extends Fragment {
             Intent intent = new Intent(requireContext(), PlayaDetailActivity.class);
 
             //pasa los datos a la nueva activity
-            intent.putExtra("id", playa.getId());
-            intent.putExtra("nombre", playa.getNombre());
-            intent.putExtra("alturaOla", playa.getAlturaOla());
-            intent.putExtra("direccionOla", playa.getDireccionOla());
-            intent.putExtra("distancia", playa.getDistancia());
-            intent.putExtra("imagenUrl", playa.getImagenUrl());
+            intent.putExtra("idPlaya", playa.getId());
 
             //empezar nueva activity
             startActivity(intent);
