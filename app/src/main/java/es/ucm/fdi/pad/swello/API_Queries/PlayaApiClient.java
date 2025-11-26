@@ -73,7 +73,23 @@ public class PlayaApiClient {
 
         if (filtros.tempAgua != null && !filtros.tempAgua.isEmpty()) {
             if (hasParam) url.append("&");
-            url.append("tempAgua=").append(filtros.tempAgua);
+            String cleaned = filtros.tempAgua
+                    .replace("°C", "")
+                    .replace("ºC", "")
+                    .replace("°", "")
+                    .replace("º", "")
+                    .replace("C", "")
+                    .replace(" ", "")
+                    .replace("+", "");
+
+            cleaned = cleaned.replace("–", "-"); // guión largo
+            cleaned = cleaned.replace("—", "-"); // guión extra largo
+
+            Log.d("DEBUG", "Cleaned temp = " + cleaned);
+
+            String[] s = cleaned.split("-");
+            url.append("tempAguaMin=").append(s[0]);
+            if (s.length > 1) url.append("&tempAguaMax=").append(s[1]);
             hasParam = true;
         }
 

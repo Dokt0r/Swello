@@ -28,8 +28,8 @@ public class Filtro extends BottomSheetDialogFragment {
 
     private static final String TAG = "FiltroBottomSheet";
 
-    private RangeSlider sliderWaveHeight, sliderWavePeriod, sliderDistance;
-    private ChipGroup chipWaveDir, chipSST, chipNivel, chipServicios;
+    private RangeSlider sliderWaveHeight, sliderDistance;
+    private ChipGroup chipWaveDir, chipSST;
     private MaterialButton btnAplicar;
 
     private MaterialButton btnOrdenarDistancia, btnOrdenarNombre, btnOrdenarAltura; //, btnOrdenarValoracion;
@@ -56,13 +56,10 @@ public class Filtro extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.component_filtro, container, false);
 
         sliderWaveHeight = view.findViewById(R.id.slider_wave_height);
-        sliderWavePeriod = view.findViewById(R.id.slider_wave_period);
         sliderDistance = view.findViewById(R.id.slider_distancia);
 
         chipWaveDir = view.findViewById(R.id.chip_group_wave_dir);
         chipSST = view.findViewById(R.id.chip_group_sst);
-        chipNivel = view.findViewById(R.id.chip_group_nivel);
-        chipServicios = view.findViewById(R.id.chip_group_servicios);
 
         btnAplicar = view.findViewById(R.id.btn_aplicar_filtros);
 
@@ -174,11 +171,6 @@ public class Filtro extends BottomSheetDialogFragment {
         data.tamanoMaximo = altura.get(1);
         Log.d(TAG, "Altura seleccionada: min=" + data.tamanoMinimo + " max=" + data.tamanoMaximo);
 
-        List<Float> periodo = sliderWavePeriod.getValues();
-        data.periodoMinimo = periodo.get(0);
-        data.periodoMaximo = periodo.get(1);
-        Log.d(TAG, "Periodo seleccionado: min=" + data.periodoMinimo + " max=" + data.periodoMaximo);
-
         List<Float> distancia = sliderDistance.getValues();
         data.distanciaMinima = distancia.get(0);
         data.distanciaMaxima = distancia.get(1);
@@ -189,12 +181,6 @@ public class Filtro extends BottomSheetDialogFragment {
 
         data.tempAgua = getCheckedChipText(chipSST);
         Log.d(TAG, "Temperatura del agua seleccionada: " + data.tempAgua);
-
-        data.nivelSurfista = getCheckedChipText(chipNivel);
-        Log.d(TAG, "Nivel de surfista seleccionado: " + data.nivelSurfista);
-
-        data.servicios = getCheckedChips(chipServicios);
-        Log.d(TAG, "Servicios seleccionados: " + data.servicios);
 
         data.ordenacion = selectedOrdenacion;
         Log.d(TAG, "Ordenación aplicada: " + selectedOrdenacion);
@@ -241,13 +227,9 @@ public class Filtro extends BottomSheetDialogFragment {
         editor.putFloat("distanciaMax", data.distanciaMaxima);
         editor.putFloat("tamanoMin", data.tamanoMinimo);
         editor.putFloat("tamanoMax", data.tamanoMaximo);
-        editor.putFloat("periodoMin", data.periodoMinimo);
-        editor.putFloat("periodoMax", data.periodoMaximo);
 
         editor.putString("direccionOlas", data.direccionOlas);
         editor.putString("tempAgua", data.tempAgua);
-        editor.putString("nivelSurfista", data.nivelSurfista);
-        editor.putStringSet("servicios", new HashSet<>(data.servicios));
 
         editor.apply();
     }
@@ -267,7 +249,6 @@ public class Filtro extends BottomSheetDialogFragment {
 
         sliderDistance.setValues(distanciaMin, distanciaMax);
         sliderWaveHeight.setValues(tamanoMin, tamanoMax);
-        sliderWavePeriod.setValues(periodoMin, periodoMax);
 
         Log.d(TAG, "Distancia restaurada: min=" + distanciaMin + " max=" + distanciaMax);
         Log.d(TAG, "Altura restaurada: min=" + tamanoMin + " max=" + tamanoMax);
@@ -275,18 +256,12 @@ public class Filtro extends BottomSheetDialogFragment {
 
         String dir = prefs.getString("direccionOlas", "");
         String temp = prefs.getString("tempAgua", "");
-        String nivel = prefs.getString("nivelSurfista", "");
-        Set<String> servicios = prefs.getStringSet("servicios", new HashSet<>());
 
         Log.d(TAG, "Direccion olas restaurada: " + dir);
         Log.d(TAG, "Temperatura restaurada: " + temp);
-        Log.d(TAG, "Nivel restaurado: " + nivel);
-        Log.d(TAG, "Servicios restaurados: " + servicios);
 
         setCheckedChipByText(chipWaveDir, dir);
         setCheckedChipByText(chipSST, temp);
-        setCheckedChipByText(chipNivel, nivel);
-        setCheckedChipsByText(chipServicios, new ArrayList<>(servicios));
     }
 
     private void setCheckedChipByText(ChipGroup group, String text) {
@@ -336,8 +311,6 @@ public class Filtro extends BottomSheetDialogFragment {
 
         clearChips(chipWaveDir);
         clearChips(chipSST);
-        clearChips(chipNivel);
-        clearChips(chipServicios);
 
         editor.apply();
     }
