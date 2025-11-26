@@ -10,14 +10,15 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Map;
+import java.util.HashMap;
 
 import es.ucm.fdi.pad.swello.UsuarioAdapter.ItemUsuario;
 
 public class LoginApi {
-
     private static final String TAG = "UsuarioApiClient";
     private static final String BASE_URL = "http://10.0.2.2:3000/api/users";
-    private static final String USER_INFO_URL = "http://10.0.2.2:3000/api/users/me"; // Asumiendo que esta es la ruta para obtener los detalles del usuario
+    private static final String USER_INFO_URL = "http://10.0.2.2:3000/api/users/me";
 
     private final RequestQueue requestQueue;
 
@@ -25,9 +26,9 @@ public class LoginApi {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    // Función para hacer login
+    // --- LOGIN ---
     public void loginUser(String email, String password, final LoginCallback callback) {
-        String url = BASE_URL + "/login";  // Suponiendo que este es el endpoint de login
+        String url = BASE_URL + "/login";
 
         JSONObject loginParams = new JSONObject();
         try {
@@ -37,17 +38,15 @@ public class LoginApi {
             e.printStackTrace();
         }
 
-        // Crear el request para hacer login
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
                 loginParams,
                 response -> {
                     try {
-                        // Si la respuesta contiene el token JWT, pasamos el token a onSuccess
                         String token = response.optString("token");
                         if (token != null && !token.isEmpty()) {
-                            callback.onSuccess(token);  // Llamar al callback de éxito con el token
+                            callback.onSuccess(token);
                         } else {
                             callback.onError("Token no encontrado en la respuesta.");
                         }
@@ -55,23 +54,51 @@ public class LoginApi {
                         callback.onError("Error al procesar la respuesta: " + e.getMessage());
                     }
                 },
-                error -> callback.onError("Error de red: " + error.getMessage())  // Si hay un error en la solicitud
+                error -> callback.onError("Error de red: " + error.getMessage())
         );
 
         requestQueue.add(request);
     }
 
-    // Interfaz LoginCallback
-    public interface LoginCallback {
-        void onSuccess(String token);  // Método cuando el login es exitoso
-        void onError(String error);    // Método cuando hay un error en el login
+    // --- REGISTER ---
+    public void registerUser(String nombre, String email, String password, String fechaNacimiento,
+                             final RegisterCallback callback) {
+        String url = BASE_URL + "/register";
+
+        JSONObject registerParams = new JSONObject();
+        try {
+            registerParams.put("nombre", nombre);
+            registerParams.put("email", email);
+            registerParams.put("password", password);
+            registerParams.put("fecha_nacimiento", fechaNacimiento);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                registerParams,
+                response -> {
+                    // Registro exitoso
+                    callback.onSuccess(response.optString("message", "Usuario registrado con éxito"));
+                },
+                error -> {
+                    String errMsg = "Error de red";
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        errMsg = new String(error.networkResponse.data);
+                    }
+                    callback.onError(errMsg);
+                }
+        );
+
+        requestQueue.add(request);
     }
 
-    // Función para obtener los datos del usuario
+    // --- GET USUARIO ---
     public void getUsuarioData(String token, final UsuarioCallback callback) {
         String url = USER_INFO_URL;
 
-        // Crear el header con el token JWT
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -79,28 +106,51 @@ public class LoginApi {
                 response -> {
                     try {
                         ItemUsuario usuario = parseUsuario(response);
-                        callback.onSuccess(usuario);  // Devolver el usuario a la actividad
+                        callback.onSuccess(usuario);
                     } catch (JSONException e) {
                         callback.onError(e.getMessage());
                     }
                 },
-                error -> callback.onError("Error de red: " + error.getMessage())
+                error -> {
+                    String err = (error.networkResponse != null)
+                            ? "Status: " + error.networkResponse.statusCode
+                            : error.getMessage();
+                    Log.e("API_DEBUG", "Error en /me: " + err);
+                    callback.onError("Error en /me: " + err);
+                }
         ) {
             @Override
-            public java.util.Map<String, String> getHeaders() {
-                java.util.Map<String, String> headers = new java.util.HashMap<>();
-                headers.put("Authorization", "Bearer " + token);  // Autenticación con JWT
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                headers.put("Accept", "application/json");
                 return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
         };
 
+        request.setShouldCache(false);
         requestQueue.add(request);
     }
 
-    // Interfaz UsuarioCallback
+    // --- CALLBACK INTERFACES ---
+    public interface LoginCallback {
+        void onSuccess(String token);
+        void onError(String error);
+    }
+
+    public interface RegisterCallback {
+        void onSuccess(String message);
+        void onError(String error);
+    }
+
     public interface UsuarioCallback {
-        void onSuccess(ItemUsuario usuario);  // Método cuando se obtienen los datos del usuario
-        void onError(String error);           // Método cuando hay un error al obtener los datos
+        void onSuccess(ItemUsuario usuario);
+        void onError(String error);
     }
 
     private ItemUsuario parseUsuario(JSONObject obj) throws JSONException {

@@ -20,6 +20,7 @@ public class LoginFragment extends Fragment {
     private EditText usernameField;
     private EditText passwordField;
     private Button loginButton;
+    private Button registerButton;  // Nuevo botón de registro
 
     private LoginApi loginApi;
 
@@ -34,22 +35,21 @@ public class LoginFragment extends Fragment {
         usernameField = view.findViewById(R.id.edit_user);
         passwordField = view.findViewById(R.id.edit_pass);
         loginButton = view.findViewById(R.id.btn_login);
+        registerButton = view.findViewById(R.id.btn_register); // Asumimos que agregaste el botón en el XML
 
         loginApi = new LoginApi(getContext());
 
+        // --- Login ---
         loginButton.setOnClickListener(v -> {
             String user = usernameField.getText().toString().trim();
             String pass = passwordField.getText().toString().trim();
 
-            // Llamada a la API para hacer login
             loginApi.loginUser(user, pass, new LoginApi.LoginCallback() {
                 @Override
                 public void onSuccess(String token) {
-                    // Después del login exitoso, obtener los datos del usuario
                     loginApi.getUsuarioData(token, new LoginApi.UsuarioCallback() {
                         @Override
                         public void onSuccess(ItemUsuario usuario) {
-                            // Aquí pasas los datos del usuario a la siguiente actividad
                             ((MainActivity) requireActivity()).onLoginSuccess(usuario);
                         }
 
@@ -65,6 +65,12 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "Error en login: " + error, Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+
+        // --- Registro ---
+        registerButton.setOnClickListener(v -> {
+            // Mostrar el fragmento de registro
+            ((MainActivity) requireActivity()).showFragment(new RegisterFragment(), true);
         });
 
         return view;

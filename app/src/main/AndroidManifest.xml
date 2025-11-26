@@ -29,7 +29,10 @@
         <activity android:name=".OptionsMenu.menu_options"
             android:exported="true"
             android:theme="@style/Theme.Swello" />
-
+        <activity
+            android:name=".UserActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Swello" />
     </application>
 
 </manifest>

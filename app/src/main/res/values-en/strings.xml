@@ -18,6 +18,9 @@
     <string name="login_error">Incorrect username or password</string>
 
     <!--  List / Items  -->
+    <string name="register_button">Sign Up</string>
+    <string name="register_password_hint">Password</string>
+    <string name="register_birthdate_hint">Date</string>
     <string name="item_result_title">Title</string>
     <string name="item_result_desc">Item description</string>
     <string name="opcion_informacion">Information</string>
@@ -88,5 +91,7 @@
     <string name="chiringuito">Beach bar</string>
     <string name="aplicar_filtros">Apply filters</string>
     <string name="distancia_maxima">Maximum distance (km)</string>
+    <string name="register_name_hint">Name</string>
+    <string name="register_email_hint">Email</string>
 
 </resources>

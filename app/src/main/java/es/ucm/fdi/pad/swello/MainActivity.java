@@ -63,13 +63,13 @@ public class MainActivity extends AppCompatActivity {
     // Método que recibe el usuario logueado
     // Llamado desde LoginFragment cuando el usuario inicia sesión correctamente
     public void onLoginSuccess(ItemUsuario usuario) {
-        // Crear un Intent para iniciar UserActivity
-        Intent intent = new Intent(MainActivity.this, UserActivity.class);
+        // Puedes pasar datos al fragment usando Bundle
+        MainFragment fragment = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("usuario", usuario);
+        fragment.setArguments(bundle);
 
-        // Pasar el objeto usuario a través del Intent (ahora que ItemUsuario es Serializable)
-        intent.putExtra("usuario", usuario);
-
-        // Iniciar UserActivity
-        startActivity(intent);
+        // Mostrar el fragment
+        showFragment(fragment, false);
     }
 }
