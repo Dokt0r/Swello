@@ -1,5 +1,6 @@
 package es.ucm.fdi.pad.swello;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Locale;
+
+import es.ucm.fdi.pad.swello.UsuarioAdapter.ItemUsuario;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Al iniciar, mostramos el LoginFragment
         if (savedInstanceState == null) {
-            showFragment(new MainFragment(), false);
+            showFragment(new LoginFragment(), false);
         }
     }
 
@@ -66,8 +69,16 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    // Método que recibe el usuario logueado
     // Llamado desde LoginFragment cuando el usuario inicia sesión correctamente
-    public void onLoginSuccess() {
-        showFragment(new MainFragment(), false);
+    public void onLoginSuccess(ItemUsuario usuario) {
+        // Puedes pasar datos al fragment usando Bundle
+        MainFragment fragment = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("usuario", usuario);
+        fragment.setArguments(bundle);
+
+        // Mostrar el fragment
+        showFragment(fragment, false);
     }
 }

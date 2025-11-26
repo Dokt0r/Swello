@@ -10,35 +10,54 @@
         android:id="@+id/edit_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_user_hint"
+        android:hint="@string/register_name_hint"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        android:inputType="textEmailAddress" />
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/register_email_hint"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/edit_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_password_hint"
+        android:hint="@string/register_password_hint"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         android:inputType="textPassword"
         android:layout_marginTop="8dp" />
 
-    <Button
-        android:id="@+id/btn_login"
+    <EditText
+        android:id="@+id/edit_birthdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_button"
+        android:hint="@string/register_birthdate_hint"
         android:textColor="@android:color/white"
-        android:layout_marginTop="16dp" />
+        android:textColorHint="@android:color/white"
+        android:inputType="date"
+        android:layout_marginTop="8dp" />
 
-    <!-- Botón para abrir el registro -->
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_register_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_button"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btn_back_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"
         android:textColor="@android:color/white"
         android:layout_marginTop="8dp" />
 

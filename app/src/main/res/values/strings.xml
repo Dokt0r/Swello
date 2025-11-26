@@ -13,6 +13,12 @@
     <string name="login_password_hint">Contraseña</string>
     <string name="login_button">Iniciar sesión</string>
     <string name="login_error">Usuario o contraseña incorrectos</string>
+    <string name="register_button">Registro</string>
+    <string name="register_name_hint">Nombre</string>
+    <string name="register_email_hint">Email</string>
+    <string name="register_password_hint">Contraseña</string>
+    <string name="register_birthdate_hint">Fecha de nacimiento</string>
+
 
     <!--  Lista / Items  -->
     <string name="item_result_title">Título</string>
