@@ -35,7 +35,7 @@ public class LoginFragment extends Fragment {
         TokenManager tm = new TokenManager(requireContext());
         String savedToken = tm.getToken();
 
-        if (savedToken != null) {
+        if (savedToken != null && false) {
             // comprobar si el token sigue siendo válido
             loginApi.getUsuarioData(savedToken, new LoginApi.UsuarioCallback() {
                 @Override

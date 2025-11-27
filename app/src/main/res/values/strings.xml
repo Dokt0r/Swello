@@ -18,6 +18,9 @@
     <string name="register_email_hint">Email</string>
     <string name="register_password_hint">Contraseña</string>
     <string name="register_birthdate_hint">Fecha de nacimiento</string>
+    <string name="mensj_cerrar_sesion">¿Está seguro/a de querer cerrar sesión?</string>
+    <string name="Si">Sí</string>
+    <string name="No">No</string>
 
 
     <!--  Lista / Items  -->
@@ -99,6 +102,10 @@
     <string name="chiringuito">Chiringuito</string>
     <string name="aplicar_filtros">Aplicar filtros</string>
     <string name="distancia_maxima">Distancia máxima (km)</string>
+    <string name="ordenar_por">Ordenar por</string>
+    <string name="distancia">Distancia (más cercana primero)</string>
+    <string name="nombre">Nombre(A-Z)</string>
+    <string name="altura_olas">Altura de olas (mayor primero)</string>
     <!--  playa detail pantalla  -->
     <string name="playa_card_uno">valoración</string>
     <string name="playa_fotos">Fotos</string>

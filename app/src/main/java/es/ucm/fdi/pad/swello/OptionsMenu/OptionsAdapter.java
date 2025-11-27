@@ -99,6 +99,12 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
                 case "Text size":
                     showTextSizeDialog(context);
                     break;
+                case "Cerrar sesion":
+                    funcLogOut(context);
+                    break;
+                case "Logout":
+                    funcLogOut(context);
+                    break;
 
                 default:
                     Toast.makeText(context, v.getContext().getString(R.string.pulsaste) + option.getTitle(), Toast.LENGTH_SHORT).show();
@@ -341,6 +347,24 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
         if (context instanceof AppCompatActivity) {
             ((AppCompatActivity) context).finish();
         }
+    }
+
+    private void funcLogOut(Context context){
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.opcion_logout))
+                .setMessage(context.getString(R.string.mensj_cerrar_sesion))
+                .setPositiveButton(context.getString(R.string.Si), (dialog, which) -> {
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                })
+                .setNegativeButton(context.getString(R.string.No), (dialog, which) -> {
+                    Intent intent = new Intent(context, menu_options.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                })
+                .show();
     }
 
 

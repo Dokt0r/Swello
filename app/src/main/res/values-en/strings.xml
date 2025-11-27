@@ -16,6 +16,9 @@
     <string name="login_password_hint">Password</string>
     <string name="login_button">Log in</string>
     <string name="login_error">Incorrect username or password</string>
+    <string name="mensj_cerrar_sesion">Are you sure you want to log out?</string>
+    <string name="Si">Yes</string>
+    <string name="No">No</string>
 
     <!--  List / Items  -->
     <string name="register_button">Sign Up</string>
@@ -99,6 +102,10 @@
     <string name="distancia_maxima">Maximum distance (km)</string>
     <string name="register_name_hint">Name</string>
     <string name="register_email_hint">Email</string>
+    <string name="ordenar_por">Order by</string>
+    <string name="distancia">Distance (near first)</string>
+    <string name="nombre">Name(A-Z)</string>
+    <string name="altura_olas">Wave height (highest first)</string>
 
     <!--  playa detail pantalla  -->
     <string name="playa_card_uno">rating</string>
