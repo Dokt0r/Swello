@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import es.ucm.fdi.pad.swello.API_Queries.LoginApi;
 import es.ucm.fdi.pad.swello.UsuarioAdapter.ItemUsuario;
+import es.ucm.fdi.pad.swello.Login.TokenManager;
+
 
 public class LoginFragment extends Fragment {
 
@@ -29,6 +31,26 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        TokenManager tm = new TokenManager(requireContext());
+        String savedToken = tm.getToken();
+
+        if (savedToken != null) {
+            // comprobar si el token sigue siendo válido
+            loginApi.getUsuarioData(savedToken, new LoginApi.UsuarioCallback() {
+                @Override
+                public void onSuccess(ItemUsuario usuario) {
+                    // El token es válido → saltar login
+                    ((MainActivity) requireActivity()).onLoginSuccess(usuario);
+                }
+
+                @Override
+                public void onError(String error) {
+                    // Token inválido → seguir con el login
+                }
+            });
+        }
+
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
@@ -47,6 +69,7 @@ public class LoginFragment extends Fragment {
             loginApi.loginUser(user, pass, new LoginApi.LoginCallback() {
                 @Override
                 public void onSuccess(String token) {
+                    new TokenManager(requireContext()).saveToken(token);
                     loginApi.getUsuarioData(token, new LoginApi.UsuarioCallback() {
                         @Override
                         public void onSuccess(ItemUsuario usuario) {
