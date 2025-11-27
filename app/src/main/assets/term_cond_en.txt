@@ -1,0 +1,65 @@
+TERMS AND CONDITIONS – Swello
+1. Acceptance of Terms
+
+By using the Swello application (hereinafter, “the App”), the user acknowledges that they have read, understood, and accepted these Terms and Conditions. If the user does not agree, they must stop using the App immediately.
+
+2. Purpose of the App
+
+Swello is an application designed to provide users with information about beaches, sea conditions, available services, and personalized recommendations based on their location and surfing experience level.
+The App does not constitute professional advice and does not guarantee the accuracy of the information provided.
+
+3. Permitted Use
+
+The user agrees to:
+
+Use the App solely for personal and non-commercial purposes.
+
+Not modify, manipulate, or reverse engineer the App.
+
+Not use the App for illegal or unauthorized activities.
+
+Failure to comply may result in suspension of access to the App.
+
+4. User Responsibility
+
+The user is responsible for any decisions made based on information from the App, including decisions related to surfing activities.
+The App does not replace official safety information from authorities, lifeguard services, or beach flag systems.
+
+Surfing involves inherent risks.
+The developer is not liable for accidents, injuries, losses, or damages resulting from the use of the App.
+
+5. Limitation of Liability
+
+Swello provides approximate data about sea conditions, weather, waves, and available services.
+Such data may come from third parties or automated systems and may not be fully accurate.
+
+The developer does not guarantee:
+
+Real-time accuracy
+
+Continuous availability of the App
+
+The absence of technical errors
+
+The App is provided “as is.”
+
+6. Privacy and Data
+
+The App may collect data such as chosen language, approximate location, and public preferences to improve user recommendations.
+This data is not sold or shared with third parties.
+
+For further information, please consult the Privacy Policy.
+
+7. Intellectual Property
+
+All content within the App (logos, text, icons, designs, etc.) is protected by intellectual property rights.
+Reproduction or modification without express permission is prohibited.
+
+8. Modifications
+
+The developer may update these Terms and Conditions at any time. New versions will be made available within the App.
+
+9. Applicable Law
+
+These Terms and Conditions are governed by Spanish law.
+In case of dispute, the parties will submit to the competent courts as provided by applicable regulations.

@@ -31,6 +31,7 @@
     <string name="opcion_logout">Cerrar sesion</string>
     <string name="opcion_av_legal">Aviso legal</string>
     <string name="opcion_term_cond">Terminos y condiciones</string>
+    <string name="opcion_tam_texto">Tamaño del texto</string>
 
     <!--  Mensajes / Logs / Toasts  -->
     <string name="abrir_filtros">Abrir filtros</string>
@@ -43,6 +44,11 @@
     <string name="seleccionaste">Seleccionaste: </string>
     <string name="pulsaste">Pulsaste: </string>
     <string name="selecciona_idioma">Selecciona idioma</string>
+
+    <!-- Tamaños del texto -->
+    <string name="Grande">Grande</string>
+    <string name="Mediano">Mediano (por defecto)</string>
+    <string name="Pequeño">Pequeño</string>
 
     <!--  Idiomas -->
     <string name="Espanol">Español</string>
@@ -66,7 +72,7 @@
 </string>
 
 
-
+<string name="Guardar">Guardar</string>
 
 
     <!-- Filtro -->
@@ -93,4 +99,9 @@
     <string name="chiringuito">Chiringuito</string>
     <string name="aplicar_filtros">Aplicar filtros</string>
     <string name="distancia_maxima">Distancia máxima (km)</string>
+    <!--  playa detail pantalla  -->
+    <string name="playa_card_uno">valoración</string>
+    <string name="playa_fotos">Fotos</string>
+    <string name="playa_mareas">Mareas</string>
+    <string name="playa_clima">Tiempo y clima</string>
 </resources>

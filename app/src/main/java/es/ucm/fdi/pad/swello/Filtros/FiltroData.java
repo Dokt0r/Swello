@@ -9,13 +9,9 @@ public class FiltroData implements Serializable {
     public float distanciaMaxima = 200;
     public float tamanoMinimo = 0.5f;
     public float tamanoMaximo = 5.0f;
-    public float periodoMinimo = 5f;
-    public float periodoMaximo = 12f;
 
     public String direccionOlas = "";
     public String tempAgua = "";
-    public String nivelSurfista = "";
-    public List<String> servicios = new ArrayList<>();
 
     public String ordenacion = "";
 
@@ -24,11 +20,8 @@ public class FiltroData implements Serializable {
         return "FiltroData{" +
                 "distancia=" + distanciaMinima + "-" + distanciaMaxima +
                 ", tamano=" + tamanoMinimo + "-" + tamanoMaximo +
-                ", periodo=" + periodoMinimo + "-" + periodoMaximo +
                 ", direccionOlas='" + direccionOlas + '\'' +
                 ", tempAgua='" + tempAgua + '\'' +
-                ", nivelSurfista='" + nivelSurfista + '\'' +
-                ", servicios=" + servicios +
                 ", ordenacion='" + ordenacion + '\'' +
                 '}';
     }

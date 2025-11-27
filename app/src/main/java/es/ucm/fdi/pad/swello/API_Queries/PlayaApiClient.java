@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -73,7 +74,23 @@ public class PlayaApiClient {
 
         if (filtros.tempAgua != null && !filtros.tempAgua.isEmpty()) {
             if (hasParam) url.append("&");
-            url.append("tempAgua=").append(filtros.tempAgua);
+            String cleaned = filtros.tempAgua
+                    .replace("°C", "")
+                    .replace("ºC", "")
+                    .replace("°", "")
+                    .replace("º", "")
+                    .replace("C", "")
+                    .replace(" ", "")
+                    .replace("+", "");
+
+            cleaned = cleaned.replace("–", "-"); // guión largo
+            cleaned = cleaned.replace("—", "-"); // guión extra largo
+
+            Log.d("DEBUG", "Cleaned temp = " + cleaned);
+
+            String[] s = cleaned.split("-");
+            url.append("tempAguaMin=").append(s[0]);
+            if (s.length > 1) url.append("&tempAguaMax=").append(s[1]);
             hasParam = true;
         }
 
@@ -81,6 +98,33 @@ public class PlayaApiClient {
         Log.d(TAG, "URL generada: " + finalUrl);
         return finalUrl;
     }
+
+    public void getPlayaById(String id, PlayaByIdListener listener) {
+        String url = BASE_URL + "/" + id;
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        ItemPlaya playa = parsePlaya(response);
+                        listener.onSuccess(playa);
+                    } catch (JSONException e) {
+                        listener.onError(e);
+                    }
+                },
+                error -> listener.onError(new Exception(error))
+        );
+
+        requestQueue.add(request);
+    }
+
+    public interface PlayaByIdListener {
+        void onSuccess(ItemPlaya playa);
+        void onError(Exception e);
+    }
+
 
     // --------------------------------------------------------
     // Fetch lista playas
@@ -116,16 +160,67 @@ public class PlayaApiClient {
     }
 
     private ItemPlaya parsePlaya(JSONObject obj) throws JSONException {
+
+        // Procesar IMÁGENES
+        List<String> listaImgs = new ArrayList<>();
+
+        if (obj.has("imagenes")) {
+            Object raw = obj.get("imagenes");
+
+            if (raw instanceof JSONArray) {  // ← ESTE ES EL CASO REAL
+                JSONArray arr = (JSONArray) raw;
+                for (int i = 0; i < arr.length(); i++) {
+                    String url = arr.optString(i, "");
+                    if (!url.isEmpty()) listaImgs.add(url);
+                }
+            }
+            else if (raw instanceof String) { // por si algún endpoint viejo devolviera string
+                String s = ((String) raw)
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace("\"", "")
+                        .replace("\\/", "/");
+
+                for (String part : s.split(",")) {
+                    part = part.trim();
+                    if (!part.isEmpty()) listaImgs.add(part);
+                }
+            }
+        }
+
+        String[] imagenesArray = listaImgs.isEmpty() ? new String[0] :
+                listaImgs.toArray(new String[0]);
+
+
+        // IMAGEN PRINCIPAL
+        String imgPrincipal = obj.optString("imagen_principal", "");
+
+        if (imgPrincipal == null || imgPrincipal.isEmpty()) {
+            if (imagenesArray.length > 0) {
+                imgPrincipal = imagenesArray[0];
+            }
+        }
+
+        Log.d(TAG, "IMAGEN PRINCIPAL CALCULADA = " + imgPrincipal);
+
+
         return new ItemPlaya(
                 obj.optString("id"),
                 obj.optString("nombre"),
-                obj.optDouble("altura_ola", 0.0),
-                obj.optString("direccion_ola", ""),
-                obj.optDouble("distancia", 0.0),
+                obj.optString("descripcion", ""),
+                obj.optDouble("valoracion", 0.0),
                 obj.optDouble("latitud", 0.0),
                 obj.optDouble("longitud", 0.0),
-                obj.optString("imagen_principal", ""),
-                obj.optDouble("temp_agua", 0.0)
+                obj.optDouble("altura_ola", 0.0),
+                obj.optDouble("periodo_ola", 0.0),
+                obj.optString("direccion_ola", ""),
+                obj.optDouble("temp_agua", 0.0),
+                obj.optDouble("ocean_current_velocity", 0.0),
+                obj.optString("ocean_current_direction", ""),
+                obj.optDouble("valoracion_media", 0.0),
+                imagenesArray,
+                obj.optDouble("distancia", 0.0),
+                imgPrincipal
         );
     }
 }

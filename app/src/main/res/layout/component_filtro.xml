@@ -112,24 +112,6 @@
                     android:text="@string/NW" />
             </com.google.android.material.chip.ChipGroup>
 
-            <!-- Periodo de olas -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/periodo_de_las_olas"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/slider_wave_period"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stepSize="0.5"
-                android:value="1.5"
-                android:valueFrom="5.0"
-                android:valueTo="12.0"
-                app:values="@array/wave_period_default" />
-
             <!-- Temperatura del agua -->
             <TextView
                 android:layout_width="wrap_content"
@@ -146,7 +128,7 @@
 
                 <com.google.android.material.chip.Chip
                     style="@style/EstiloChipFiltro"
-                    android:text="-2-15°C" />
+                    android:text="0-15°C" />
 
                 <com.google.android.material.chip.Chip
                     style="@style/EstiloChipFiltro"
@@ -155,64 +137,6 @@
                 <com.google.android.material.chip.Chip
                     style="@style/EstiloChipFiltro"
                     android:text="+25°C" />
-            </com.google.android.material.chip.ChipGroup>
-
-            <!-- Nivel del surfista -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nivel_del_surfista"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_nivel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/principiante" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/intermedio" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/experto" />
-            </com.google.android.material.chip.ChipGroup>
-
-            <!-- Servicios -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/servicios_disponibles"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_servicios"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleSelection="false">
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/escuela_surf" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/aparcamiento" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/duchas" />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/EstiloChipFiltro"
-                    android:text="@string/chiringuito" />
             </com.google.android.material.chip.ChipGroup>
 
             <!-- Sección Ordenación -->

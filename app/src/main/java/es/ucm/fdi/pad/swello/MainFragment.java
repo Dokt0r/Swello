@@ -17,12 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +33,7 @@ import es.ucm.fdi.pad.swello.Location.UserLocation;
 import es.ucm.fdi.pad.swello.OptionsMenu.menu_options;
 import es.ucm.fdi.pad.swello.PlayaAdapter.ItemPlaya;
 import es.ucm.fdi.pad.swello.PlayaAdapter.PlayaAdapter;
+import es.ucm.fdi.pad.swello.PlayaDetails.PlayaDetailActivity;
 
 public class MainFragment extends Fragment {
 
@@ -52,6 +50,8 @@ public class MainFragment extends Fragment {
     private FiltroData currentFilters = new FiltroData();
     private Filtro filtroDialog = new Filtro();
     private LocationPermissions locationPermissions;
+    private ShimmerFrameLayout shimmerLoader;
+
 
     private List<ItemPlaya> allItems = new ArrayList<>();
 
@@ -69,6 +69,8 @@ public class MainFragment extends Fragment {
         btnSearch = view.findViewById(R.id.btn_search);
         recyclerResults = view.findViewById(R.id.recycler_results);
         topAppBar = view.findViewById(R.id.top_bar);
+        shimmerLoader = view.findViewById(R.id.shimmer_loader);
+
 
         // --- Inicialización de filtros por defecto ---
         filtroDialog.inicializarValoresPorDefecto();
@@ -100,8 +102,18 @@ public class MainFragment extends Fragment {
 
         // --- Configuración RecyclerView ---
         adapter = new PlayaAdapter(new ArrayList<>());
-        adapter.setOnPlayaClickListener(playa ->
-                Log.d(TAG, "Fragment recibió click: " + playa.getNombre() + " (ID: " + playa.getId() + ")"));
+        adapter.setOnPlayaClickListener(playa -> {
+            Log.d(TAG, "Fragment recibió click: " + playa.getNombre() + " (ID: " + playa.getId() + ")");
+
+            //crear intent para la nueva activity
+            Intent intent = new Intent(requireContext(), PlayaDetailActivity.class);
+
+            //pasa los datos a la nueva activity
+            intent.putExtra("idPlaya", playa.getId());
+
+            //empezar nueva activity
+            startActivity(intent);
+        });
 
         recyclerResults.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerResults.setAdapter(adapter);
@@ -192,17 +204,33 @@ public class MainFragment extends Fragment {
     }
     // --- Llamada HTTP GET a la API ---
     private void fetchPlayasFromApi(String query, FiltroData filtros) {
+
+        // Activar shimmer
+        shimmerLoader.setVisibility(View.VISIBLE);
+        shimmerLoader.startShimmer();
+        recyclerResults.setVisibility(View.GONE);
+
         playaApiClient.fetchPlayas(query, filtros, new PlayaApiClient.PlayaApiListener() {
             @Override
             public void onSuccess(List<ItemPlaya> playas) {
                 allItems = playas;
                 adapter.updateList(playas);
                 Log.d(TAG, "Recibidas " + playas.size() + " playas de la API");
+
+                // Desactivar shimmer
+                shimmerLoader.stopShimmer();
+                shimmerLoader.setVisibility(View.GONE);
+                recyclerResults.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(Exception e) {
                 Log.e(TAG, "Error obteniendo playas", e);
+
+                // Desactivar shimmer también en error
+                shimmerLoader.stopShimmer();
+                shimmerLoader.setVisibility(View.GONE);
+                recyclerResults.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -33,4 +33,21 @@
         <item name="backgroundTint">@android:color/white</item>
     </style>
 
+    <!-- Tamaño pequeño -->
+    <style name="Theme.Swello.Small" parent="Theme.Swello">
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- Tamaño mediano -->
+    <style name="Theme.Swello.Medium" parent="Theme.Swello">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Tamaño grande -->
+    <style name="Theme.Swello.Large" parent="Theme.Swello">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!--  playa detail pantalla  -->
+
 </resources>
