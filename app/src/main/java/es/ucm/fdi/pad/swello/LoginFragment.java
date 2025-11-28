@@ -31,11 +31,11 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        loginApi = new LoginApi(getContext());
         TokenManager tm = new TokenManager(requireContext());
         String savedToken = tm.getToken();
 
-        if (savedToken != null && false) {
+        if (savedToken != null) {
             // comprobar si el token sigue siendo válido
             loginApi.getUsuarioData(savedToken, new LoginApi.UsuarioCallback() {
                 @Override
@@ -58,8 +58,6 @@ public class LoginFragment extends Fragment {
         passwordField = view.findViewById(R.id.edit_pass);
         loginButton = view.findViewById(R.id.btn_login);
         registerButton = view.findViewById(R.id.btn_register); // Asumimos que agregaste el botón en el XML
-
-        loginApi = new LoginApi(getContext());
 
         // --- Login ---
         loginButton.setOnClickListener(v -> {

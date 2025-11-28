@@ -23,6 +23,8 @@ import java.nio.Buffer;
 import java.util.List;
 import java.util.Locale;
 
+import es.ucm.fdi.pad.swello.Login.TokenManager;
+import es.ucm.fdi.pad.swello.LoginFragment;
 import es.ucm.fdi.pad.swello.MainActivity;
 import es.ucm.fdi.pad.swello.R;
 
@@ -350,6 +352,8 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
     }
 
     private void funcLogOut(Context context){
+
+        new TokenManager(context).clearToken();
 
         new AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.opcion_logout))
