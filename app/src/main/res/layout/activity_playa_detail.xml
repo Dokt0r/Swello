@@ -15,11 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/img_header"
+        <!-- MAIN IMAGE VIEWPAGER FOR GALLERY -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerImages"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:layout_height="match_parent" />
 
         <View
             android:layout_width="match_parent"
@@ -37,11 +37,22 @@
             android:layout_margin="24dp"/>
     </FrameLayout>
 
+    <!-- DOTS INDICATOR FOR VIEWPAGER -->
+    <LinearLayout
+        android:id="@+id/layoutDots"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/header_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <!-- SCROLL -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/header_container"
+        app:layout_constraintTop_toBottomOf="@id/layoutDots"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -51,6 +62,9 @@
             android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <!-- NEW WEATHER DATA SECTION -->
+            <include layout="@layout/section_weather_data"/>
 
             <include layout="@layout/section_description"/>
             <include layout="@layout/section_info_principal"/>
