@@ -8,24 +8,17 @@
     android:layout_marginTop="24dp">
 
     <TextView
-        android:text="Galería"
+        android:text="Gallery"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"/>
 
-    <HorizontalScrollView
+    <!-- Reemplazado HorizontalScrollView con RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_galeria"
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never">
-
-        <LinearLayout
-            android:id="@+id/container_galeria"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </HorizontalScrollView>
+        android:layout_height="140dp" />
 </LinearLayout>
-
