@@ -49,7 +49,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewH
         ImageView imageView;
 
         public PhotoViewHolder(@NonNull View itemView) {
-            super(itemView);x
+            super(itemView);
             imageView = itemView.findViewById(R.id.img_galeria_item);
         }
     }
