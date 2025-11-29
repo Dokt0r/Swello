@@ -34,10 +34,10 @@ public class PlayaDetailActivity extends AppCompatActivity {
     private TextView txtValoracion;
     private ImageButton btnBack;
 
-    // NEW WEATHER VIEWS
+    // WEATHER VIEWS
     private TextView txtWeatherWaveHeight, txtWeatherWavePeriod, txtWeatherWaterTemp, txtWeatherWaveDirection;
 
-    // NEW GALLERY VIEWS
+    // GALLERY VIEWS
     private ViewPager2 viewPagerImages;
     private LinearLayout layoutDots;
     private RecyclerView recyclerGaleria;
@@ -53,13 +53,11 @@ public class PlayaDetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_playa_detail);
 
-        // Initialize all views with logging
-        initializeViews();
+        initialiseViews();
 
-        // Setup back button
         btnBack.setOnClickListener(v -> finish());
 
-        // Get playa ID from intent
+        // obtener id de la playa de intent
         String idPlaya = getIntent().getStringExtra("idPlaya");
         if (idPlaya != null) {
             Log.d(TAG, "Recibido idPlaya=" + idPlaya);
@@ -69,15 +67,15 @@ public class PlayaDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeViews() {
-        Log.d(TAG, "Initializing views...");
+    private void initialiseViews() {
+        Log.d(TAG, "Initialising views...");
 
         // Main views
         txtNombreHeader = findAndLog(R.id.txt_nombre_header, "txtNombreHeader");
         txtDescripcion = findAndLog(R.id.txt_descripcion, "txtDescripcion");
 
         txtAlturaOla = findAndLog(R.id.txt_altura_ola, "txtAlturaOla");
-        txtPeriodoOla = findAndLog(R.id.txt_periodo, "txtPeriodoOla");
+        txtPeriodoOla = findAndLog(R.id.txt_periodo_ola, "txtPeriodoOla");
         txtDireccionOla = findAndLog(R.id.text_direccion_ola, "txtDireccionOla");
         txtTempAgua = findAndLog(R.id.txt_temp_agua, "txtTempAgua");
 
@@ -154,9 +152,39 @@ public class PlayaDetailActivity extends AppCompatActivity {
         safeSet(txtWeatherWavePeriod, String.format("%.1f s", playa.getPeriodoOla()));
         safeSet(txtWeatherWaterTemp, String.format("%.1f °C", playa.getTempAgua()));
         safeSet(txtWeatherWaveDirection, playa.getDireccionOla());
+
+        setWaveDirectionIcon(playa.getDireccionOla());
     }
 
-    // Rewritten image gallery system
+    private void setWaveDirectionIcon(String direction) {
+        ImageView icon = findViewById(R.id.icon_wave_direction);
+        if (icon == null) return;
+
+        // Mapeo de direcciones a iconos de flecha
+        switch(direction.toUpperCase()) {
+            case "N": icon.setRotation(0f); break;
+            case "NE": icon.setRotation(45f); break;
+            case "E": icon.setRotation(90f); break;
+            case "SE": icon.setRotation(135f); break;
+            case "S": icon.setRotation(180f); break;
+            case "SW": icon.setRotation(225f); break;
+            case "W": icon.setRotation(270f); break;
+            case "NW": icon.setRotation(315f); break;
+            case "NNE": icon.setRotation(22.5f); break;
+            case "ENE": icon.setRotation(67.5f); break;
+            case "ESE": icon.setRotation(112.5f); break;
+            case "SSE": icon.setRotation(157.5f); break;
+            case "SSW": icon.setRotation(202.5f); break;
+            case "WSW": icon.setRotation(247.5f); break;
+            case "WNW": icon.setRotation(292.5f); break;
+            case "NNW": icon.setRotation(337.5f); break;
+            default: icon.setRotation(0f);
+        }
+        
+        icon.setImageResource(R.drawable.ic_arrow_upward);
+    }
+
+    // Sistema para galeria de imágenes (reescrito)
     private void updateImageGalleries(ItemPlaya playa) {
         List<String> imageUrls = getCleanImageUrls(playa);
 
@@ -168,27 +196,21 @@ public class PlayaDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // Setup ViewPager for main image gallery
         setupViewPager(imageUrls);
 
-        // Setup horizontal gallery
         setupHorizontalGallery(imageUrls);
 
-        // Setup dots indicator
         setupDotsIndicator(imageUrls.size());
     }
 
-    // Extract and clean image URLs
     private List<String> getCleanImageUrls(ItemPlaya playa) {
         List<String> imageUrls = new ArrayList<>();
 
-        // Add main image first
         String mainImage = playa.getImagenPrincipal();
         if (mainImage != null && !mainImage.isEmpty()) {
             imageUrls.add(normalizarRuta(mainImage));
         }
 
-        // Add other images from array
         if (playa.getImagenes() != null) {
             for (String rawUrl : playa.getImagenes()) {
                 String cleanUrl = normalizarRuta(limpiarJsonQuotes(rawUrl));
@@ -201,7 +223,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
         return imageUrls;
     }
 
-    // Setup ViewPager for main image display
     private void setupViewPager(List<String> imageUrls) {
         imagePagerAdapter = new ImagePagerAdapter(imageUrls);
         viewPagerImages.setAdapter(imagePagerAdapter);
@@ -215,16 +236,14 @@ public class PlayaDetailActivity extends AppCompatActivity {
         });
     }
 
-    // Setup horizontal gallery RecyclerView
     private void setupHorizontalGallery(List<String> imageUrls) {
         galleryAdapter = new GalleryAdapter(imageUrls, (imageUrl, position) -> {
-            // When user clicks on gallery image, show it in ViewPager
+            // Cuando el usuario clickea en una imagen de la galeria, muéstrala en ViewPager
             viewPagerImages.setCurrentItem(position, true);
         });
         recyclerGaleria.setAdapter(galleryAdapter);
     }
 
-    // Setup dots indicator for ViewPager
     private void setupDotsIndicator(int count) {
         layoutDots.removeAllViews();
 
@@ -235,7 +254,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
 
         layoutDots.setVisibility(View.VISIBLE);
 
-        // Create dots for each image
         for (int i = 0; i < count; i++) {
             ImageView dot = new ImageView(this);
             dot.setImageResource(R.drawable.orange_circle);
@@ -249,11 +267,9 @@ public class PlayaDetailActivity extends AppCompatActivity {
             layoutDots.addView(dot);
         }
 
-        // Set first dot as active
         updateDotsIndicator(0);
     }
 
-    // Update dots indicator based on current page
     private void updateDotsIndicator(int position) {
         int childCount = layoutDots.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -266,7 +282,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
         }
     }
 
-    // Hide gallery sections when no images
     private void hideGallerySections() {
         if (viewPagerImages != null) viewPagerImages.setVisibility(View.GONE);
         if (layoutDots != null) layoutDots.setVisibility(View.GONE);
@@ -277,9 +292,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
         if (tv != null) tv.setText(text != null ? text : "—");
     }
 
-    // -----------------------------
-    //  IMAGE URL CLEANING METHODS
-    // -----------------------------
 
     // Limpia rutas del backend como ["uploads/x.jpg"]
     private String limpiarJsonQuotes(String url) {
