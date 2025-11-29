@@ -81,7 +81,7 @@
         android:layout_height="56dp"
         android:background="@drawable/orange_circle"
         android:src="@drawable/ic_arrow_left"
-        android:tint="@color/white"
+        app:tint="@color/white"
         app:layout_constraintTop_toTopOf="@id/header_container"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="20dp"/>

@@ -17,7 +17,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import es.ucm.fdi.pad.swello.API_Queries.PlayaApiClient;
@@ -89,13 +88,13 @@ public class PlayaDetailActivity extends AppCompatActivity {
 
         btnBack = findAndLog(R.id.btn_back, "btnBack");
 
-        // NEW: Weather views
+        // Weather views
         txtWeatherWaveHeight = findAndLog(R.id.txt_weather_wave_height, "txtWeatherWaveHeight");
         txtWeatherWavePeriod = findAndLog(R.id.txt_weather_wave_period, "txtWeatherWavePeriod");
         txtWeatherWaterTemp = findAndLog(R.id.txt_weather_water_temp, "txtWeatherWaterTemp");
         txtWeatherWaveDirection = findAndLog(R.id.txt_weather_wave_direction, "txtWeatherWaveDirection");
 
-        // NEW: Gallery views
+        // Gallery views
         viewPagerImages = findAndLog(R.id.viewPagerImages, "viewPagerImages");
         layoutDots = findAndLog(R.id.layoutDots, "layoutDots");
         recyclerGaleria = findAndLog(R.id.recycler_galeria, "recyclerGaleria");
@@ -142,14 +141,14 @@ public class PlayaDetailActivity extends AppCompatActivity {
         safeSet(txtDireccionCorriente, playa.getOceanCurrentDirection());
         safeSet(txtValoracion, String.format("%.1f ⭐", playa.getValoracion()));
 
-        // NEW: Update weather section
+        // Update weather section
         updateWeatherData(playa);
 
-        // NEW: Update image galleries
+        // Update image galleries
         updateImageGalleries(playa);
     }
 
-    // NEW: Update weather data in dedicated section
+    // Update weather data in dedicated section
     private void updateWeatherData(ItemPlaya playa) {
         safeSet(txtWeatherWaveHeight, String.format("%.1f m", playa.getAlturaOla()));
         safeSet(txtWeatherWavePeriod, String.format("%.1f s", playa.getPeriodoOla()));
@@ -157,14 +156,14 @@ public class PlayaDetailActivity extends AppCompatActivity {
         safeSet(txtWeatherWaveDirection, playa.getDireccionOla());
     }
 
-    // NEW: Completely rewritten image gallery system
+    // Rewritten image gallery system
     private void updateImageGalleries(ItemPlaya playa) {
         List<String> imageUrls = getCleanImageUrls(playa);
 
         Log.d(TAG, "Processing " + imageUrls.size() + " images for gallery");
 
         if (imageUrls.isEmpty()) {
-            // Hide gallery sections if no images
+            // Ocultar secciones de galeria si no hay imagenes
             hideGallerySections();
             return;
         }
@@ -179,19 +178,19 @@ public class PlayaDetailActivity extends AppCompatActivity {
         setupDotsIndicator(imageUrls.size());
     }
 
-    // NEW: Extract and clean image URLs
+    // Extract and clean image URLs
     private List<String> getCleanImageUrls(ItemPlaya playa) {
         List<String> imageUrls = new ArrayList<>();
 
         // Add main image first
-        String mainImage = playa.getImgPrincipal();
+        String mainImage = playa.getImagenPrincipal();
         if (mainImage != null && !mainImage.isEmpty()) {
             imageUrls.add(normalizarRuta(mainImage));
         }
 
         // Add other images from array
-        if (playa.getImagenesArray() != null) {
-            for (String rawUrl : playa.getImagenesArray()) {
+        if (playa.getImagenes() != null) {
+            for (String rawUrl : playa.getImagenes()) {
                 String cleanUrl = normalizarRuta(limpiarJsonQuotes(rawUrl));
                 if (!cleanUrl.isEmpty() && !imageUrls.contains(cleanUrl)) {
                     imageUrls.add(cleanUrl);
@@ -202,7 +201,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
         return imageUrls;
     }
 
-    // NEW: Setup ViewPager for main image display
+    // Setup ViewPager for main image display
     private void setupViewPager(List<String> imageUrls) {
         imagePagerAdapter = new ImagePagerAdapter(imageUrls);
         viewPagerImages.setAdapter(imagePagerAdapter);
@@ -216,7 +215,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
         });
     }
 
-    // NEW: Setup horizontal gallery RecyclerView
+    // Setup horizontal gallery RecyclerView
     private void setupHorizontalGallery(List<String> imageUrls) {
         galleryAdapter = new GalleryAdapter(imageUrls, (imageUrl, position) -> {
             // When user clicks on gallery image, show it in ViewPager
@@ -225,7 +224,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
         recyclerGaleria.setAdapter(galleryAdapter);
     }
 
-    // NEW: Setup dots indicator for ViewPager
+    // Setup dots indicator for ViewPager
     private void setupDotsIndicator(int count) {
         layoutDots.removeAllViews();
 
@@ -254,7 +253,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
         updateDotsIndicator(0);
     }
 
-    // NEW: Update dots indicator based on current page
+    // Update dots indicator based on current page
     private void updateDotsIndicator(int position) {
         int childCount = layoutDots.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -267,7 +266,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
         }
     }
 
-    // NEW: Hide gallery sections when no images
+    // Hide gallery sections when no images
     private void hideGallerySections() {
         if (viewPagerImages != null) viewPagerImages.setVisibility(View.GONE);
         if (layoutDots != null) layoutDots.setVisibility(View.GONE);
