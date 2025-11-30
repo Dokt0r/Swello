@@ -35,6 +35,7 @@
     <string name="opcion_av_legal">Legal notice</string>
     <string name="opcion_term_cond">Terms and conditions</string>
     <string name="opcion_tam_texto">Text size</string>
+    <string name="opcion_general">General</string>
 
     <!--  Messages / Logs / Toasts  -->
     <string name="abrir_filtros">Open filters</string>

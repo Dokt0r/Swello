@@ -1,6 +1,8 @@
 package es.ucm.fdi.pad.swello.OptionsMenu;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import es.ucm.fdi.pad.swello.MainActivity;
 import es.ucm.fdi.pad.swello.R;
@@ -23,6 +26,25 @@ public class menu_options extends AppCompatActivity {
     private MaterialToolbar toolbarOptions;
     private RecyclerView recyclerOptions;
     private OptionsAdapter adapter;
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = newBase.getSharedPreferences("settings", MODE_PRIVATE);
+        String lang = prefs.getString("language", "es");
+        super.attachBaseContext(applyLocale(newBase, lang));
+    }
+
+    private Context applyLocale(Context base, String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration(base.getResources().getConfiguration());
+        config.setLocale(locale);
+        config.setLayoutDirection(locale); // por si cambias a idiomas RTL
+
+        // MUY IMPORTANTE: devolvemos un *contexto envuelto* con el locale aplicado
+        return base.createConfigurationContext(config);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +74,7 @@ public class menu_options extends AppCompatActivity {
         }
 
         List<OptionItem> options = new ArrayList<>();
-        options.add(new OptionItem("General", R.drawable.ic_settings, false));
+        options.add(new OptionItem(getString(R.string.opcion_general), R.drawable.ic_settings, false));
         options.add(new OptionItem(getString(R.string.opcion_tam_texto), R.drawable.ic_text_size, false));
         options.add(new OptionItem(getString(R.string.opcion_informacion), R.drawable.ic_info, false));
         options.add(new OptionItem(getString(R.string.opcion_logout), R.drawable.ic_logout, false));

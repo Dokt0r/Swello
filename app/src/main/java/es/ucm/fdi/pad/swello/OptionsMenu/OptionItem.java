@@ -3,7 +3,6 @@ package es.ucm.fdi.pad.swello.OptionsMenu;
 public class OptionItem {
     private String title;
     private int iconRes;
-
     private boolean isSubOption;
 
     public OptionItem(String title, int iconRes, boolean isSubOption) {
