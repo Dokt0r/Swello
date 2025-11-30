@@ -23,7 +23,7 @@
     <!--  List / Items  -->
     <string name="register_button">Sign Up</string>
     <string name="register_password_hint">Password</string>
-    <string name="register_birthdate_hint">Date</string>
+    <string name="register_birthdate_hint">Date (yyyy-mm-dd)</string>
     <string name="item_result_title">Title</string>
     <string name="item_result_desc">Item description</string>
     <string name="opcion_informacion">Information</string>

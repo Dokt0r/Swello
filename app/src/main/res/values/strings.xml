@@ -17,7 +17,7 @@
     <string name="register_name_hint">Nombre</string>
     <string name="register_email_hint">Email</string>
     <string name="register_password_hint">Contraseña</string>
-    <string name="register_birthdate_hint">Fecha de nacimiento</string>
+    <string name="register_birthdate_hint">Fecha de nacimiento (aaaa-mm-dd)</string>
     <string name="mensj_cerrar_sesion">¿Está seguro/a de querer cerrar sesión?</string>
     <string name="Si">Sí</string>
     <string name="No">No</string>
