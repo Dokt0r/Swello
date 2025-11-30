@@ -13,18 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.util.List;
 import java.util.Locale;
 
 import es.ucm.fdi.pad.swello.Login.TokenManager;
-import es.ucm.fdi.pad.swello.LoginFragment;
 import es.ucm.fdi.pad.swello.MainActivity;
 import es.ucm.fdi.pad.swello.R;
 
@@ -39,6 +38,7 @@ public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.ViewHold
         this.options = options;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

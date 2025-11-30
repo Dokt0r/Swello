@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background">
+
+    <!-- Contenedor horizontal: AppBar a la izquierda y contenido a la derecha -->
+    <LinearLayout
+        android:id="@+id/land_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- PANEL IZQUIERDO: APP BAR  -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            app:liftOnScroll="true">
+
+            <!--Toolbar superior -->
+            <include
+                android:id="@+id/top_bar"
+                layout="@layout/component_top_bar" />
+
+            <!--Barra de búsqueda -->
+            <include
+                android:id="@+id/search_section"
+                layout="@layout/component_search_section" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cd_search"
+                android:textAllCaps="false"
+                android:layout_margin="16dp"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/sky_blue"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- PANEL DERECHO: SHIMMER + LISTA  -->
+        <FrameLayout
+            android:id="@+id/right_panel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingHorizontal="12dp">
+
+            <!-- Shimmer de carga -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_loader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/item_shimmer_result"/>
+                    <include layout="@layout/item_shimmer_result"/>
+                    <include layout="@layout/item_shimmer_result"/>
+                    <include layout="@layout/item_shimmer_result"/>
+                    <include layout="@layout/item_shimmer_result"/>
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <!-- RecyclerView de resultados -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_results"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_result" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

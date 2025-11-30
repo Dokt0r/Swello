@@ -1,5 +1,6 @@
 package es.ucm.fdi.pad.swello.PlayaDetails;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +32,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
     private TextView txtNombreHeader, txtDescripcion;
     private TextView txtAlturaOla, txtPeriodoOla, txtDireccionOla, txtTempAgua;
     private TextView txtVelocidadCorriente, txtDireccionCorriente;
-    private TextView txtValoracion;
     private ImageButton btnBack;
 
     // WEATHER VIEWS
@@ -41,10 +41,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
     private ViewPager2 viewPagerImages;
     private LinearLayout layoutDots;
     private RecyclerView recyclerGaleria;
-
-    // ADAPTERS
-    private ImagePagerAdapter imagePagerAdapter;
-    private GalleryAdapter galleryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +77,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
 
         txtVelocidadCorriente = findAndLog(R.id.txt_corriente_vel, "txtVelocidadCorriente");
         txtDireccionCorriente = findAndLog(R.id.txt_corriente_dir, "txtDireccionCorriente");
-
-        txtValoracion = findAndLog(R.id.txt_valoracion, "txtValoracion");
 
         btnBack = findAndLog(R.id.btn_back, "btnBack");
 
@@ -137,7 +131,6 @@ public class PlayaDetailActivity extends AppCompatActivity {
         safeSet(txtTempAgua, playa.getTempAgua() + " °C");
         safeSet(txtVelocidadCorriente, playa.getOceanCurrentVelocity() + " m/s");
         safeSet(txtDireccionCorriente, playa.getOceanCurrentDirection());
-        safeSet(txtValoracion, String.format("%.1f ⭐", playa.getValoracion()));
 
         // Update weather section
         updateWeatherData(playa);
@@ -147,6 +140,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
     }
 
     // Update weather data in dedicated section
+    @SuppressLint("DefaultLocale")
     private void updateWeatherData(ItemPlaya playa) {
         safeSet(txtWeatherWaveHeight, String.format("%.1f m", playa.getAlturaOla()));
         safeSet(txtWeatherWavePeriod, String.format("%.1f s", playa.getPeriodoOla()));
@@ -224,7 +218,8 @@ public class PlayaDetailActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(List<String> imageUrls) {
-        imagePagerAdapter = new ImagePagerAdapter(imageUrls);
+        // ADAPTERS
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(imageUrls);
         viewPagerImages.setAdapter(imagePagerAdapter);
 
         // Add page change callback for dots indicator
@@ -237,8 +232,9 @@ public class PlayaDetailActivity extends AppCompatActivity {
     }
 
     private void setupHorizontalGallery(List<String> imageUrls) {
-        galleryAdapter = new GalleryAdapter(imageUrls, (imageUrl, position) -> {
-            // Cuando el usuario clickea en una imagen de la galeria, muéstrala en ViewPager
+        // Cuando el usuario clickea en una imagen de la galeria, se muestra en ViewPager
+        GalleryAdapter galleryAdapter = new GalleryAdapter(imageUrls, (imageUrl, position) -> {
+            // Cuando el usuario clickea en una imagen de la galeria, se muestra en ViewPager
             viewPagerImages.setCurrentItem(position, true);
         });
         recyclerGaleria.setAdapter(galleryAdapter);
@@ -302,7 +298,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
                 .replace("\\/", "/");
     }
 
-    // Normaliza localhost → 10.0.2.2 y mantiene /uploads/
+    // Normaliza localhost 10.0.2.2 y mantiene /uploads/
     private String normalizarRuta(String url) {
         if (url == null) return "";
 
@@ -313,7 +309,7 @@ public class PlayaDetailActivity extends AppCompatActivity {
         if (url.startsWith("http://") || url.startsWith("https://"))
             return url;
 
-        // Si es solo nombre de archivo → usar /uploads/
+        // Si es solo nombre de archivo usar /uploads/
         return "http://10.0.2.2:3000/uploads/" + url;
     }
 }

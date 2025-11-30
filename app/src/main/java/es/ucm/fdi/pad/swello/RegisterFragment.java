@@ -14,13 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import es.ucm.fdi.pad.swello.API_Queries.LoginApi;
-import es.ucm.fdi.pad.swello.UsuarioAdapter.ItemUsuario;
-
-import org.json.JSONObject;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class RegisterFragment extends Fragment {
 

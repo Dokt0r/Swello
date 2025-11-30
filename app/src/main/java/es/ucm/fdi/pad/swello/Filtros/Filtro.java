@@ -18,9 +18,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.slider.RangeSlider;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import es.ucm.fdi.pad.swello.R;
 
@@ -152,7 +150,6 @@ public class Filtro extends BottomSheetDialogFragment {
         btnOrdenarDistancia.setBackgroundColor(defaultColor);
         btnOrdenarNombre.setBackgroundColor(defaultColor);
         btnOrdenarAltura.setBackgroundColor(defaultColor);
-        // btnOrdenarValoracion.setBackgroundColor(defaultColor);
     }
 
     private void establecerFondoSeleccionado(MaterialButton boton) {

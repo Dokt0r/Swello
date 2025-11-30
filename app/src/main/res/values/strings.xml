@@ -91,15 +91,6 @@
     <string name="NW">NW</string>
     <string name="periodo_de_las_olas">Periodo de las olas (s)</string>
     <string name="temperatura_del_agua">Temperatura del agua (°C)</string>
-    <string name="nivel_del_surfista">Nivel del surfista</string>
-    <string name="principiante">Principiante</string>
-    <string name="intermedio">Intermedio</string>
-    <string name="experto">Experto</string>
-    <string name="servicios_disponibles">Servicios disponibles</string>
-    <string name="escuela_surf">Escuela surf</string>
-    <string name="aparcamiento">Aparcamiento</string>
-    <string name="duchas">Duchas</string>
-    <string name="chiringuito">Chiringuito</string>
     <string name="aplicar_filtros">Aplicar filtros</string>
     <string name="distancia_maxima">Distancia máxima (km)</string>
     <string name="ordenar_por">Ordenar por</string>
@@ -107,8 +98,14 @@
     <string name="nombre">Nombre(A-Z)</string>
     <string name="altura_olas">Altura de olas (mayor primero)</string>
     <!--  playa detail pantalla  -->
-    <string name="playa_card_uno">valoración</string>
-    <string name="playa_fotos">Fotos</string>
-    <string name="playa_mareas">Mareas</string>
-    <string name="playa_clima">Tiempo y clima</string>
+    <string name="corrientes">Corrientes</string>
+    <string name="descripcion">Descripción</string>
+    <string name="galeria">Galería</string>
+    <string name="condiciones">🌊 Condiciones del Mar</string>
+    <string name="codiciones_actuales">Condiciones Actuales</string>
+    <string name="temp">Temperatura</string>
+    <string name="periodo_ola">Periodo de la Ola</string>
+    <string name="direccion">Dirección</string>
+    <string name="altura_ola">Altura de Ola</string>
+    <string name="wave_dir">Dirección Ola:</string>
 </resources>

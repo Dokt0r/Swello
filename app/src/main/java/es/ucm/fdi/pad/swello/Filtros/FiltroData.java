@@ -1,8 +1,6 @@
 package es.ucm.fdi.pad.swello.Filtros;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FiltroData implements Serializable {
     public float distanciaMinima = 0;

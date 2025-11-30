@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Current Conditions"
+        android:text="@string/codiciones_actuales"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wave Height"
+                android:text="@string/altura_ola"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wave Period"
+                android:text="@string/periodo_ola"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -118,7 +118,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Water Temp"
+                android:text="@string/temp"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -137,7 +137,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wave Direction:"
+            android:text="@string/wave_dir"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_marginEnd="8dp" />

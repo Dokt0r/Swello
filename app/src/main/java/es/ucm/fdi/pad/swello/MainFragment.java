@@ -63,7 +63,7 @@ public class MainFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        // --- Inicialización de vistas ---
+        // --- Inicializacion de vistas ---
         searchInput = view.findViewById(R.id.search_input);
         btnFilter = view.findViewById(R.id.btn_filter);
         btnSearch = view.findViewById(R.id.btn_search);
@@ -72,21 +72,21 @@ public class MainFragment extends Fragment {
         shimmerLoader = view.findViewById(R.id.shimmer_loader);
 
 
-        // --- Inicialización de filtros por defecto ---
+        // --- Inicializacion de filtros por defecto ---
         filtroDialog.inicializarValoresPorDefecto();
         Log.d(TAG, "Filtros inicializados con valores por defecto: " + currentFilters);
 
-        // --- Inicialización API ---
+        // --- Inicializacion API ---
         playaApiClient = new PlayaApiClient(requireContext());
 
-        // --- Inicialización LocationPermissions ---
+        // --- Inicializacion LocationPermissions ---
         locationPermissions = new LocationPermissions(requireActivity());
         locationPermissions.requestLocationPermission(new LocationPermissions.LocationPermissionListener() {
             @Override
             public void onPermissionGranted() {
                 Log.d(TAG, "Permisos de ubicación concedidos");
 
-                // Inicializamos UserLocation y pedimos ubicación
+                // Inicializamos UserLocation y pedimos ubicacion
                 UserLocation.init(requireContext()).setLocationReadyListener((lat, lon) -> {
                     Log.d(TAG, "Ubicación disponible, cargando playas con lat=" + lat + " lon=" + lon);
                     fetchPlayasFromApi("", currentFilters);
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        // --- Configuración RecyclerView ---
+        // --- Configuracio RecyclerView ---
         adapter = new PlayaAdapter(new ArrayList<>());
         adapter.setOnPlayaClickListener(playa -> {
             Log.d(TAG, "Fragment recibió click: " + playa.getNombre() + " (ID: " + playa.getId() + ")");
@@ -127,7 +127,7 @@ public class MainFragment extends Fragment {
             @Override public void afterTextChanged(Editable s) {}
         });
 
-        // --- Botón de filtro ---
+        // --- Boton de filtro ---
         btnFilter.setOnClickListener(v -> {
             Log.d(TAG, "Abriendo diálogo de filtros...");
 
@@ -149,7 +149,7 @@ public class MainFragment extends Fragment {
             filtroDialog.show(getParentFragmentManager(), "FiltroDialog");
         });
 
-        // --- Botón de búsqueda ---
+        // --- Boton de busqueda ---
         btnSearch.setOnClickListener(v -> {
             String query = searchInput.getText().toString().trim();
 
@@ -160,7 +160,7 @@ public class MainFragment extends Fragment {
             fetchPlayasFromApi(query, currentFilters);
         });
 
-        // --- Menú superior (opciones) ---
+        // --- Menu superior (opciones) ---
         topAppBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_options) {
                 startActivity(new Intent(requireContext(), menu_options.class));

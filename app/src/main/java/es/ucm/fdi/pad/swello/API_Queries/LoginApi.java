@@ -16,7 +16,6 @@ import java.util.HashMap;
 import es.ucm.fdi.pad.swello.UsuarioAdapter.ItemUsuario;
 
 public class LoginApi {
-    private static final String TAG = "UsuarioApiClient";
     private static final String BASE_URL = "http://10.0.2.2:3000/api/users";
     private static final String USER_INFO_URL = "http://10.0.2.2:3000/api/users/me";
 
@@ -45,7 +44,7 @@ public class LoginApi {
                 response -> {
                     try {
                         String token = response.optString("token");
-                        if (token != null && !token.isEmpty()) {
+                        if (!token.isEmpty()) {
                             callback.onSuccess(token);
                         } else {
                             callback.onError("Token no encontrado en la respuesta.");
@@ -97,11 +96,10 @@ public class LoginApi {
 
     // --- GET USUARIO ---
     public void getUsuarioData(String token, final UsuarioCallback callback) {
-        String url = USER_INFO_URL;
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                url,
+                USER_INFO_URL,
                 null,
                 response -> {
                     try {

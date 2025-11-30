@@ -89,15 +89,6 @@
     <string name="NW">NW</string>
     <string name="periodo_de_las_olas">Wave period (s)</string>
     <string name="temperatura_del_agua">Water temperature (°C)</string>
-    <string name="nivel_del_surfista">Surfer level</string>
-    <string name="principiante">Beginner</string>
-    <string name="intermedio">Intermediate</string>
-    <string name="experto">Expert</string>
-    <string name="servicios_disponibles">Available services</string>
-    <string name="escuela_surf">Surf school</string>
-    <string name="aparcamiento">Parking</string>
-    <string name="duchas">Showers</string>
-    <string name="chiringuito">Beach bar</string>
     <string name="aplicar_filtros">Apply filters</string>
     <string name="distancia_maxima">Maximum distance (km)</string>
     <string name="register_name_hint">Name</string>
@@ -108,9 +99,15 @@
     <string name="altura_olas">Wave height (highest first)</string>
 
     <!--  playa detail pantalla  -->
-    <string name="playa_card_uno">rating</string>
-    <string name="playa_fotos">Photos</string>
-    <string name="playa_mareas">Tides</string>
-    <string name="playa_clima">Weather</string>
+    <string name="corrientes">Currents</string>
+    <string name="descripcion">Description</string>
+    <string name="galeria">Gallery</string>
+    <string name="condiciones">🌊 Ocean Conditions</string>
+    <string name="codiciones_actuales">Current Conditions</string>
+    <string name="temp">Temperature</string>
+    <string name="periodo_ola">Wave Period</string>
+    <string name="direccion">Direction</string>
+    <string name="altura_ola">Wave Height</string>
+    <string name="wave_dir">Wave Direction:</string>
 
 </resources>

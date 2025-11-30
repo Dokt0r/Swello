@@ -16,7 +16,7 @@ import es.ucm.fdi.pad.swello.R;
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder> {
 
-    private List<String> photoList; //????
+    private List<String> photoList;
 
     public PhotosAdapter(List<String> photoList) {
         this.photoList = photoList;

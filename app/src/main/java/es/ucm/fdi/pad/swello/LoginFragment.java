@@ -22,7 +22,7 @@ public class LoginFragment extends Fragment {
     private EditText usernameField;
     private EditText passwordField;
     private Button loginButton;
-    private Button registerButton;  // Nuevo botón de registro
+    private Button registerButton;
 
     private LoginApi loginApi;
 
