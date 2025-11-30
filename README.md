@@ -27,12 +27,12 @@ Antes de comenzar, asegúrate de tener instalado:
 ### 1️⃣ Clonar o descargar el proyecto
 
 ``` bash
-git clone https://github.com/tu-repo/swello_backend.git
+git clone https://github.com/tu-repo/swello.git
 ```
 
 ### 2️⃣ Descomprimir el archivo
 
-Descomprime `swello_backend.zip` y ábrelo en **VS Code**.
+Descomprime `swello_backend.zip` en un fichero aparte y ábrelo en **VS Code**.
 
 ### 3️⃣ Configurar la base de datos
 
@@ -41,12 +41,13 @@ Descomprime `swello_backend.zip` y ábrelo en **VS Code**.
     -   Usuario: root
     -   Password: root
 3.  Abre el archivo `.sql` incluido en el proyecto.
-4.  Ejecútalo completamente.
+4.  Ejecútalo.
 
 Esto generará la base de datos y sus tablas.
 
 ### 4️⃣ Instalar dependencias
 
+En VS Code en una terminal en el directorio creado para el backend
 ``` bash
 npm install
 ```
