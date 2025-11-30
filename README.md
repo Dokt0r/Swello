@@ -1,112 +1,113 @@
-🌊 Swello – Backend
+# 🌊 **Swello -- Backend**
 
-Bienvenido al backend de Swello, una plataforma diseñada para ofrecer datos, servicios y conectividad de forma rápida, organizada y optimizada.
+Bienvenido al backend de **Swello**, una plataforma diseñada para
+ofrecer datos, servicios y conectividad de forma rápida, organizada y
+optimizada.
 
-Este repositorio contiene el servidor backend en Node.js + Express, junto con la estructura de base de datos en MySQL para levantar el proyecto desde cero.
+Este repositorio contiene el servidor backend en **Node.js + Express**,
+junto con la estructura de base de datos en **MySQL** para levantar el
+proyecto desde cero.
 
-🚀 Requisitos Previos
+------------------------------------------------------------------------
+
+## 🚀 **Requisitos Previos**
 
 Antes de comenzar, asegúrate de tener instalado:
 
-Node.js (v14+ recomendado)
+-   **Node.js** (v14+ recomendado)\
+-   **npm**\
+-   **MySQL Server**\
+-   **MySQL Workbench**\
+-   **VS Code**
 
-npm
+------------------------------------------------------------------------
 
-MySQL Server
+## 📦 **Instalación y Configuración**
 
-MySQL Workbench (opcional pero recomendado)
+### 1️⃣ Clonar o descargar el proyecto
 
-VS Code (o cualquier editor de preferencia)
-
-📦 Instalación y Configuración
-1️⃣ Clonar o descargar el proyecto
+``` bash
 git clone https://github.com/tu-repo/swello_backend.git
+```
 
+### 2️⃣ Descomprimir el archivo
 
-O descarga el ZIP desde GitHub.
+Descomprime `swello_backend.zip` y ábrelo en **VS Code**.
 
-2️⃣ Descomprimir el archivo
+### 3️⃣ Configurar la base de datos
 
-Descomprime el archivo swello_backend.zip y ábrelo en VS Code.
+1.  Abre **MySQL Workbench**
+2.  Crea una conexión llamada **swello_db**
+    -   Usuario: root
+    -   Password: root
+3.  Abre el archivo `.sql` incluido en el proyecto.
+4.  Ejecútalo completamente.
 
-3️⃣ Configurar la base de datos
+Esto generará la base de datos y sus tablas.
 
-Abre MySQL Workbench
+### 4️⃣ Instalar dependencias
 
-Crea una nueva conexión llamada:
-swello_db
-
-Usuario: root
-
-Password: root
-
-Abre el archivo .sql incluido en el proyecto.
-
-Ejecuta el script completo.
-
-Esto creará automáticamente la base de datos, tablas y datos necesarios.
-
-4️⃣ Instalar dependencias
-
-En la carpeta raíz del proyecto, ejecuta:
-
+``` bash
 npm install
+```
 
-5️⃣ Iniciar el servidor
+### 5️⃣ Iniciar el servidor
 
-Una vez instalados los módulos:
-
+``` bash
 npm start
+```
 
+Servidor disponible en:
 
-El servidor debería iniciar en:
+    http://localhost:3000
 
-http://localhost:3000
+------------------------------------------------------------------------
 
-📁 Estructura del Proyecto
-swello_backend/
-│
-├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── helpers/
-│   ├── database/
-│   └── app.js
-│
-├── package.json
-├── .env (si aplica)
-└── swello.sql
+## 📁 Estructura del Proyecto
 
-🛠️ Tecnologías Utilizadas
+    swello_backend/
+    ├── src/
+    │   ├── controllers/
+    │   ├── routes/
+    │   ├── helpers/
+    │   ├── database/
+    │   └── app.js
+    ├── package.json
+    ├── .env
+    └── swello.sql
 
-Node.js
+------------------------------------------------------------------------
 
-Express
+## 🛠️ Tecnologías utilizadas
 
-MySQL
+-   Node.js\
+-   Express\
+-   MySQL\
+-   JWT\
+-   dotenv\
+-   bcrypt / crypto
 
-JWT (si aplica)
+------------------------------------------------------------------------
 
-dotenv
+## 🤝 Contribuciones
 
-bcrypt / crypto
+¡Bienvenidas!\
+Haz un fork, crea una rama y envía un PR.
 
-Y más…
+------------------------------------------------------------------------
 
-🤝 Contribuciones
+## 🐛 Problemas o sugerencias
 
-¡Las contribuciones son bienvenidas!
-Haz un fork, crea una rama y envía un pull request.
+Abre un **Issue** en el repositorio.
 
-🐛 Problemas o Sugerencias
+------------------------------------------------------------------------
 
-Si encuentras un bug o quieres proponer una mejora, abre un Issue en este repositorio.
+## 📜 Licencia
 
-📜 Licencia
+Proyecto bajo licencia **MIT**.
 
-Este proyecto está bajo la licencia MIT.
-Eres libre de usarlo, mejorarlo y compartirlo.
+------------------------------------------------------------------------
 
-💙 Gracias por usar Swello
+## 💙 Gracias por usar Swello
 
-Si este proyecto te fue útil, dale una ⭐ en GitHub para apoyar el desarrollo.
+Si te gustó el proyecto, deja una ⭐ en GitHub.
